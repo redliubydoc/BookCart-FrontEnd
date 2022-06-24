@@ -88,7 +88,7 @@ class Login extends Component {
                     <button className="btn btn-primary width-100 mt-2 mb-3" 
                         onClick={this.doLogin}> Login </button> <br/>
                     <span>
-                        <Link to="/reset-password"> Forget password ? </Link>
+                        <Link to="/forget-password/search-account"> Forget password ? </Link>
                     </span>
                 </div>
             </div>
@@ -104,7 +104,12 @@ class Login extends Component {
                 username: this.state.username.trim()
             }, () => {
                 if (this.validateForm()) {
-                    if (AuthService.login(this.state.username, this.state.password, this.state.accountType)) { // redirect to shop page
+                    
+                    let username = this.state.username;
+                    let password = this.state.password;
+                    let accountType = parseInt(this.state.accountType);
+
+                    if (AuthService.login(username, password, accountType)) { // redirect to shop page
                         this.props.navigate("/shop");
                     }
                     else {
