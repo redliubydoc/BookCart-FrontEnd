@@ -49,7 +49,6 @@ class Login extends Component {
                     <tbody>
                         <tr>
                             <td> 
-                                <hr/>
                                 <input name="username" 
                                     className="width-100 form-control" 
                                     type="text"  
