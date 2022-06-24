@@ -45,33 +45,30 @@ class Login extends Component {
                         <span> {this.state.alert.msg} </span>
                     </div>
                 }
-
-                <table className="table table-bordered">     
+                <table className="table table-borderless">     
                     <tbody>
                         <tr>
-                            <td> <label htmlFor="username"> Email ID </label> </td>
                             <td> 
+                                <hr/>
                                 <input name="username" 
-                                    className="width-100" 
+                                    className="width-100 form-control" 
                                     type="text"  
+                                    placeholder="Email ID"
                                     value={this.state.username} 
                                     onChange={this.handleOnChange}/> 
                             </td>
                         </tr>
                         <tr> 
-                            <td> <label htmlFor="password"> Password </label> </td>
                             <td> 
                                 <input name="password"
-                                    className="width-100" 
+                                    className="width-100 form-control" 
                                     type="password"  
+                                    placeholder="Password"
                                     value={this.state.password} 
                                     onChange={this.handleOnChange}/> 
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <label htmlFor="accountType"> Account Type </label>
-                            </td>
                             <td>
                                 <select name="accountType" 
                                     className="btn btn-warning width-100" 
@@ -79,18 +76,23 @@ class Login extends Component {
                                     onChange={this.handleOnChange}>                       
                                     <option value={1}> Reader </option>  
                                     <option value={2}> Author </option>  
-                                </select>  
+                                </select>
+                                <hr/>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button className="btn btn-primary width-100" 
+                                    onClick={this.doLogin}> Login </button> <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="text-center">
+                                <Link to="/forget-password/search-account"> Forget password ? </Link>
                             </td>
                         </tr>
                     </tbody>             
                 </table>
-                <div className="text-center">
-                    <button className="btn btn-primary width-100 mt-2 mb-3" 
-                        onClick={this.doLogin}> Login </button> <br/>
-                    <span>
-                        <Link to="/forget-password/search-account"> Forget password ? </Link>
-                    </span>
-                </div>
             </div>
         </>);
 	}
