@@ -70,24 +70,23 @@ class Login extends Component {
                         <tr>
                             <td>
                                 <select name="accountType" 
-                                    className="btn btn-warning width-100" 
+                                    className="btn btn-warning width-100"
                                     value={this.state.accountType} 
                                     onChange={this.handleOnChange}>                       
                                     <option value={1}> Reader </option>  
                                     <option value={2}> Author </option>  
                                 </select>
-                                <hr/>  
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <button className="btn btn-primary width-100" 
+                                <button className="btn btn-primary width-100 mt-2" 
                                     onClick={this.doLogin}> Login </button> <br/>
                             </td>
                         </tr>
                         <tr>
                             <td className="text-center">
-                                <Link to="/forget-password/search-account"> Forget password ? </Link>
+                                <Link to="/reset-password"> Forget password ? </Link>
                             </td>
                         </tr>
                     </tbody>             

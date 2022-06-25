@@ -8,6 +8,7 @@ import {
 
 import Login from './components/Login';
 import AdminLogin from './components/Admin/Login';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
     <Routes>
       {/* normal users routes */}
       <Route path="/" element={<Login/>}/>
-      <Route path="/reset-password" element={<h1> Reset Password Page</h1>}/>
+      <Route path="/reset-password" element={<ResetPassword/>}/>
       <Route path="/shop" element={<h1> Shop Page</h1>}/>
 
       {/* admin routes */}

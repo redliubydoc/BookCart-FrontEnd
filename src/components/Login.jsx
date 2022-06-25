@@ -13,7 +13,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
 
-        this.alertDuration = 3; 
+        this.alertDuration = 5; 
 
         this.state = {
             showLogin: true,
