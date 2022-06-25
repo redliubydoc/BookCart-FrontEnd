@@ -1,18 +1,28 @@
 import moment from "moment";
 
 class ValidationService {
+    static dateIsValid(date) {
+        return moment(date).isValid();
+    }
+
     static emailIsValid(email) {
-        // TODO: code to validate email
-        return true;
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+        if(regex.test(email)) {
+            return true;
+        }
+        return false;
     }
 
     static phoneNoIsValid(phoneNo) {
-        // TODO: code to validate Indian phone number
-        return true;
-    }
+        const regex = /^[6-9]\d{9}$/gm;
 
-    static dateIsValid(date) {
-        return moment(date).isValid();
+        if(regex.test(phoneNo)) {
+            console.log(true)
+            return true;
+        }
+
+        return false;
     }
 }
 

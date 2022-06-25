@@ -5,6 +5,7 @@ import {
 
 import moment from "moment";
 import withNavigate from "../hocs/withNavigate";
+import ValidationService from "../services/ValidationService";
 
 class Register extends Component {
     
@@ -212,7 +213,7 @@ class Register extends Component {
             });
             valid = false;
         } 
-        else if (!this.emailIsValid(this.state.email)) { // email validation
+        else if (!ValidationService.emailIsValid(this.state.email)) { // email validation
             this.setState({
                 alert: {
                     show: true,
@@ -222,7 +223,7 @@ class Register extends Component {
             });
             valid = false;
         }
-        else if (!this.phoneNoIsValid(this.state.phoneNo)) { // phone number validation
+        else if (!ValidationService.phoneNoIsValid(this.state.phoneNo)) { // phone number validation
             this.setState({
                 alert: {
                     show: true,
@@ -257,7 +258,7 @@ class Register extends Component {
 
     emailIsValid(email) {
         // TODO: code to validate email
-        return true;
+        
     }
 
     phoneNoIsValid(phoneNo) {
