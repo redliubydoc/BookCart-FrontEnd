@@ -7,6 +7,7 @@ import withLocation from "../hocs/withLocation";
 import LoginFrom from "./LoginForm";
 import RegisterFrom from "./RegisterFrom";
 import Alert from "./Misc/Alert"
+import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
 
 class Login extends Component {
 
@@ -31,12 +32,16 @@ class Login extends Component {
     }
 
     render() {
-        return (
-            <>
-                <div className="container mt-4 mb-5 text-center">
-                    <h3> Welcome to BookCart </h3> 
-                </div> 
+        return (<>
+            {/* header placeholder */}
+            <NavBarBeforeLogin/>
 
+            {/* alert placeholder */}
+            {this.state.alert.show && 
+                <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
+            }
+
+            <div className="container-fluid my-5">
                 {/* login/register navigation */}
                 <div className="container">
                     <ul className="nav nav-pills nav-justified mb-3">
@@ -63,18 +68,11 @@ class Login extends Component {
                     </ul>
                 </div>
 
-                {/* alert placeholder */}
-                <div className="container">
-                    {this.state.alert.show && 
-                        <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
-                    }
-                </div>
-
                 {/* login/registration from placeholder */}
                 { this.state.showLogin && <LoginFrom/> }
                 { this.state.showRegister && <RegisterFrom/> }
-            </>
-        );
+            </div>
+        </>);
     }
 
     componentDidMount() {

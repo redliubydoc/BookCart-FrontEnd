@@ -6,6 +6,7 @@ import {
 import withNavigate from "../../hocs/withNavigate";
 import AuthService from "../../services/AuthService";
 import Alert from "../../components/Misc/Alert";
+import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
 
 class AdminLogin extends Component {
     
@@ -30,20 +31,20 @@ class AdminLogin extends Component {
 
     render() {
         return(<>
-            <div className="container-fluid">
+            {/* header placeholder */}
+            <NavBarBeforeLogin/>
 
-                {/* heading placeholder */}
-                <div className='text-center my-5'>
-                    <h3> BookCart - Admin Login </h3>
+            {/* alert placeholder */}
+            {this.state.alert.show && 
+                <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
+            }
+            
+            <div className="container-fluid my-5">
+                {/* topic header placeholder */}
+                <div className="container mb-4">
+                    <h5 className="text-muted text-center"> Admin Login </h5>
                 </div>
-
-                {/* alert placeholder */}
-                <div className="container">
-                    {this.state.alert.show && 
-                        <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
-                    }
-                </div>
-
+                
                 {/* form placeholder */}
                 <div className="container">
                     <table className="table table-borderless">     

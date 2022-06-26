@@ -37,18 +37,15 @@ class Login extends Component {
 
     render() {
         return(<>
-
-            {/* alert placeholder */}
-            <div className="container">
-                {this.state.alert.show && 
-                    <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
-                }
-            </div>
-
             {/* form placeholder */}
             <div className="container">
-                <table className="table table-borderless">     
+                <table className="table table-borderless">  
                     <tbody>
+                        <tr> {/* alert placeholder */}
+                            <td> 
+                                { this.state.alert.show && <Alert level={this.state.alert.level} msg={this.state.alert.msg}/> } 
+                            </td>
+                        </tr>
                         <tr>
                             <td> 
                                 <input name="username" 

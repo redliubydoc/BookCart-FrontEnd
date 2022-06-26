@@ -11,6 +11,7 @@ import withNavigate from "../hocs/withNavigate";
 import ValidationService from "../services/ValidationService";
 import AuthService from "../services/AuthService";
 import Alert from "./Misc/Alert";
+import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
 
 class ResetPassword extends Component {
 
@@ -41,113 +42,117 @@ class ResetPassword extends Component {
 
     render() {
         return (<>
-            <div className="container mt-4 mb-5 text-center">
-                <h3> BookCart </h3> 
-            </div>
+            {/* header placeholder */}
+            <NavBarBeforeLogin/>
 
             {/* alert placeholder */}
-            <div className="container">
-                {this.state.alert.show && 
-                    <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
-                }
-            </div>
+            {this.state.alert.show && 
+                <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
+            }
 
-            {/* form placeholder */}
-            <div className="container">
-                <table className="table table-borderless">     
-                    <tbody>
-                        <tr>
-                            <td colSpan={2}>  
-                                <input name="email" 
-                                    className="form-control"
-                                    type="email" 
-                                    placeholder="Email ID"
-                                    value={this.state.email}
-                                    onChange={this.handleOnChange}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <input name="dob" 
-                                    className="form-control" 
-                                    type="text"
-                                    placeholder="Date of Birth"
-                                    onFocus={(e) => e.target.type = "date"}
-                                    onBlur={(e) => e.target.type = "text"}
-                                    value={this.state.dob}
-                                    onChange={this.handleOnChange}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <input name="securityQuestion1" 
-                                    type="text"
-                                    className="form-control" 
-                                    placeholder="City of birth ?"
-                                    value={this.state.securityQuestion1}
-                                    onChange={this.handleOnChange}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <input name="securityQuestion2" 
-                                    type="text" 
-                                    className="form-control" 
-                                    placeholder="Grandfather's name ?"
-                                    value={this.state.securityQuestion2}
-                                    onChange={this.handleOnChange}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <input name="securityQuestion3" 
-                                    type="text"
-                                    className="form-control" 
-                                    placeholder="Name of first school ?"
-                                    value={this.state.securityQuestion3}
-                                    onChange={this.handleOnChange}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>  
-                                <input name="password" 
+            <div className="container-fluid my-5">
+                {/* topic header placeholder */}
+                <div className="container mb-4">
+                    <h5 className="text-muted text-center"> Reset Password </h5>
+                </div>
+
+                {/* form placeholder */}
+                <div className="container">
+                    <table className="table table-borderless">     
+                        <tbody>
+                            <tr>
+                                <td colSpan={2}>  
+                                    <input name="email" 
+                                        className="form-control"
+                                        type="email" 
+                                        placeholder="Email ID"
+                                        value={this.state.email}
+                                        onChange={this.handleOnChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
+                                    <input name="dob" 
+                                        className="form-control" 
+                                        type="text"
+                                        placeholder="Date of Birth"
+                                        onFocus={(e) => e.target.type = "date"}
+                                        onBlur={(e) => e.target.type = "text"}
+                                        value={this.state.dob}
+                                        onChange={this.handleOnChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
+                                    <input name="securityQuestion1" 
+                                        type="text"
+                                        className="form-control" 
+                                        placeholder="City of birth ?"
+                                        value={this.state.securityQuestion1}
+                                        onChange={this.handleOnChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
+                                    <input name="securityQuestion2" 
+                                        type="text" 
+                                        className="form-control" 
+                                        placeholder="Grandfather's name ?"
+                                        value={this.state.securityQuestion2}
+                                        onChange={this.handleOnChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
+                                    <input name="securityQuestion3" 
+                                        type="text"
+                                        className="form-control" 
+                                        placeholder="Name of first school ?"
+                                        value={this.state.securityQuestion3}
+                                        onChange={this.handleOnChange}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  
+                                    <input name="password" 
+                                        className="form-control" 
+                                        type="password" 
+                                        placeholder="New Password"
+                                        value={this.state.password}
+                                        onChange={this.handleOnChange}/>
+                                </td>
+                                <td>  
+                                    <input name="confirmPassword" 
                                     className="form-control" 
                                     type="password" 
-                                    placeholder="New Password"
-                                    value={this.state.password}
+                                    placeholder="Confirm Password"
+                                    value={this.state.confirmPassword}
                                     onChange={this.handleOnChange}/>
-                            </td>
-                            <td>  
-                                <input name="confirmPassword" 
-                                className="form-control" 
-                                type="password" 
-                                placeholder="Confirm Password"
-                                value={this.state.confirmPassword}
-                                onChange={this.handleOnChange}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <select name="accountType" 
-                                    className="btn btn-warning width-100" 
-                                    value={this.state.accountType} 
-                                    onChange={this.handleOnChange}>    
-                                    <option value={1}> Reader </option>  
-                                    <option value={2}> Author </option>
-                                </select>  
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="width-50">
-                                <Link className="btn btn-secondary width-100 my-3" to="/"> Cancel </Link>
-                            </td>
-                            <td className="width-50">
-                                <button className="btn btn-primary width-100 my-3" 
-                                    onClick={this.doChangePassword}> Change Password </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2}>
+                                    <select name="accountType" 
+                                        className="btn btn-warning width-100" 
+                                        value={this.state.accountType} 
+                                        onChange={this.handleOnChange}>    
+                                        <option value={1}> Reader </option>  
+                                        <option value={2}> Author </option>
+                                    </select>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="width-50">
+                                    <Link className="btn btn-secondary width-100 my-3" to="/"> Cancel </Link>
+                                </td>
+                                <td className="width-50">
+                                    <button className="btn btn-primary width-100 my-3" 
+                                        onClick={this.doChangePassword}> Reset </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>);
     }
