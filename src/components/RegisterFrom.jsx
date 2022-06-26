@@ -3,7 +3,6 @@ import {
     React 
 } from "react";
 
-import moment from "moment";
 import withNavigate from "../hocs/withNavigate";
 import ValidationService from "../services/ValidationService";
 import Alert from "./Misc/Alert";
@@ -248,7 +247,7 @@ class Register extends Component {
             });
             valid = false;
         }
-        else if (!moment(this.state.dob).isValid()) { // date validation
+        else if (!ValidationService.dateIsValid(this.state.dob)) { // date validation
             this.setState({
                 alert: {
                     show: true,

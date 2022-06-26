@@ -135,7 +135,7 @@ class Login extends Component {
 
         // empty filed validation
         if ((!this.state.username || this.state.username.length === 0) || 
-                (!this.state.password || this.state.password.length === 0)) {
+            (!this.state.password || this.state.password.length === 0)) {
             
             this.setState({
                 alert: {
