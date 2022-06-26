@@ -71,10 +71,8 @@ class Login extends Component {
                 </div>
 
                 {/* login/registration from placeholder */}
-                <div className="container-fluid">
-                    { this.state.showLogin && <LoginFrom/> }
-                    { this.state.showRegister && <RegisterFrom/> }
-                </div>
+                { this.state.showLogin && <LoginFrom/> }
+                { this.state.showRegister && <RegisterFrom/> }
             </>
         );
     }
