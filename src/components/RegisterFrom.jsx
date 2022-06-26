@@ -186,7 +186,7 @@ class Register extends Component {
                 if (this.validateForm()) {
 
                     AuthService.register(
-                        this.state.accountType,
+                        parseInt(this.state.accountType),
                         this.state.firstName,
                         this.state.lastName,
                         this.state.email,
