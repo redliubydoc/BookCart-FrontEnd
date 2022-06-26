@@ -15,7 +15,7 @@ class BookCartHeader extends Component {
              <nav className="navbar sticky-top navbar-dark bg-dark">
                 <div className="container-fluid">
                     <span className="navbar-brand text-primary" > <b> Book Cart </b> </span> 
-                    <span class="bg-success">
+                    <span>
                         <Link class="btn btn-primary" to="/"> Login </Link>
                     </span>
                 </div>
