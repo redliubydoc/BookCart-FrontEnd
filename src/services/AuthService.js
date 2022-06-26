@@ -2,6 +2,13 @@ import moment from "moment";
 
 // dummy service layer
 class AuthService {
+    static register(accountType, firstName, lastName, email, phoneNo, password, dob, securityQuestion1, securityQuestion2, securityQuestion3) {
+        console.log("AuthService.register()");
+        console.log(
+            accountType, firstName, lastName, email, phoneNo, password, dob, securityQuestion1, securityQuestion2, securityQuestion3  
+        );        
+    }
+
     static login(username, password, accountType) { 
         if (username === "raj@gmail.com" && password === "1234" && accountType === 1) { // dummy reader login
             return true;

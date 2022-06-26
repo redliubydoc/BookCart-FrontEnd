@@ -18,7 +18,6 @@ class ValidationService {
         const regex = /^[6-9]\d{9}$/gm;
 
         if(regex.test(phoneNo)) {
-            console.log(true)
             return true;
         }
 
