@@ -76,8 +76,16 @@ class Login extends Component {
     }
 
     componentDidMount() {
+        // to show login / register page
+        if (!!this.props.location.state && !!this.props.location.state.showLogin && !!this.props.location.state.showRegister) { 
+            this.setState({
+                showLogin: this.props.location.state.showLogin,
+                showRegister:this.props.location.state.showRegister
+            });
+        }
+
         // to show alerts after redirection to login page
-        if (!!this.props.location.state && !!this.props.location.state.alert) { 
+        else if (!!this.props.location.state && !!this.props.location.state.alert) { 
             this.setState({
                     alert: this.props.location.state.alert,
                     showLogin: true,

@@ -41,7 +41,8 @@ class Login extends Component {
             <div className="container">
                 <table className="table table-borderless">  
                     <tbody>
-                        <tr> {/* alert placeholder */}
+                        {/* alert placeholder */}
+                        <tr>
                             <td> 
                                 { this.state.alert.show && <Alert level={this.state.alert.level} msg={this.state.alert.msg}/> } 
                             </td>
