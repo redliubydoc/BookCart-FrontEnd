@@ -6,6 +6,7 @@ import {
 import withLocation from "../hocs/withLocation";
 import LoginFrom from "./LoginForm";
 import RegisterFrom from "./RegisterFrom";
+import Alert from "./Misc/Alert"
 
 class Login extends Component {
 
