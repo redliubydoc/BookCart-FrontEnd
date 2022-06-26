@@ -3,7 +3,7 @@ import moment from "moment";
 // dummy service layer
 class AuthService {
     static login(username, password, accountType) { 
-        if (username === "Raj" && password === "1234" && accountType === 1) { // dummy reader login
+        if (username === "raj@gmail.com" && password === "1234" && accountType === 1) { // dummy reader login
             return true;
         }
         if (username === "admin" && password === "admin" && accountType === 3) { // dummy admin login
