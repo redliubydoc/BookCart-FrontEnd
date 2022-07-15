@@ -109,20 +109,22 @@ class Login extends Component {
                     let password = this.state.password;
                     let accountType = parseInt(this.state.accountType);
 
-                    // on login successful
-                    if (AuthService.login(username, password, accountType)) { 
-                        // redirect to shop page
-                        this.props.navigate("/shop");
-                    }
-                    else {
-                        this.setState({
-                            alert: {
-                                level: 4,
-                                msg: "Invalid credentials",
-                                show: true
+                    AuthService.login(username, password, accountType)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.flag == 1) { // on login successful
+                                this.props.navigate("/shop"); // redirect to shop page
                             }
-                        });
-                    }
+                            else { 
+                                this.setState({
+                                    alert: {
+                                        level: 4,
+                                        msg: "Invalid credentials",
+                                        show: true
+                                    }
+                                });
+                            }
+                        }).catch(error => console.log(error));
                 }
             }
         );

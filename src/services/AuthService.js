@@ -9,14 +9,20 @@ class AuthService {
         );        
     }
 
-    static login(username, password, accountType) { 
-        if (username === "raj@gmail.com" && password === "1234" && accountType === 1) { // dummy reader login
-            return true;
+    static login(username, password, accountType) {
+        let flag = false;
+        let url = "http://localhost:8080/login";
+        let payload = {
+            "type": accountType,
+            "emailId": username,
+            "password": password
         }
-        if (username === "admin" && password === "admin" && accountType === 3) { // dummy admin login
-            return true;
-        }
-        return false;
+
+        return fetch(url , {
+            method: "POST", 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify(payload)
+        });
     }
 
     static findAccount(email, accountType) { // dummy find account
