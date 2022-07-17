@@ -10,7 +10,6 @@ class AuthService {
     }
 
     static login(username, password, accountType) {
-        let flag = false;
         let url = "http://localhost:8080/login";
         let payload = {
             "type": accountType,

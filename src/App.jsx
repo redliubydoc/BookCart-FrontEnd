@@ -9,11 +9,13 @@ import {
 import Login from './components/Login';
 import AdminLogin from './components/Admin/Login';
 import ResetPassword from './components/ResetPassword';
+import AboutUs from './components/AboutUs';
 
 function App() {
   return (
     <BrowserRouter>
     <Routes>
+    <Route path="/about-us" element={<AboutUs/>}/>
       {/* normal users routes */}
       <Route path="/" element={<Login/>}/>
       <Route path="/reset-password" element={<ResetPassword/>}/>
