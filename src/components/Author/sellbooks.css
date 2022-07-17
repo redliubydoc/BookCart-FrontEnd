@@ -1,0 +1,14 @@
+#sellBooks {
+    max-height: 100vh;
+    border: 1px solid black;
+    padding: 0px;
+    margin-top: 30px;
+}
+
+.form-select {
+    text-align: center;
+}
+
+option:not(:checked) {
+    background-color: #f5f5f5;
+}
