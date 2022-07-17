@@ -22,7 +22,7 @@ class BookCartHeader extends Component {
         return (<>
              <nav className="navbar sticky-top navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <span className="navbar-brand text-primary" > <b> Book Cart </b> </span> 
+                    <span className="navbar-brand text-info" > <b> BookCart </b> </span> 
                     <span>
                         { this.showLogin() && <Link className="btn btn-primary" to="/"> Login </Link> }
                     </span>

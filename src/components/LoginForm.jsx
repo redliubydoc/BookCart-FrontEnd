@@ -12,7 +12,7 @@ import AuthService from '../services/AuthService';
 import ValidationService from '../services/ValidationService';
 import Alert from './Misc/Alert';
   
-class Login extends Component {
+class LoginForm extends Component {
   
     constructor(props) {
         super(props);
@@ -158,5 +158,5 @@ class Login extends Component {
     }
 }
 
-export default withNavigate(Login);
+export default withNavigate(LoginForm);
 

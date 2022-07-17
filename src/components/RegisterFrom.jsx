@@ -8,7 +8,7 @@ import ValidationService from "../services/ValidationService";
 import Alert from "./Misc/Alert";
 import AuthService from "../services/AuthService";
 
-class Register extends Component {
+class RegisterForm extends Component {
     
     constructor(props) {
         super(props);
@@ -271,4 +271,4 @@ class Register extends Component {
     }
 }
 
-export default withNavigate(Register);
+export default withNavigate(RegisterForm);
