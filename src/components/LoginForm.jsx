@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import withNavigate from '../hocs/withNavigate';
+import AlertService from '../services/AlertService';
 import AuthService from '../services/AuthService';
 import ValidationService from '../services/ValidationService';
 import Alert from './Misc/Alert';
@@ -23,11 +24,7 @@ class Login extends Component {
             username : "", 
             password : "",
 
-            alert: {
-                show: false,
-                level: "",
-                msg: "",
-            }
+            alert: AlertService.initializeAlert()
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -45,6 +42,20 @@ class Login extends Component {
                         <tr>
                             <td> 
                                 { this.state.alert.show && <Alert level={this.state.alert.level} msg={this.state.alert.msg}/> } 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi recusandae beatae debitis voluptatem reiciendis accusantium repellat minus at, officiis, adipisci deleniti deserunt? Nobis at dicta deleniti fugiat? Possimus, omnis maiores!
+                            Dolorum facere eligendi fugit, minus voluptatibus odio nemo deserunt assumenda blanditiis. Saepe molestias cum error unde asperiores aut perferendis, ab vel facere in, impedit atque veritatis rem illum neque dolorum.
+                            Aspernatur velit veniam officiis totam. Magni necessitatibus eius officiis enim ipsum officia ratione porro. Assumenda, ex. Ab debitis deleniti a voluptatum dolor! Voluptate rem nesciunt laborum ipsam vero perspiciatis architecto.
+                            Facere quidem totam tempore odio dignissimos dolore accusantium iusto quod blanditiis veritatis. Quidem deleniti sunt perferendis blanditiis minus eius, repellat ipsum mollitia recusandae totam obcaecati nesciunt nemo quisquam temporibus officiis.
+                            Nemo nesciunt iure ab doloremque reprehenderit accusamus laudantium delectus? Corrupti id ex, iste at adipisci facilis natus distinctio aliquid architecto impedit cumque voluptas facere aperiam, rem, maiores laboriosam ducimus. Amet.
+                            Cupiditate, numquam nemo. Doloribus harum perferendis inventore voluptate possimus, ipsa adipisci dolor blanditiis repellat, nulla, ullam eos iure quasi maiores enim? Voluptatem, temporibus in ex reiciendis quae laboriosam ducimus pariatur!
+                            Cumque perspiciatis fugit quisquam consequuntur aliquid, facilis suscipit aperiam et, itaque quibusdam unde distinctio. Temporibus totam voluptatibus vel ex, quod eius pariatur nobis fuga quasi consectetur mollitia ipsum quibusdam officiis.
+                            Consectetur perspiciatis tempore dolorum eligendi ab repellendus eveniet sunt odit perferendis maxime! Officia, illo. Nulla, aut ex, quos non, maiores fugiat sequi cupiditate tenetur eum molestias debitis est sint error?
+                            Facere, dolor quisquam, fuga vitae maxime unde consequatur odit provident numquam, soluta qui alias placeat. Ea, maiores! Eaque, excepturi mollitia consectetur dicta necessitatibus quod at sit quaerat commodi reprehenderit dolores.
+                            Sed, commodi! Cupiditate ut modi et eaque officia necessitatibus quisquam vel excepturi aspernatur obcaecati architecto quo facere debitis velit, sit ducimus nihil magni repellat! Nesciunt in ipsa neque consectetur veritatis.
                             </td>
                         </tr>
                         <tr>
@@ -115,13 +126,10 @@ class Login extends Component {
                         this.props.navigate("/shop");
                     }
                     else {
-                        this.setState({
-                            alert: {
-                                level: 4,
-                                msg: "Invalid credentials",
-                                show: true
-                            }
-                        });
+                        this.setState(
+                            {alert: AlertService.showAlert(4, "Invalid credentials")},
+                            () => AlertService.scrollTop()
+                        );
                     }
                 }
             }
@@ -135,23 +143,11 @@ class Login extends Component {
         if ((!this.state.username || this.state.username.length === 0) || 
             (!this.state.password || this.state.password.length === 0)) {
             
-            this.setState({
-                alert: {
-                    level: 3,
-                    msg: "Enter all fields",
-                    show: true
-                }
-            });
+            this.setState({alert: AlertService.showAlert(3, "Enter all fields")});
             valid = false;
         }
         else if (!ValidationService.emailIsValid(this.state.username)) { // email validation
-            this.setState({
-                alert: {
-                    level: 3,
-                    msg: "Enter a valid email",
-                    show: true
-                }
-            });
+            this.setState({alert: AlertService.showAlert(3, "Enter a valid email")});
             valid = false;
         } 
         return valid;
