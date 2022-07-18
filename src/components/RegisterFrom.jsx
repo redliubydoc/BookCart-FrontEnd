@@ -7,6 +7,7 @@ import withNavigate from "../hocs/withNavigate";
 import ValidationService from "../services/ValidationService";
 import Alert from "./Misc/Alert";
 import AuthService from "../services/AuthService";
+import AlertService from "../services/AlertService";
 
 class Register extends Component {
     
@@ -26,11 +27,7 @@ class Register extends Component {
             securityQuestion2: "",
             securityQuestion3: "",
 
-            alert: {
-                show: false,
-                level: "",
-                msg: ""
-            }
+            alert: AlertService.getAlertInstance()
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -218,53 +215,23 @@ class Register extends Component {
             (!this.state.securityQuestion2 || this.state.securityQuestion2.length === 0) ||
             (!this.state.securityQuestion3 || this.state.securityQuestion3.length === 0)) {
                 
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter all fields"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter all fields");
             valid = false;
         } 
         else if (!ValidationService.emailIsValid(this.state.email)) { // email validation
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter a valid email id"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter a valid email id");
             valid = false;
         }
         else if (!ValidationService.phoneNoIsValid(this.state.phoneNo)) { // phone number validation
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter a valid phone number"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter a valid phone number");
             valid = false;
         }
         else if (!ValidationService.dateIsValid(this.state.dob)) { // date validation
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter a valid date"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter a valid date");
             valid = false;
         }
         else if (!(this.state.password === this.state.confirmPassword)) { // double checking password
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "There is a mismatch in passwords you entered"
-                }
-            });
+            AlertService.showAlert(this, 3, "There is a mismatch in passwords you entered");
             valid = false;
         }
         return valid;

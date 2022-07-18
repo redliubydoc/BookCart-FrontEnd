@@ -8,6 +8,7 @@ import LoginFrom from "./LoginForm";
 import RegisterFrom from "./RegisterFrom";
 import Alert from "./Misc/Alert"
 import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
+import AlertService from "../services/AlertService";
 
 class Login extends Component {
 
@@ -20,11 +21,7 @@ class Login extends Component {
             showLogin: true,
             showRegister: false,
 
-            alert: {
-                show: false,
-                level: "",
-                msg: "",
-            }
+            alert: AlertService.getAlertInstance()
         }
 
         this.toggler = this.toggler.bind(this);
@@ -86,11 +83,13 @@ class Login extends Component {
 
         // to show alerts after redirection to login page
         else if (!!this.props.location.state && !!this.props.location.state.alert) { 
+            let level = this.props.location.state.alert.level;
+            let msg = this.props.location.state.alert.msg;
+
             this.setState({
-                    alert: this.props.location.state.alert,
                     showLogin: true,
                     showRegister:false
-                }, () => this.autoHideAlert(this.alertDuration)
+                }, () => AlertService.showAlert(this, level, msg, 10)
             );
         }
     }
