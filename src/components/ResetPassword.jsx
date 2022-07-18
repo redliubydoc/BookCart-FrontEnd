@@ -12,6 +12,7 @@ import ValidationService from "../services/ValidationService";
 import AuthService from "../services/AuthService";
 import Alert from "./Misc/Alert";
 import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
+import AlertService from "../services/AlertService";
 
 class ResetPassword extends Component {
 
@@ -27,12 +28,8 @@ class ResetPassword extends Component {
             password: "",
             confirmPassword: "",
             accountType: 1,
-
-            alert: {
-                show: false,
-                level: "",
-                msg: ""
-            }
+            
+            alert: AlertService.getAlertInstance()
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -171,8 +168,9 @@ class ResetPassword extends Component {
                 if (this.validateForm()) {
                     // checking account exist for the given email and account type
                     if (AuthService.findAccount(
-                        this.state.email, 
-                        parseInt(this.state.accountType))) {
+                            this.state.email, 
+                            parseInt(this.state.accountType)
+                    )) {
                         
                         // if security questions are answered correctly
                         if (AuthService.securityCheck(
@@ -188,32 +186,18 @@ class ResetPassword extends Component {
                             // navigate to login page and show alert there
                             this.props.navigate("/", {
                                 state: {
-                                    alert: {
-                                        show: true,
-                                        level: 1,
-                                        msg: "Your password has been changed. Login to continue"
+                                    alert: AlertService.getAlertInstance(true, 1, 
+                                        "Your password has been changed. Login to continue")
                                     }
                                 }
-                            });
+                            );
                         }
                         else {
-                            this.setState({
-                                alert: {
-                                    show: true,
-                                    level: 4,
-                                    msg: "Either date of birth or answer to the security questions are wrong"
-                                }
-                            });
+                            AlertService.showAlert(this, 4, "Either date of birth or answer to the security questions are wrong");
                         }
                     }
                     else {
-                        this.setState({
-                            alert: {
-                                show: true,
-                                level: 4,
-                                msg: "No account found for the given email id"
-                            }
-                        });
+                        AlertService.showAlert(this, 4, "No account found for the given email id");
                     }
                 }
             }
@@ -230,43 +214,19 @@ class ResetPassword extends Component {
             (!this.state.securityQuestion2 || this.state.securityQuestion2.length === 0) ||
             (!this.state.securityQuestion3 || this.state.securityQuestion3.length === 0)) { // empty filed validation
                 
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter all fields"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter all fields");
             valid = false;
         } 
         else if (!ValidationService.emailIsValid(this.state.email) ) { // email validation
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter a valid email id"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter a valid email id");
             valid = false;
         }
         else if (!ValidationService.dateIsValid(this.state.dob)) { // date validation
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "Enter a valid date"
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter a valid date");
             valid = false;
         }
         else if (!(this.state.password === this.state.confirmPassword)) { // double checking password
-            this.setState({
-                alert: {
-                    show: true,
-                    level: 3,
-                    msg: "There is a mismatch in passwords you entered"
-                }
-            });
+            AlertService.showAlert(this, 3, "There is a mismatch in passwords you entered");
             valid = false;
         }
         return valid;

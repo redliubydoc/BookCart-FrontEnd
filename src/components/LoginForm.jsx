@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import withNavigate from '../hocs/withNavigate';
+import AlertService from '../services/AlertService';
 import AuthService from '../services/AuthService';
 import ValidationService from '../services/ValidationService';
 import Alert from './Misc/Alert';
@@ -23,11 +24,7 @@ class LoginForm extends Component {
             username : "", 
             password : "",
 
-            alert: {
-                show: false,
-                level: "",
-                msg: "",
-            }
+            alert: AlertService.getAlertInstance()
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -115,13 +112,7 @@ class LoginForm extends Component {
                         this.props.navigate("/shop");
                     }
                     else {
-                        this.setState({
-                            alert: {
-                                level: 4,
-                                msg: "Invalid credentials",
-                                show: true
-                            }
-                        });
+                        AlertService.showAlert(this, 4, "Invalid credentials");
                     }
                 }
             }
@@ -135,23 +126,11 @@ class LoginForm extends Component {
         if ((!this.state.username || this.state.username.length === 0) || 
             (!this.state.password || this.state.password.length === 0)) {
             
-            this.setState({
-                alert: {
-                    level: 3,
-                    msg: "Enter all fields",
-                    show: true
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter all fields");
             valid = false;
         }
         else if (!ValidationService.emailIsValid(this.state.username)) { // email validation
-            this.setState({
-                alert: {
-                    level: 3,
-                    msg: "Enter a valid email",
-                    show: true
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter a valid email");
             valid = false;
         } 
         return valid;

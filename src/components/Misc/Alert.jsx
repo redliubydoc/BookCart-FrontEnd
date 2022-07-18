@@ -14,7 +14,7 @@ class Alert extends Component {
         return (
             <>
                 <div className={this.getClass()} role="alert">
-                    <span className="text-center"> {this.props.msg} </span> 
+                    <span> {this.props.msg} </span> 
                 </div>
             </>
         );

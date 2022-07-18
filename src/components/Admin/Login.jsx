@@ -7,6 +7,7 @@ import withNavigate from "../../hocs/withNavigate";
 import AuthService from "../../services/AuthService";
 import Alert from "../../components/Misc/Alert";
 import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
+import AlertService from '../../services/AlertService';
 
 class AdminLogin extends Component {
     
@@ -17,11 +18,7 @@ class AdminLogin extends Component {
             username : "", 
             password : "",
 
-            alert: {
-                show: false,
-                level: "",
-                msg: "",
-            }
+            alert: AlertService.getAlertInstance()
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -97,13 +94,7 @@ class AdminLogin extends Component {
                         this.props.navigate("/admin/dashboard");
                     }
                     else {
-                        this.setState({
-                            alert: {
-                                level: 4,
-                                msg: "Invalid credentials",
-                                show: true
-                            }
-                        });
+                        AlertService.showAlert(this, 4, "Invalid credentials");
                     }
                 }
             }
@@ -116,14 +107,7 @@ class AdminLogin extends Component {
         // empty filed validation
         if ((!this.state.username || this.state.username.length === 0) || 
             (!this.state.password || this.state.password.length === 0)) {
-         
-                this.setState({
-                alert: {
-                    level: 3,
-                    msg: "Enter all fields",
-                    show: true
-                }
-            });
+            AlertService.showAlert(this, 3, "Enter all fields");
             valid = false;
         }
         return valid;
