@@ -38,8 +38,8 @@ class FeedbackFrom extends Component {
             }
             
             <div className="container text-center">
-                <h1 className="text-muted my-4"> Write Feedback </h1>
-                <div className="container p-4 pb-2 border rounded-3 bg-light bg-gradient shadow-lg p-3 mb-5 bg-body rounded">
+                <h4 className="text-muted my-4"> Your Feedback </h4>
+                <div className="container p-5 shadow-lg p-3 mb-5 bg-white rounded">
                     <table className="table table-borderless">
                         <tbody>
                             <tr>
@@ -47,7 +47,7 @@ class FeedbackFrom extends Component {
                                     <textarea
                                         name="comment"
                                         className="form-control"
-                                        rows="10"
+                                        rows="7"
                                         placeholder="Write a review . . ."
                                         value={this.state.comment}
                                         onChange={this.handleOnChange}></textarea>
