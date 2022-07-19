@@ -1,0 +1,10 @@
+.book-thumbnail {
+    width: 120px; 
+    height: 180px;
+}
+
+.book-card {
+   width: 126px;
+   border: 1px grey solid; 
+   padding: 2px;
+}
