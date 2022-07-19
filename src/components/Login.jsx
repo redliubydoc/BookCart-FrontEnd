@@ -15,8 +15,6 @@ class Login extends Component {
     constructor(props) {
         super(props);
 
-        this.alertDuration = 5; 
-
         this.state = {
             showLogin: true,
             showRegister: false,
@@ -25,7 +23,6 @@ class Login extends Component {
         }
 
         this.toggler = this.toggler.bind(this);
-        this.autoHideAlert = this.autoHideAlert.bind(this);
     }
 
     render() {
@@ -101,15 +98,6 @@ class Login extends Component {
         else if (e.target.name === "btn-register" && !this.state.showRegister) { // toggle to Register Tab if not already in Register Tab
             this.setState({showLogin: false, showRegister: true});
         }
-    }
-    // to auto hide alert after a given time
-    autoHideAlert(time) {
-        setTimeout(() => this.setState({
-            alert: {
-                show: false,
-                level: "",
-                msg: ""
-            }}), time * 1000);
     }
 }
 

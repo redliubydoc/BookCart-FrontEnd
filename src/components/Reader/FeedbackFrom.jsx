@@ -9,6 +9,7 @@ import withNavigate from '../../hocs/withNavigate';
 import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
 import Alert from '../Misc/Alert';
 import { Link } from 'react-router-dom';
+import AlertService from '../../services/AlertService';
 
 class FeedbackFrom extends Component {
     constructor(props) {
@@ -19,11 +20,7 @@ class FeedbackFrom extends Component {
             rating: 0,
             hover: 0,
 
-            alert: {
-                show: false,
-                level: "",
-                msg: "",
-            }
+            alert: AlertService.getAlertInstance()
         }
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -42,7 +39,7 @@ class FeedbackFrom extends Component {
             
             <div className="container text-center">
                 <h1 className="text-muted my-4"> Write Feedback </h1>
-                <div className="container p-4 pb-2 border rounded-3 bg-light bg-gradient">
+                <div className="container p-4 pb-2 border rounded-3 bg-light bg-gradient shadow-lg p-3 mb-5 bg-body rounded">
                     <table className="table table-borderless">
                         <tbody>
                             <tr>
@@ -116,14 +113,7 @@ class FeedbackFrom extends Component {
 
         // empty filed validation
         if ((!this.state.comment || this.state.comment.length === 0)) {
-
-            this.setState({
-                alert: {
-                    level: 3,
-                    msg: "Write a review",
-                    show: true
-                }
-            });
+            AlertService.showAlert(this, 3, "Write a review");
             valid = false;
         }
         return valid;
