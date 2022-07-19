@@ -47,14 +47,14 @@ class ResetPassword extends Component {
                 <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
             }
 
-            <div className="container-fluid my-5">
+            <div className="container-fluid">
                 {/* topic header placeholder */}
-                <div className="container mb-4">
-                    <h5 className="text-muted text-center"> Reset Password </h5>
+                <div className="container my-4">
+                    <h4 className="text-muted text-center"> Reset Password </h4>
                 </div>
 
                 {/* form placeholder */}
-                <div className="container">
+                <div className="container p-5 shadow-lg p-3 mb-5 bg-white rounded">
                     <table className="table table-borderless">     
                         <tbody>
                             <tr>
@@ -130,7 +130,7 @@ class ResetPassword extends Component {
                             <tr>
                                 <td colSpan={2}>
                                     <select name="accountType" 
-                                        className="btn btn-warning width-100" 
+                                        className="btn btn-warning w-100" 
                                         value={this.state.accountType} 
                                         onChange={this.handleOnChange}>    
                                         <option value={1}> Reader </option>  
@@ -139,11 +139,11 @@ class ResetPassword extends Component {
                                 </td>
                             </tr>
                             <tr>
-                                <td className="width-50">
-                                    <Link className="btn btn-secondary width-100 my-3" to="/"> Cancel </Link>
+                                <td className="w-50">
+                                    <Link className="btn btn-secondary form-control mt-3" to="/"> Cancel </Link>
                                 </td>
-                                <td className="width-50">
-                                    <button className="btn btn-primary width-100 my-3" 
+                                <td className="w-50">
+                                    <button className="btn btn-primary form-control mt-3" 
                                         onClick={this.doChangePassword}> Reset </button>
                                 </td>
                             </tr>
