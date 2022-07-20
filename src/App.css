@@ -75,3 +75,21 @@
 .no-padding {
   padding: 0;
 }
+
+.book-thumbnail {
+  width: 120px; 
+  height: 180px;
+}
+
+.book-card {
+ width: 150px;
+}
+
+.hidden-button-radio {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 200ms;
+}

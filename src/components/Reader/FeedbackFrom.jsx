@@ -1,5 +1,3 @@
-import './FeedbackFrom.css';
-
 import {
     React,
     Component
@@ -61,6 +59,7 @@ class FeedbackFrom extends Component {
                                                 return (
                                                     <label key={ratingValue}>
                                                         <input type="radio"
+                                                        className="hidden-button-radio"
                                                             name="rating"
                                                             value={ratingValue}
                                                             onChange={this.handleOnChange} />
