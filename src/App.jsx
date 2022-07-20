@@ -11,6 +11,7 @@ import AdminLogin from './components/Admin/Login';
 import ResetPassword from './components/ResetPassword';
 import FeedbackFrom from './components/Reader/FeedbackFrom';
 import Home from './components/Home';
+import BuySubscription from './components/Reader/BuySubscription';
 
 function App() {
   return (
@@ -22,8 +23,10 @@ function App() {
       <Route path="/shop" element={<Home/>}/>
 
       {/* reader routes */}
-      <Route path="feedback/add" element={<FeedbackFrom/>}/>
+      <Route path="/feedback/add" element={<FeedbackFrom/>}/>
       <Route path="/product" element={<h1>Product Page</h1>}/>
+      <Route path="/buy-subscription" element={<BuySubscription/>}/>
+
 
       {/* admin routes */}
       <Route path="/admin" element={<AdminLogin/>}/>
