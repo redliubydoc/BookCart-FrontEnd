@@ -4,10 +4,9 @@ import {
 } from 'react';
 
 import withNavigate from '../../hocs/withNavigate';
-import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
 import Alert from '../Misc/Alert';
-import { Link } from 'react-router-dom';
 import AlertService from '../../services/AlertService';
+import ReaderNavbar from '../Misc/ReaderNavbar';
 
 class FeedbackFrom extends Component {
     constructor(props) {
@@ -29,7 +28,7 @@ class FeedbackFrom extends Component {
     render() {
         return (<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin />
+            <ReaderNavbar/>
             {/* alert placeholder */}
             {this.state.alert.show &&
                 <Alert level={this.state.alert.level} msg={this.state.alert.msg} />

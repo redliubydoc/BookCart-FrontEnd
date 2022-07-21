@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import NavBarBeforeLogin from "../Misc/NavBarBeforeLogin";
+import { Link } from "react-router-dom";
+import ReaderNavbar from "../Misc/ReaderNavbar";
 
 export default class Cart extends Component {
     render() {
         return (
             <>
-                
-                <NavBarBeforeLogin/>
+                <ReaderNavbar/>
                 
                 <br/><br/>
                 <div className="d-flex container justify-content-center">
@@ -52,8 +52,8 @@ export default class Cart extends Component {
                     </table>
 
                     <div className="text-center">
-                        <button type="button" className="btn btn-outline-success">Review Order & checkout</button><br /><br />
-                        <button type="button" className="btn btn-outline-danger btn-sm text-center">Continue Shopping</button>
+                        <Link to="/payment-page" className="btn btn-outline-success">Review Order & checkout</Link><br /><br />
+                        <Link to="/shop" className="btn btn-outline-danger btn-sm text-center">Continue Shopping</Link>
                     </div>
                 </div>
             </>

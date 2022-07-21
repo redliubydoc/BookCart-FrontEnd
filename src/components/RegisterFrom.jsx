@@ -192,10 +192,15 @@ class RegisterForm extends Component {
                         this.state.securityQuestion1,
                         this.state.securityQuestion2,
                         this.state.securityQuestion3
-                    );
-
-                    // Redirection to shop page
-                    this.props.navigate("/shop");
+                    ).then(response => {
+                        if(response.status === 200) {
+                            this.props.navigate("/shop");
+                        }
+                        else {
+                            AlertService.showAlert(4, "Unable to register!");
+                        }
+                    }).catch(e => AlertService.showAlert(4, "Unable to register!, " + e));
+                    this.props.navigate("/");
                 }
             }
         );

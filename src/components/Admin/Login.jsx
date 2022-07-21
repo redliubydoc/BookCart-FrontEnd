@@ -90,8 +90,7 @@ class AdminLogin extends Component {
                 if (this.validateForm()) {
                     // on successful login
                     if (AuthService.login(this.state.username, this.state.password, 3)) {
-                        // redirect to shop page
-                        this.props.navigate("/admin/dashboard");
+                        this.props.navigate("/admin/dashboard/sales");
                     }
                     else {
                         AlertService.showAlert(this, 4, "Invalid credentials");

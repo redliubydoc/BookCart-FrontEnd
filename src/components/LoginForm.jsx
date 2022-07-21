@@ -107,9 +107,22 @@ class LoginForm extends Component {
                     let accountType = parseInt(this.state.accountType);
 
                     // on login successful
-                    if (AuthService.login(username, password, accountType)) { 
-                        // redirect to shop page
-                        this.props.navigate("/shop");
+                    if (accountType === 1) {
+                        AuthService.login(username, password, accountType)
+                            .then(response => response.json())
+                            .then((data) => {
+                                if (data.flag === 1) {
+                                    localStorage.setItem("login", true);
+                                    localStorage.setItem("user-type", 1);
+                                    this.props.navigate("/shop");
+                                }
+                                else {
+                                    AlertService.showAlert(this, 4, "Invalid credentials");
+                                }
+                            }).catch(e => AlertService.showAlert(this, 4, "Invalid credentials"));
+                    }
+                    else if (accountType === 2 && AuthService.login(username, password, accountType)) {
+                        this.props.navigate("/author/book");
                     }
                     else {
                         AlertService.showAlert(this, 4, "Invalid credentials");

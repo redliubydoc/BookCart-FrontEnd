@@ -8,12 +8,12 @@ import {
 } from 'react-router-dom';
 
 
-import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
 import Alert from "../Misc/Alert";
 import AlertService from "../../services/AlertService";
 import withNavigate from '../../hocs/withNavigate';
 import BookService from '../../services/BookService';
 import SubscriptionService from '../../services/SubscriptionService';
+import ReaderNavbar from '../Misc/ReaderNavbar';
 
 class BuySubscription extends Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class BuySubscription extends Component {
     render() {
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
+            <ReaderNavbar/>
 
             {/* alert placeholder */}
             {this.state.alert.show && 

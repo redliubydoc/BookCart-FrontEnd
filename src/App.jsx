@@ -19,34 +19,41 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Cart from './components/Reader/Cart';
 import Settings from './components/Settings';
+import MyBooks from './components/Author/MyBooks';
+import Sales from './components/Admin/Sales';
+import AdminManagement from './components/Admin/AdminManagement';
 
 function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      {/* normal users routes */}
-      <Route path="/" element={<Login/>}/>
-      <Route path="/reset-password" element={<ResetPassword/>}/>
-      <Route path="/shop" element={<Home/>}/>
-      <Route path="/about-us" element={<AboutUs/>}/>
-      <Route path="/contact-us" element={<ContactUs/>}/>
+      <Routes>
+        {/* normal users routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/shop" element={<Home />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact-us" element={<ContactUs />} />
 
-      {/* reader routes */}
-      <Route path="/feedback/add" element={<FeedbackFrom/>}/>
-      <Route path="/buy-subscription" element={<BuySubscription/>}/>
-      <Route path="/my-subscription" element={<MySubscription/>}/>
-      
-      <Route path="/book/:id" element={<ProductPage/>}/>
-      <Route path="/:uid/book/:id" element={<BookPage/>}/>
-      <Route path="/cart" element={<Cart/>}/>
-      <Route path="/settings" element={<Settings/>}/>
+        {/* reader routes */}
+        <Route path="/feedback/add" element={<FeedbackFrom />} />
+        <Route path="/buy-subscription" element={<BuySubscription />} />
+        <Route path="/my-subscription" element={<MySubscription />} />
 
+        <Route path="/book/:id" element={<ProductPage />} />
+        <Route path="/:uid/book/:id" element={<BookPage />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/payment-page" element={<h1> Payment Page </h1>} />
 
-      {/* admin routes */}
-      <Route path="/admin" element={<AdminLogin/>}/>
-      <Route path="/admin/dashboard" element={<h1> Admin Dashboard</h1>}/>
-    </Routes>
-  </BrowserRouter>
+        {/* author routes */}
+        <Route path="/author/book" element={<MyBooks />} />
+
+        {/* admin routes */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard/sales" element={<Sales/>}/>
+        <Route path="/admin/dashboard/admin" element={<AdminManagement/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

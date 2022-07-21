@@ -13,6 +13,7 @@ import BookService from "../services/BookService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
 import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
+import ReaderNavbar from "./Misc/ReaderNavbar";
 
 class BookPage extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ class BookPage extends Component {
     render() {
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
+            <ReaderNavbar/>
             
             {/* alert placeholder */}
             {this.state.alert.show && 

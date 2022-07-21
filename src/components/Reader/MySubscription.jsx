@@ -7,9 +7,7 @@ import {
     Link 
 } from 'react-router-dom';
 import BookService from '../../services/BookService';
-
-
-import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
+import ReaderNavbar from '../Misc/ReaderNavbar';
 
 class MySubscription extends Component {
     constructor(props) {
@@ -38,7 +36,7 @@ class MySubscription extends Component {
     render() {
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
+            <ReaderNavbar/>
             
             {!this.state.subscriptions.length && 
                 <div className="container text-muted text-center py-5">

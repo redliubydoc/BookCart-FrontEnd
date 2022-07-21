@@ -5,7 +5,7 @@ import {
 
 import withNavigate from "../hocs/withNavigate";
 import AlertService from "../services/AlertService"
-import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
+import ReaderNavbar from "./Misc/ReaderNavbar";
 
 class AccountSettings extends Component{
 
@@ -41,7 +41,7 @@ class AccountSettings extends Component{
         <i className="bi bi-person-circle" style="font-size: 80px;"></i>
         </div>*/}
 
-        <NavBarBeforeLogin/>
+        <ReaderNavbar/>
         <div>
         <h1 className="text-center my-5"><i class="bi bi-person-circle"></i></h1>
         <div class="container">

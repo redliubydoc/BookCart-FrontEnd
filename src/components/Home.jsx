@@ -12,6 +12,7 @@ import NavBarBeforeLogin from './Misc/NavBarBeforeLogin';
 import Alert from "./Misc/Alert";
 import AlertService from "../services/AlertService";
 import BookService from '../services/BookService';
+import ReaderNavbar from './Misc/ReaderNavbar';
 
 class Home extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class Home extends Component {
     render() {
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
+            <ReaderNavbar/>
 
             {/* alert placeholder */}
             {this.state.alert.show && 
