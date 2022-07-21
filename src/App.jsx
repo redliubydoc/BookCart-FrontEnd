@@ -30,11 +30,9 @@ function App() {
       <Route path="/shop" element={<Home/>}/>
       <Route path="/about-us" element={<AboutUs/>}/>
       <Route path="/contact-us" element={<ContactUs/>}/>
-      <Route path="/account-settings" element={<ContactUs/>}/>
 
       {/* reader routes */}
       <Route path="/feedback/add" element={<FeedbackFrom/>}/>
-      <Route path="/product" element={<h1>Product Page</h1>}/>
       <Route path="/buy-subscription" element={<BuySubscription/>}/>
       <Route path="/my-subscription" element={<MySubscription/>}/>
       <Route path="/product-page" element={<ProductPage/>}/>

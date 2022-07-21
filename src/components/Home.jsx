@@ -138,7 +138,7 @@ class Home extends Component {
                                 <div className="col px-2 pb-4 pt-0" key={book.isbn}>
                                     <div className="book-card shadow p-3 bg-white rounded">
                                         <div>
-                                            <Link to="/product">
+                                            <Link to="/product-page">
                                                 <img className="book-thumbnail" 
                                                     src={book.thumbnail}/> 
                                             </Link>

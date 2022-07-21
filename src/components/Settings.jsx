@@ -5,6 +5,7 @@ import {
 
 import withNavigate from "../hocs/withNavigate";
 import AlertService from "../services/AlertService"
+import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
 
 class AccountSettings extends Component{
 
@@ -39,31 +40,9 @@ class AccountSettings extends Component{
         {/*<div class="container my-5 text-center">
         <i className="bi bi-person-circle" style="font-size: 80px;"></i>
         </div>*/}
+
+        <NavBarBeforeLogin/>
         <div>
-            <nav class="navbar sticky-top navbar-dark bg-dark navbar-expand-lg">
-                <div class="container-fluid">
-                    <span class="navbar-brand text-primary"><b>Book Cart</b></span>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="#"> Sell Books </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" aria-current="page" href="#"> My Books </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#"> Settings </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="d-flex">
-                                <button class="btn btn-danger form-control" type="submit"> Logout </button>
-                        </div>
-                </div>
-            </nav>
         <h1 className="text-center my-5"><i class="bi bi-person-circle"></i></h1>
         <div class="container">
         {/*<div class="container-fluid my-5">
@@ -209,7 +188,7 @@ class AccountSettings extends Component{
     }
 
     doCancel= () => {
-        this.props.navigate("/home");
+        this.props.navigate("/shop");
       };
 
     doUpdate= () =>{
