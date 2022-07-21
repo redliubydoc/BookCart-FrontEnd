@@ -38,19 +38,10 @@ class BookCartHeader extends Component {
                                 <Link class="nav-link" to="/contact-us"> Contact Us </Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to="/feedback/add"> Write Feedback </Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="/product"> Product Page </Link>
-                            </li>
-                            <li class="nav-item">
                                 <Link class="nav-link" to="/buy-subscription"> Subscribe </Link>
                             </li>
                             <li class="nav-item">
                                 <Link class="nav-link" to="/my-subscription"> Active Subscriptions </Link>
-                            </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" to="/book-page"> Book Page </Link>
                             </li>
                             <li class="nav-item">
                                 <Link class="nav-link" to="/cart"> Cart </Link>

@@ -6,8 +6,10 @@ import {
 import {
     Link
 } from 'react-router-dom';
+import withParams from "../hocs/withParams";
 
 import AlertService from "../services/AlertService";
+import BookService from "../services/BookService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
 import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
@@ -150,25 +152,21 @@ class ProductPage extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            book: {
-                isbn: "9780593439111",
-                title: "Eltern Haus",
-                author: "Jennifer Mentges",
-                description: "The house has been empty for years. The charm of the abandoned wafted about it. And something else, darker... Night after night, bar pianist Tobias Hansen is drawn to an old villa that has been vacant for years in a posh Hamburg suburb on the Elbe. He parks and stays in the car, staring at the dark house for a few minutes. Until the day Yvette Winkler moves in with her family. Yvette wants to realize her dream of the perfect home with the old villa. And dare a new start - also for your marriage that got into trouble. Tobias Hansen quickly becomes friends with the Winklers, gives the children piano lessons and soon goes in and out of their house as a matter of course. For a long time no one suspects who they really let into their own four walls. Until the evening when he is alone in the house with Yvette and the children... Psychological tension that gets under your skin and won't let go ",
-                genre: "Suspense",
-                language: "German",
-                price: 500,
-                dateOfRelease: "1st September 1999",
-                averageRating: 2.5,
-                noOfRatings: 420,
-                thumbnail: require("../resource/book/thumbnail/book-1.jpg")
-            }
-        }, this.loadFeedBacks);
+        BookService.getBook(this.props.params.id)
+            .then(response => response.json())
+            .then(book => this.setState({
+                    book: book
+                }, this.loadFeedBacks)
+            ).catch(e => console.log(e));
     }
 
     loadFeedBacks() {
         let pages = 5;
+        BookService.getAllFeedbacks(this.props.params.id)
+            .then(response => response.json())
+            .then(feedbacks => this.setState({feedbacks: feedbacks}))
+            .catch(e => console.log(e));
+
         let feedbacks = [
             {
                 id: "1",
@@ -202,7 +200,7 @@ class ProductPage extends Component {
 
         this.setState({
             pages: pages, 
-            feedbacks: feedbacks
+            
         });
     }
 
@@ -219,4 +217,4 @@ class ProductPage extends Component {
     }
 }
 
-export default ProductPage;
+export default withParams(ProductPage);

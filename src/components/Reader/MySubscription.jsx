@@ -6,6 +6,7 @@ import {
 import {
     Link 
 } from 'react-router-dom';
+import BookService from '../../services/BookService';
 
 
 import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
@@ -23,7 +24,7 @@ class MySubscription extends Component {
                 daysLeft: 0
             },
 
-            booksByGenre: [],
+            books: [],
             pages: 1,
             currentPage: 3
         }
@@ -31,7 +32,7 @@ class MySubscription extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
         this.doPagination = this.doPagination.bind(this);
         this.selectSubscription = this.selectSubscription.bind(this);
-        this.getBooksByGenre = this.getBooksByGenre.bind(this);
+        this.getBooks = this.getBooks.bind(this);
     }
   
     render() {
@@ -92,11 +93,11 @@ class MySubscription extends Component {
 
                 {/* -- genre wise books display space */}
                 <div className="row row-cols-auto justify-content-center">
-                    {this.state.booksByGenre.map((book) => (
+                    {this.state.books.map((book) => (
                         <div className="col px-2 pb-4 pt-0" key={book.isbn}>
                             <div className="book-card shadow p-3 bg-white rounded">
                                 <div>
-                                    <Link to="/book-page">
+                                    <Link to={`/101/book/${book.isbn}`}>
                                         <img className="book-thumbnail" 
                                             src={book.thumbnail}/> 
                                     </Link>
@@ -180,7 +181,7 @@ class MySubscription extends Component {
             this.setState({
                 subscriptions: subscriptions,
                 selectedSubscription: subscriptions[0]
-            }, () => this.getBooksByGenre(this.state.selectedSubscription.genre));
+            }, this.getBooks);
         }
     }
 
@@ -193,51 +194,18 @@ class MySubscription extends Component {
             if (subscription.id == e.target.id) {
                 this.setState(
                     {selectedSubscription: subscription}, 
-                    () => this.getBooksByGenre(subscription.genre)
+                    () => this.getBooks(subscription.genre)
                 );
                 break;
             }
         }
     }
 
-    getBooksByGenre(genre) {
-        // TODO: fetch total pages from backend
-        let pages= 5;
-
-        // TODO: fetch from backend
-        let booksByGenre =[
-            {
-                isbn: "9780062013347",
-                price: 330.61,
-                thumbnail: require("../../resource/book/thumbnail/book-1.jpg"),
-            },
-            {
-                isbn: "9780241988251",
-                price: 528.66,
-                thumbnail: require("../../resource/book/thumbnail/book-2.jpg"),
-            },
-            {
-                isbn: "9780593439111",
-                price: 700.66,
-                thumbnail: require("../../resource/book/thumbnail/book-3.jpg")
-            },
-            {
-                isbn: "9780598839111",
-                price: 69,
-                thumbnail: "https://media2.ebook.de/shop/coverscans/418/41857641_9783644011427_xl.jpg"
-            },
-            {
-                isbn: "9769593439111",
-                price: 788.89,
-                thumbnail: "https://media2.ebook.de/shop/coverscans/418/41804247_9783462320848_xl.jpg"
-            }
-        ];
-        
-        this.setState({
-            booksByGenre: booksByGenre,
-            pages: pages,
-            currentPage: 0
-        });
+    getBooks() {
+        BookService.getAllBooksByGenre(this.state.selectedSubscription.genre.toLowerCase())
+            .then(response => response.json())
+            .then(data => this.setState({books: data}))
+            .catch(e => console.log(e));
     }
 
     doPagination(e) {

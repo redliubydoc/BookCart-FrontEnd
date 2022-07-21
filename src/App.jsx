@@ -35,8 +35,9 @@ function App() {
       <Route path="/feedback/add" element={<FeedbackFrom/>}/>
       <Route path="/buy-subscription" element={<BuySubscription/>}/>
       <Route path="/my-subscription" element={<MySubscription/>}/>
-      <Route path="/product-page" element={<ProductPage/>}/>
-      <Route path="/book-page" element={<BookPage/>}/>
+      
+      <Route path="/book/:id" element={<ProductPage/>}/>
+      <Route path="/:uid/book/:id" element={<BookPage/>}/>
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/settings" element={<Settings/>}/>
 

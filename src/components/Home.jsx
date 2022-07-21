@@ -11,6 +11,7 @@ import {
 import NavBarBeforeLogin from './Misc/NavBarBeforeLogin';
 import Alert from "./Misc/Alert";
 import AlertService from "../services/AlertService";
+import BookService from '../services/BookService';
 
 class Home extends Component {
     constructor(props) {
@@ -138,7 +139,7 @@ class Home extends Component {
                                 <div className="col px-2 pb-4 pt-0" key={book.isbn}>
                                     <div className="book-card shadow p-3 bg-white rounded">
                                         <div>
-                                            <Link to="/product-page">
+                                            <Link to={`/book/${book.isbn}`}>
                                                 <img className="book-thumbnail" 
                                                     src={book.thumbnail}/> 
                                             </Link>
@@ -196,35 +197,12 @@ class Home extends Component {
             "Bengali"
         ];
 
-        let books = [
-            {
-                isbn: "9780062013347",
-                price: 330.61,
-                thumbnail: require("../resource/book/thumbnail/book-1.jpg"),
-            },
-            {
-                isbn: "9780241988251",
-                price: 528.66,
-                thumbnail: require("../resource/book/thumbnail/book-2.jpg"),
-            },
-            {
-                isbn: "9780593439111",
-                price: 700.66,
-                thumbnail: require("../resource/book/thumbnail/book-3.jpg")
-            },
-            {
-                isbn: "9780598839111",
-                price: 69,
-                thumbnail: "https://media2.ebook.de/shop/coverscans/418/41857641_9783644011427_xl.jpg"
-            },
-            {
-                isbn: "9769593439111",
-                price: 788.89,
-                thumbnail: "https://media2.ebook.de/shop/coverscans/418/41804247_9783462320848_xl.jpg"
-            }
-        ]
+        BookService.getAllBooks()
+            .then(response => response.json())
+            .then(data => this.setState({books: data}))
+            .catch(e => console.log(e));
+       
         this.setState({
-            books: books,
             languages: languages,
             pages: 5
         });
