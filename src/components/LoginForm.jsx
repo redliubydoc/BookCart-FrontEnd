@@ -1,5 +1,5 @@
-import {
-    React,
+import  React,{
+   
     Component
 } from 'react';
 

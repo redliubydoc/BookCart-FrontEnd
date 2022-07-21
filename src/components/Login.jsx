@@ -1,6 +1,5 @@
-import { 
-    Component,
-    React 
+import React,{ 
+    Component 
 } from "react";
 
 import withLocation from "../hocs/withLocation";
