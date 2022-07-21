@@ -11,6 +11,7 @@ import {
 import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
 import Alert from "../Misc/Alert";
 import AlertService from "../../services/AlertService";
+import withNavigate from '../../hocs/withNavigate';
 
 class BuySubscription extends Component {
     constructor(props) {
@@ -28,6 +29,8 @@ class BuySubscription extends Component {
 
         this.handleOnChange = this.handleOnChange.bind(this);
         this.doPagination = this.doPagination.bind(this);
+        this.doAddToCart = this.doAddToCart.bind(this);
+        this.doSubscribe = this.doSubscribe.bind(this);
     }
   
     render() {
@@ -57,7 +60,7 @@ class BuySubscription extends Component {
                             <tr>
                                 <td>
                                     <select name="subsType"
-                                        className="w-100 btn btn-primary"
+                                        className="w-100 btn btn-primary py-2"
                                         value={this.state.value}
                                         onChange={this.handleOnChange}>
                                             <option value={"MONTHLY"}> Monthly </option>
@@ -65,19 +68,20 @@ class BuySubscription extends Component {
                                     </select>
                                 </td>
                                 <td>
-                                        <select name="subsGenre"
-                                            className="w-100 btn btn-primary"
-                                            value={this.state.value}
-                                            onChange={this.handleOnChange}>{
-                                                this.state.genres.map((genre) => (
-                                                    <option key={genre} value={genre}>{genre}</option>
-                                                ))
-                                            }
-                                        </select>
+                                    <select name="subsGenre"
+                                        className="w-100 btn btn-primary py-2"
+                                        value={this.state.value}
+                                        onChange={this.handleOnChange}>{
+                                            this.state.genres.map((genre) => (
+                                                <option key={genre} value={genre}>{genre}</option>
+                                            ))
+                                        }
+                                    </select>
                                 </td>
                                 <td> <div className="form-control"> Rs. 499 </div> </td>
                                 <td>
-                                    <button className="btn btn-success form-control"> Subscribe </button>
+                                    <button className="btn btn-success form-control"
+                                        onClick={this.doSubscribe}> Subscribe </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -92,7 +96,7 @@ class BuySubscription extends Component {
                         <div className="col px-2 pb-4 pt-0" key={book.isbn}>
                             <div className="book-card shadow p-3 bg-white rounded">
                                 <div>
-                                    <Link to="/product">
+                                    <Link to="/product-page">
                                         <img className="book-thumbnail" 
                                             src={book.thumbnail}/> 
                                     </Link>
@@ -188,11 +192,19 @@ class BuySubscription extends Component {
     }
 
     doPagination(e) {
-        if (e.target.getAttribute("name") === "moveFirst") this.setState({currentPage: 1});
-        if (e.target.getAttribute("name") === "moveLast") this.setState({currentPage: this.state.pages}); 
-        if (e.target.getAttribute("name") === "movePrev") this.setState({currentPage: this.state.currentPage-1});
-        if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1});
+        if (e.target.getAttribute("name") === "moveFirst") this.setState({currentPage: 1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
+        if (e.target.getAttribute("name") === "moveLast") this.setState({currentPage: this.state.pages}, () => window.scrollTo({top: 0, behavior: 'smooth'})); 
+        if (e.target.getAttribute("name") === "movePrev") this.setState({currentPage: this.state.currentPage-1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
+        if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
+    }
+
+    doAddToCart() {
+        AlertService.showAlert(this, 1, "Book added to cart", 10);
+    }
+
+    doSubscribe() {
+        this.props.navigate("/payment-page")
     }
 }
 
-export default BuySubscription;
+export default withNavigate(BuySubscription);

@@ -12,6 +12,9 @@ import ResetPassword from './components/ResetPassword';
 import FeedbackFrom from './components/Reader/FeedbackFrom';
 import Home from './components/Home';
 import BuySubscription from './components/Reader/BuySubscription';
+import MySubscription from './components/Reader/MySubscription';
+import ProductPage from './components/ProductPage';
+import BookPage from './components/BookPage';
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
       <Route path="/feedback/add" element={<FeedbackFrom/>}/>
       <Route path="/product" element={<h1>Product Page</h1>}/>
       <Route path="/buy-subscription" element={<BuySubscription/>}/>
+      <Route path="/my-subscription" element={<MySubscription/>}/>
+      <Route path="/product-page" element={<ProductPage/>}/>
+      <Route path="/book-page" element={<BookPage/>}/>
 
 
       {/* admin routes */}
