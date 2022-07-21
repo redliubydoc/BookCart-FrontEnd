@@ -15,6 +15,10 @@ import BuySubscription from './components/Reader/BuySubscription';
 import MySubscription from './components/Reader/MySubscription';
 import ProductPage from './components/ProductPage';
 import BookPage from './components/BookPage';
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
+import Cart from './components/Reader/Cart';
+import Settings from './components/Settings';
 
 function App() {
   return (
@@ -24,6 +28,9 @@ function App() {
       <Route path="/" element={<Login/>}/>
       <Route path="/reset-password" element={<ResetPassword/>}/>
       <Route path="/shop" element={<Home/>}/>
+      <Route path="/about-us" element={<AboutUs/>}/>
+      <Route path="/contact-us" element={<ContactUs/>}/>
+      <Route path="/account-settings" element={<ContactUs/>}/>
 
       {/* reader routes */}
       <Route path="/feedback/add" element={<FeedbackFrom/>}/>
@@ -32,6 +39,8 @@ function App() {
       <Route path="/my-subscription" element={<MySubscription/>}/>
       <Route path="/product-page" element={<ProductPage/>}/>
       <Route path="/book-page" element={<BookPage/>}/>
+      <Route path="/cart" element={<Cart/>}/>
+      <Route path="/settings" element={<Settings/>}/>
 
 
       {/* admin routes */}
