@@ -77,8 +77,8 @@ class FeedbackFrom extends Component {
                             </tr>
                             <tr>
                                 <td className="w-50">
-                                    <Link className={"btn btn-secondary mt-1 form-control"}
-                                        to="/"> Cancel </Link>
+                                    <button className={"btn btn-secondary mt-1 form-control"}
+                                        onClick={() => this.props.navigate(-1)}> Cancel </button>
                                 </td>
                                 <td className="w-50">
                                     <button className="btn btn-primary mt-1 form-control"

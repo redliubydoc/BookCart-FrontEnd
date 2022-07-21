@@ -12,6 +12,8 @@ import NavBarBeforeLogin from '../Misc/NavBarBeforeLogin';
 import Alert from "../Misc/Alert";
 import AlertService from "../../services/AlertService";
 import withNavigate from '../../hocs/withNavigate';
+import BookService from '../../services/BookService';
+import SubscriptionService from '../../services/SubscriptionService';
 
 class BuySubscription extends Component {
     constructor(props) {
@@ -20,10 +22,11 @@ class BuySubscription extends Component {
         this.state = {
             alert: AlertService.getAlertInstance(),
             subsGenre: "",
-            subsType: "",
+            subsType: 1,
+            subsPrice: -1000,
             genres: [],
             books: [],
-            pages: 1,
+            pages: 5,
             currentPage: 3
         }
 
@@ -31,6 +34,7 @@ class BuySubscription extends Component {
         this.doPagination = this.doPagination.bind(this);
         this.doAddToCart = this.doAddToCart.bind(this);
         this.doSubscribe = this.doSubscribe.bind(this);
+        this.getBooks = this.getBooks.bind(this);
     }
   
     render() {
@@ -63,8 +67,8 @@ class BuySubscription extends Component {
                                         className="w-100 btn btn-primary py-2"
                                         value={this.state.value}
                                         onChange={this.handleOnChange}>
-                                            <option value={"MONTHLY"}> Monthly </option>
-                                            <option value={"YEARLY"}> Yearly </option>
+                                            <option value={1}> Monthly </option>
+                                            <option value={2}> Yearly </option>
                                     </select>
                                 </td>
                                 <td>
@@ -78,10 +82,10 @@ class BuySubscription extends Component {
                                         }
                                     </select>
                                 </td>
-                                <td> <div className="form-control"> Rs. 499 </div> </td>
+                                <td> <div className="form-control"> {this.state.subsPrice <= 0 ? 0 : this.state.subsPrice} </div> </td>
                                 <td>
                                     <button className="btn btn-success form-control"
-                                        onClick={this.doSubscribe}> Subscribe </button>
+                                        onClick={this.doSubscribe} disabled={this.state.subsPrice <= 0}> Subscribe </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -96,7 +100,7 @@ class BuySubscription extends Component {
                         <div className="col px-2 pb-4 pt-0" key={book.isbn}>
                             <div className="book-card shadow p-3 bg-white rounded">
                                 <div>
-                                    <Link to="/product-page">
+                                    <Link to={`/book/${book.isbn}`}>
                                         <img className="book-thumbnail" 
                                             src={book.thumbnail}/> 
                                     </Link>
@@ -144,51 +148,43 @@ class BuySubscription extends Component {
 
     componentDidMount() {
         let genres = [
-            "Contemporary",
             "Crime",
+            "Contemporary",
             "Fantasy",
             "Fiction",
             "History",
             "Suspense"
         ];
 
-        let books = [
-            {
-                isbn: "9780062013347",
-                price: 330.61,
-                thumbnail: require("../../resource/book/thumbnail/book-1.jpg"),
-            },
-            {
-                isbn: "9780241988251",
-                price: 528.66,
-                thumbnail: require("../../resource/book/thumbnail/book-2.jpg"),
-            },
-            {
-                isbn: "9780593439111",
-                price: 700.66,
-                thumbnail: require("../../resource/book/thumbnail/book-3.jpg")
-            },
-            {
-                isbn: "9780598839111",
-                price: 69,
-                thumbnail: "https://media2.ebook.de/shop/coverscans/418/41857641_9783644011427_xl.jpg"
-            },
-            {
-                isbn: "9769593439111",
-                price: 788.89,
-                thumbnail: "https://media2.ebook.de/shop/coverscans/418/41804247_9783462320848_xl.jpg"
-            }
-        ]
-
-        this.setState({
-            books: books,
-            genres: genres,
-            pages: 5
+        this.setState({genres: genres, subsGenre: genres[0]}, () => {
+            SubscriptionService.getPrice(this.state.subsType, this.state.subsGenre.toLowerCase())
+                .then(response => response.json())
+                .then(data => this.setState({subsPrice: data}))
+                .catch(e => console.log(e))   
+            this.getBooks();
         });
     }
 
+    getBooks() {
+        BookService.getAllBooksByGenre(this.state.subsGenre.toLowerCase())
+            .then(response => response.json())
+            .then(data => this.setState({books: data}))
+            .catch(e => console.log(e));
+    }
+
     handleOnChange(e) {
-        this.setState({[e.target.name]: e.target.value});
+
+        this.setState(
+            {[e.target.name]: e.target.value}, 
+            () => { 
+                SubscriptionService.getPrice(this.state.subsType, this.state.subsGenre.toLowerCase())
+                    .then(response => response.json())
+                    .then(data => this.setState({subsPrice: data}))
+                    .catch(e => console.log(e));
+                
+                this.getBooks();
+            }
+        );
     }
 
     doPagination(e) {
