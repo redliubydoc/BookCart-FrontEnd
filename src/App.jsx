@@ -19,6 +19,9 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Cart from './components/Reader/Cart';
 import Settings from './components/Settings';
+import { SellBooks } from './components/Author/SellBooks';
+import MyBooks from './components/Reader/MyBooks';
+import EpubViewer from './components/Reader/EpubViewer';
 
 function App() {
   return (
@@ -35,16 +38,20 @@ function App() {
       <Route path="/feedback/add" element={<FeedbackFrom/>}/>
       <Route path="/buy-subscription" element={<BuySubscription/>}/>
       <Route path="/my-subscription" element={<MySubscription/>}/>
-      
-      <Route path="/book/:id" element={<ProductPage/>}/>
-      <Route path="/:uid/book/:id" element={<BookPage/>}/>
+      <Route path="/product-page" element={<ProductPage/>}/>
+      <Route path="/book-page" element={<BookPage/>}/>
       <Route path="/cart" element={<Cart/>}/>
       <Route path="/settings" element={<Settings/>}/>
+      <Route path="/mybooks" element={<MyBooks/>}/>
+      <Route path="/mybooks/viewer" element={<EpubViewer/>}/>
 
 
       {/* admin routes */}
       <Route path="/admin" element={<AdminLogin/>}/>
       <Route path="/admin/dashboard" element={<h1> Admin Dashboard</h1>}/>
+
+      {/* Author routes */}
+      <Route path="/sell" element={<SellBooks/>}/>
     </Routes>
   </BrowserRouter>
   );
