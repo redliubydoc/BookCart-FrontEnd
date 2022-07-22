@@ -8,6 +8,17 @@ import {
 
 import Login from './components/Login';
 import AdminLogin from './components/Admin/Login';
+import ResetPassword from './components/ResetPassword';
+import FeedbackFrom from './components/Reader/FeedbackFrom';
+import Home from './components/Home';
+import BuySubscription from './components/Reader/BuySubscription';
+import MySubscription from './components/Reader/MySubscription';
+import ProductPage from './components/ProductPage';
+import BookPage from './components/BookPage';
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
+import Cart from './components/Reader/Cart';
+import Settings from './components/Settings';
 
 function App() {
   return (
@@ -15,8 +26,21 @@ function App() {
     <Routes>
       {/* normal users routes */}
       <Route path="/" element={<Login/>}/>
-      <Route path="/reset-password" element={<h1> Reset Password Page</h1>}/>
-      <Route path="/shop" element={<h1> Shop Page</h1>}/>
+      <Route path="/reset-password" element={<ResetPassword/>}/>
+      <Route path="/shop" element={<Home/>}/>
+      <Route path="/about-us" element={<AboutUs/>}/>
+      <Route path="/contact-us" element={<ContactUs/>}/>
+
+      {/* reader routes */}
+      <Route path="/feedback/add" element={<FeedbackFrom/>}/>
+      <Route path="/buy-subscription" element={<BuySubscription/>}/>
+      <Route path="/my-subscription" element={<MySubscription/>}/>
+      
+      <Route path="/book/:id" element={<ProductPage/>}/>
+      <Route path="/:uid/book/:id" element={<BookPage/>}/>
+      <Route path="/cart" element={<Cart/>}/>
+      <Route path="/settings" element={<Settings/>}/>
+
 
       {/* admin routes */}
       <Route path="/admin" element={<AdminLogin/>}/>
