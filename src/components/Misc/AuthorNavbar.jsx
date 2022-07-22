@@ -32,6 +32,9 @@ class AuthorNavbar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/author/book"> MyBooks </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/author/sell-book"> SellBooks </Link>
+                            </li>
                         </ul>
                         <button className="btn btn-danger form-control"
                             onClick={() => {

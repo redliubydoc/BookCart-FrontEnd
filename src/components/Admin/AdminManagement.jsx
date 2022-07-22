@@ -14,8 +14,8 @@ class AdminManagement extends Component {
                         <h2>....</h2>
                         <Link to="/admin/dashboard/sales">Sales</Link>
                         <Link to="/admin/dashboard/admin"> Admin Management </Link>
-                        <Link to=""> Users </Link>
-                        <Link to="">Change Password</Link>
+                        <Link to="/admin/dashboard/change-password"> Change Password </Link>
+                        <Link to="">Users</Link>
                         <Link to="">Review books</Link>
                         <Link to="">Subscription Management</Link>
                         <Link to="">Update book price</Link>

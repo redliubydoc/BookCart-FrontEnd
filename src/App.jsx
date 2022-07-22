@@ -22,6 +22,10 @@ import Settings from './components/Settings';
 import MyBooks from './components/Author/MyBooks';
 import Sales from './components/Admin/Sales';
 import AdminManagement from './components/Admin/AdminManagement';
+import MyBooksR from './components/BookViwer/MyBooksR';
+import EPubViewer from './components/BookViwer/EPubViewer';
+import ChangePassword from './components/Admin/ChangePassword';
+import { SellBooks } from './components/Author/SellBooks';
 
 function App() {
   return (
@@ -33,6 +37,7 @@ function App() {
         <Route path="/shop" element={<Home />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/book-viewer" element={<EPubViewer/>} />
 
         {/* reader routes */}
         <Route path="/feedback/add" element={<FeedbackFrom />} />
@@ -44,14 +49,17 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/payment-page" element={<h1> Payment Page </h1>} />
+        <Route path="/reader/book" element={<MyBooksR/>} />
 
         {/* author routes */}
         <Route path="/author/book" element={<MyBooks />} />
+        <Route path="/author/sell-book" element={<SellBooks/>} />
 
         {/* admin routes */}
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard/sales" element={<Sales/>}/>
         <Route path="/admin/dashboard/admin" element={<AdminManagement/>}/>
+        <Route path="/admin/dashboard/change-password" element={<ChangePassword/>}/>
       </Routes>
     </BrowserRouter>
   );

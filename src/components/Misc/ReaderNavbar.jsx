@@ -33,10 +33,7 @@ class ReaderNavbar extends Component {
                                 <Link className="nav-link" to="/shop"> Home </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/about-us"> About Us </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/contact-us"> Contact Us </Link>
+                                <Link className="nav-link" to="/reader/book"> My Books </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/buy-subscription"> Subscribe </Link>
@@ -49,6 +46,12 @@ class ReaderNavbar extends Component {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/settings"> Settings </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/about-us"> About Us </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/contact-us"> Contact Us </Link>
                             </li>
                         </ul>
                         <button className="btn btn-danger form-control"

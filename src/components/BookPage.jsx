@@ -206,9 +206,13 @@ class BookPage extends Component {
             },
         ]
 
+        BookService.getAllFeedbacks(this.props.params.id)
+            .then(response => response.json())
+            .then(feedbacks => this.setState({feedbacks: feedbacks}))
+            .catch(e => console.log(e));
+
         this.setState({
-            pages: pages, 
-            feedbacks: feedbacks
+            pages: pages
         });
     }
 

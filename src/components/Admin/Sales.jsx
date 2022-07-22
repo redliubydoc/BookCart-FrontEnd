@@ -15,13 +15,12 @@ class Sales extends Component {
                         <h2>....</h2>
                         <Link to="/admin/dashboard/sales">Sales</Link>
                         <Link to="/admin/dashboard/admin"> Admin Management </Link>
-                        <Link to=""> Users </Link>
-                        <Link to="">Change Password</Link>
+                        <Link to="/admin/dashboard/change-password"> Change Password </Link>
+                        <Link to="">Users</Link>
                         <Link to="">Review books</Link>
                         <Link to="">Subscription Management</Link>
                         <Link to="">Update book price</Link>
                     </div>
-
 
                     {/* Page Content */}
 
@@ -49,7 +48,7 @@ class Sales extends Component {
                             <div className="col">
                                 <div className="card text-center" style={{ width: "12rem" }}>
                                     <div className="card-body">
-                                        <h5 className="card-title">Re orders</h5>
+                                        <h5 className="card-title">Readers</h5>
                                         <h3>68868</h3>
                                     </div>
                                 </div>
