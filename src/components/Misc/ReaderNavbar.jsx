@@ -33,16 +33,16 @@ class ReaderNavbar extends Component {
                                 <Link className="nav-link" to="/shop"> Home </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/reader/book"> My Books </Link>
+                                <Link className="nav-link" to="/101/book/"> My Books </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/101/subscription/active/"> My Subscriptions </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/buy-subscription"> Subscribe </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/my-subscription"> My Subscriptions </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/cart"> Cart </Link>
+                                <Link className="nav-link" to="/reader/cart"> Cart </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/settings"> Settings </Link>

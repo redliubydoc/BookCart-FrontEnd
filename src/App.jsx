@@ -22,7 +22,7 @@ import Settings from './components/Settings';
 import MyBooks from './components/Author/MyBooks';
 import Sales from './components/Admin/Sales';
 import AdminManagement from './components/Admin/AdminManagement';
-import MyBooksR from './components/BookViwer/MyBooksR';
+import MyBooksR from './components/Reader/MyBooksR';
 import EPubViewer from './components/BookViwer/EPubViewer';
 import ChangePassword from './components/Admin/ChangePassword';
 import { SellBooks } from './components/Author/SellBooks';
@@ -37,19 +37,24 @@ function App() {
         <Route path="/shop" element={<Home />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/book-viewer" element={<EPubViewer url="http://localhost:8080/epubs/book/book_2.epub/" title="xyz"/>} />
+        
 
-        {/* reader routes */}
-        <Route path="/feedback/add" element={<FeedbackFrom />} />
-        <Route path="/buy-subscription" element={<BuySubscription />} />
-        <Route path="/my-subscription" element={<MySubscription />} />
+        {/* reader specific routes */}
+        <Route path="/:uid/book/" element={<MyBooksR/>} />
+        <Route path="/:uid/subscription/active/" element={<MySubscription/>}/>
+        <Route path="/:uid/book/:id" element={<BookPage/>}/>
+        <Route path="/:uid/book/:id/feedback/" element={<FeedbackFrom/>}/>
+        <Route path="/:uid/book/:id/read/" element={<EPubViewer/>}/>
+        
+        <Route path="/buy-subscription/" element={<BuySubscription />} />
+        
 
         <Route path="/book/:id" element={<ProductPage />} />
-        <Route path="/:uid/book/:id" element={<BookPage />} />
-        <Route path="/cart" element={<Cart />} />
+        
+        <Route path="/reader/cart" element={<Cart />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/payment-page" element={<h1> Payment Page </h1>} />
-        <Route path="/reader/book" element={<MyBooksR/>} />
+        
 
         {/* author routes */}
         <Route path="/author/book" element={<MyBooks />} />

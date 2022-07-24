@@ -6,7 +6,9 @@ import {
 import {
     Link 
 } from 'react-router-dom';
+import withParams from '../../hocs/withParams';
 import BookService from '../../services/BookService';
+import ReaderService from '../../services/ReaderService';
 import ReaderNavbar from '../Misc/ReaderNavbar';
 
 class MySubscription extends Component {
@@ -27,9 +29,9 @@ class MySubscription extends Component {
             currentPage: 3
         }
 
-        this.handleOnChange = this.handleOnChange.bind(this);
         this.doPagination = this.doPagination.bind(this);
         this.selectSubscription = this.selectSubscription.bind(this);
+        this.getSubscriptions = this.getSubscriptions.bind(this);
         this.getBooks = this.getBooks.bind(this);
     }
   
@@ -97,6 +99,7 @@ class MySubscription extends Component {
                                 <div>
                                     <Link to={`/101/book/${book.isbn}`}>
                                         <img className="book-thumbnail" 
+                                            alt="thumbnail"
                                             src={book.thumbnail}/> 
                                     </Link>
                                 </div>
@@ -140,63 +143,30 @@ class MySubscription extends Component {
     }
 
     componentDidMount() {
-        // TODO: fetch from backend
-        let subscriptions = [
-            {
-                id: 1,
-                genre: "Contemporary",
-                daysLeft: 20
-            },
-            {
-                id: 2,
-                genre: "Suspense",
-                daysLeft: 316
-            },
-            {
-                id: 3,
-                genre: "History",
-                daysLeft: 30
-            },
-            {
-                id: 4,
-                genre: "Fiction",
-                daysLeft: 1
-            },
-            {
-                id: 5,
-                genre: "Fantasy",
-                daysLeft: 69
-            },
-            {
-                id: 6,
-                genre: "Crime",
-                daysLeft: 420
-            },
-        ];
-
-        // by default first subscription will be selected
-        if (subscriptions.length) {
-            this.setState({
-                subscriptions: subscriptions,
-                selectedSubscription: subscriptions[0]
-            }, this.getBooks);
-        }
-    }
-
-    handleOnChange(e) {
-        this.setState({[e.target.name]: e.target.value});
+        this.getSubscriptions();
     }
 
     selectSubscription(e) {
         for (let subscription of this.state.subscriptions) {
             if (subscription.id == e.target.id) {
-                this.setState(
-                    {selectedSubscription: subscription}, 
-                    () => this.getBooks(subscription.genre)
-                );
+                this.setState({selectedSubscription: subscription}, () => this.getBooks(subscription.genre));
                 break;
             }
         }
+    }
+
+    getSubscriptions() {
+        ReaderService.getSubscriptions(this.props.params.uid)
+            .then((response) => {
+                if (response.status === 200) {
+                    response.json().then(subscriptions => this.setState(
+                        {subscriptions: subscriptions}
+                    ));
+                }
+                else {
+                    console.log("some error occurred");
+                }
+            }).catch(e => console.log(e));
     }
 
     getBooks() {
@@ -214,4 +184,6 @@ class MySubscription extends Component {
     }
 }
 
-export default MySubscription;
+export default 
+    withParams(
+        MySubscription);

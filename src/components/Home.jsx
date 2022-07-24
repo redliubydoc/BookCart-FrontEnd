@@ -142,6 +142,7 @@ class Home extends Component {
                                         <div>
                                             <Link to={`/book/${book.isbn}`}>
                                                 <img className="book-thumbnail" 
+                                                    alt="thumbnail"
                                                     src={book.thumbnail}/> 
                                             </Link>
                                             <button className="btn btn-outline-success mt-3 form-control"

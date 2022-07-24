@@ -7,6 +7,8 @@ import withNavigate from '../../hocs/withNavigate';
 import Alert from '../Misc/Alert';
 import AlertService from '../../services/AlertService';
 import ReaderNavbar from '../Misc/ReaderNavbar';
+import ReaderService from '../../services/ReaderService';
+import withParams from '../../hocs/withParams';
 
 class FeedbackFrom extends Component {
     constructor(props) {
@@ -23,6 +25,7 @@ class FeedbackFrom extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
         this.doSubmit = this.doSubmit.bind(this);
         this.validateForm = this.validateForm.bind(this);
+        this.getFeedback = this.getFeedback.bind(this);
     }
 
     render() {
@@ -77,7 +80,7 @@ class FeedbackFrom extends Component {
                             <tr>
                                 <td className="w-50">
                                     <button className={"btn btn-secondary mt-1 form-control"}
-                                        onClick={() => this.props.navigate(-1)}> Cancel </button>
+                                        onClick={() => this.props.navigate(`/${this.props.params.uid}/book/${this.props.params.id}`)}> Back </button>
                                 </td>
                                 <td className="w-50">
                                     <button className="btn btn-primary mt-1 form-control"
@@ -91,22 +94,54 @@ class FeedbackFrom extends Component {
         </>);
     }
 
+    componentDidMount() {
+        this.getFeedback();
+    }
+
     handleOnChange(e) {
-        this.setState({ [e.target.name]: e.target.value }, () => console.log(this.state));
+        this.setState({[e.target.name]: e.target.value});
     }
 
     doSubmit() {
+        let _component = this;
         this.setState({
             comment: this.state.comment.trim()
         }, () => {
             if (this.validateForm()) {
-                console.log("\n=========================\n", this.state.rating, this.state.comment, "\n=========================\n");
-                console.log("feedback form submitted");
+                ReaderService.submitFeedback(this.props.params.uid, this.props.params.id, {
+                    comment: this.state.comment, 
+                    rating: this.state.rating
+                }).then((response) => {
+                    if (response.status === 200) {
+                        this.getFeedback(true);
+                    }
+                    else {
+                        response.text()
+                            .then(msg => AlertService.showAlert(this, 4, msg));
+                    }
+                }).catch(e => console.log(e));
             }
         });
     }
 
-    validateForm() {
+    getFeedback(flag) {
+
+        if (flag) {
+            AlertService.showAlert(this, 1, "Feedback submitted", 10);
+        }
+
+        ReaderService.getFeedback(this.props.params.uid, this.props.params.id)
+            .then((response) => {
+                if (response.status === 200) {
+                    response.json().then(feedback => this.setState({
+                        comment: feedback.comment, 
+                        rating: feedback.rating
+                    }));
+                }
+            }).catch(e => console.log(e));
+    }
+
+    validateForm(flag) {
         let valid = true;
 
         // empty filed validation
@@ -118,4 +153,7 @@ class FeedbackFrom extends Component {
     }
 }
 
-export default withNavigate(FeedbackFrom);
+export default 
+    withNavigate(
+    withParams(
+        FeedbackFrom));

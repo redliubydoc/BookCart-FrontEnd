@@ -19,6 +19,7 @@ class BookService {
 
     static getBook(id) {
         let url = `${BACKEND_BASE_URL}/book/${id}`;
+        console.log(url);
         return fetch(url, {
             method: "GET"
         });
@@ -26,6 +27,7 @@ class BookService {
 
     static getAllFeedbacks(id) {
         let url = `${BACKEND_BASE_URL}/book/${id}/feedback`;
+        console.log(url);
         return fetch(url, {
             method: "GET"
         });
