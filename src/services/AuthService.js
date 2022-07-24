@@ -2,6 +2,10 @@ import moment from "moment";
 
 import { BACKEND_BASE_URL } from "./BookCart";
 
+const READER_BASE_URL = `${BACKEND_BASE_URL}/reader/login/`;
+const AUTHOR_BASE_URL = `${BACKEND_BASE_URL}/author/login/`;
+const ADMIN_BASE_URL = `${BACKEND_BASE_URL}/admin/login/`;
+
 class AuthService {
     static register(accountType, firstName, lastName, emailId, phoneNo, password, dateOfBirth, sq1, sq2, sq3) {
         
@@ -18,7 +22,7 @@ class AuthService {
         }
         
         if (accountType === 1) {
-            let url = `${BACKEND_BASE_URL}/user/register/reader`;
+            let url = `${READER_BASE_URL}/register`;
             return fetch(url, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
@@ -36,7 +40,7 @@ class AuthService {
 
     static login(username, password, accountType) { 
         if (accountType === 1) {
-            let url = `${BACKEND_BASE_URL}/user/login/reader`;
+            let url = `${READER_BASE_URL}/login`;
             return fetch(url, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
@@ -91,6 +95,17 @@ class AuthService {
                 return true;
             }
             return false;
+    }
+
+    // to store authentication token and basic user related in local storage
+    static storeAuthCookies(authCookie) {
+        console.log(authCookie);
+        localStorage.setItem("auth", authCookie);
+    }
+
+    // to check authentication token present in local storage
+    static ifLoggedIn() { 
+        return;
     }
 }
 

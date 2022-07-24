@@ -1,23 +1,30 @@
-import React, { useState } from "react"
-import { ReactReader } from "react-reader"
-import file1 from './alice.epub'
+import {React, useState} from "react";
 
-const EPubViewer = () => {
-  // And your own state logic to persist state
-  const [location, setLocation] = useState(null)
-  const locationChanged = (epubcifi) => {
-    // epubcifi is a internal string used by epubjs to point to a location in an epub. It looks like this: epubcfi(/6/6[titlepage]!/4/2/12[pgepubid00003]/3:0)
-    setLocation(epubcifi)
-  }
-  return (
-    <div style={{ height: "100vh" }}>
-      <ReactReader
-        location={location}
-        locationChanged={locationChanged}
-        url={file1}
-      />
-    </div>
-  )
+import {ReactReader, ReactReaderStyle} from "react-reader";
+import ReaderNavbar from "../Misc/ReaderNavbar";
+
+const ownStyles = { ...ReactReaderStyle, arrow: { ...ReactReaderStyle.arrow, color: "red" }};
+
+const loc = null;
+function EPubViewer(props) {
+    const [location, setLocation] = useState(loc);
+    const locationChanged = (epubCIFI) => setLocation(epubCIFI);
+
+    return (
+        <>
+            <ReaderNavbar/>
+            <div className="App" style={{
+                position: "relative",
+                height: "100vh"
+            }}>
+
+                <ReactReader location={location}
+                    locationChanged={locationChanged}
+                    url={props.url}
+                    styles={ownStyles}/>
+            </div>
+        </>
+    );
 }
 
 export default EPubViewer;

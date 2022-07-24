@@ -31,6 +31,22 @@ class BookService {
         });
     }
 
+    static getAllGenres() {
+        let url = `${BACKEND_BASE_URL}/genre`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
+    static getAllLanguages() {
+        let url = `${BACKEND_BASE_URL}/language`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
     // static deleteTodo(username, id) {
     //     return fetch(`http://localhost:8080/users/${username}/todos/${id}`, {
     //         method: "DELETE"

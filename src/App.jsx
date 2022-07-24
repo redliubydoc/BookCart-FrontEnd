@@ -37,7 +37,7 @@ function App() {
         <Route path="/shop" element={<Home />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
-        <Route path="/book-viewer" element={<EPubViewer/>} />
+        <Route path="/book-viewer" element={<EPubViewer url="http://localhost:8080/epubs/book/book_2.epub/" title="xyz"/>} />
 
         {/* reader routes */}
         <Route path="/feedback/add" element={<FeedbackFrom />} />
