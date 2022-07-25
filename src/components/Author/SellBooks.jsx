@@ -7,7 +7,7 @@ import ValidationService from '../../services/ValidationService';
 import Alert from '../Misc/Alert';
 import AuthorNavbar from '../Misc/AuthorNavbar';
 import "./SellBooks.css"
-export class SellBooks extends React.Component {
+class SellBooks extends React.Component {
 
     constructor(props) {
         super(props);
@@ -311,3 +311,5 @@ export class SellBooks extends React.Component {
         return valid;
     }
 }
+
+export default SellBooks;

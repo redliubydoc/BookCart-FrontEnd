@@ -38,6 +38,49 @@ class ReaderService {
         });
     }
 
+    static updateAccountDetails(id, emailId, phoneNumber, password) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/account`;
+
+        console.log(url);
+
+        let payload = {
+            emailId: emailId,
+            phoneNumber: phoneNumber,
+            password: password
+        }
+
+        return fetch(url, {method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+    }
+
+    static getAccountDetails(id) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/account`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
+    static deleteAccount(id) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/account`;
+
+        console.log(url);
+
+        return fetch(url, {method: "DELETE"});
+    }
+
+    static loadCart(id) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/cart`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
     // static getAuthorName(id) {
     //     let url = `${BACKEND_BASE_URL}/author/${id}/name`;
 

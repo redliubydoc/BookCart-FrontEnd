@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 
 
-import NavBarBeforeLogin from './Misc/NavBarBeforeLogin';
 import Alert from "./Misc/Alert";
 import AlertService from "../services/AlertService";
 import BookService from '../services/BookService';

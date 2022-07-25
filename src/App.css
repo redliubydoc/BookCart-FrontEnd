@@ -93,3 +93,12 @@
   cursor: pointer;
   transition: color 200ms;
 }
+
+.book-thumbnail-2 {
+  width: 67px; 
+  height: 100px;
+}
+
+.book-card-2 {
+ width: 75px;
+}

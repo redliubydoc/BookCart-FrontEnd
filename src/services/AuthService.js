@@ -2,9 +2,9 @@ import moment from "moment";
 
 import { BACKEND_BASE_URL } from "./BookCart";
 
-const READER_BASE_URL = `${BACKEND_BASE_URL}/reader/login/`;
-const AUTHOR_BASE_URL = `${BACKEND_BASE_URL}/author/login/`;
-const ADMIN_BASE_URL = `${BACKEND_BASE_URL}/admin/login/`;
+const READER_BASE_URL = `${BACKEND_BASE_URL}/reader`;
+const AUTHOR_BASE_URL = `${BACKEND_BASE_URL}/author`;
+const ADMIN_BASE_URL = `${BACKEND_BASE_URL}/admin`;
 
 class AuthService {
     static register(accountType, firstName, lastName, emailId, phoneNo, password, dateOfBirth, sq1, sq2, sq3) {

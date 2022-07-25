@@ -111,12 +111,8 @@ class LoginForm extends Component {
                         .then((response) => {
                             console.log(response.status);
                             if (response.status === 200) {
-                                AuthService.storeAuthCookies({
-                                    type: data.type,
-                                    jwt: data.jwt,
-                                    uid: data.uid,
-                                    username: data.username
-                                });
+                                response.json().then(token => AuthService.storeAuthCookies(token));
+                                this.props.navigate("/shop");
                             } 
                             else if (response.status === 401) {
                                 AlertService.showAlert(this, 4, "Invalid credentials");
@@ -128,7 +124,7 @@ class LoginForm extends Component {
 
                     // redirects
                     if (accountType === 1) { // reader
-                        this.props.navigate("/shop");
+                        
                     }
                     else if (accountType === 2) { // author
                         this.props.navigate("/author/book");

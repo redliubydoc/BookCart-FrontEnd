@@ -25,7 +25,8 @@ import AdminManagement from './components/Admin/AdminManagement';
 import MyBooksR from './components/Reader/MyBooksR';
 import EPubViewer from './components/BookViwer/EPubViewer';
 import ChangePassword from './components/Admin/ChangePassword';
-import { SellBooks } from './components/Author/SellBooks';
+import SellBooks from './components/Author/SellBooks';
+import DummyPaymentGateway from './components/PaymentGateway/DummyPaymentGateway';
 
 function App() {
   return (
@@ -45,14 +46,18 @@ function App() {
         <Route path="/:uid/book/:id" element={<BookPage/>}/>
         <Route path="/:uid/book/:id/feedback/" element={<FeedbackFrom/>}/>
         <Route path="/:uid/book/:id/read/" element={<EPubViewer/>}/>
-        
+        <Route path="/:uid/settings/" element={<Settings/>}/>
+        <Route path="/:uid/cart/" element={<Cart/>}/>
+        <Route path="/:uid/payment" element={<DummyPaymentGateway/>}/>
+
+
         <Route path="/buy-subscription/" element={<BuySubscription />} />
         
 
         <Route path="/book/:id" element={<ProductPage />} />
         
-        <Route path="/reader/cart" element={<Cart />} />
-        <Route path="/settings" element={<Settings />} />
+        
+        
         <Route path="/payment-page" element={<h1> Payment Page </h1>} />
         
 

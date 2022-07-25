@@ -42,10 +42,10 @@ class ReaderNavbar extends Component {
                                 <Link className="nav-link" to="/buy-subscription"> Subscribe </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/reader/cart"> Cart </Link>
+                                <Link className="nav-link" to="/101/cart"> Cart </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/settings"> Settings </Link>
+                                <Link className="nav-link" to="/101/settings"> Settings </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/about-us"> About Us </Link>
