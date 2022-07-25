@@ -1,5 +1,12 @@
 import React from 'react';
-import "./sellbooks.css"
+import { Link } from 'react-router-dom';
+import AlertService from '../../services/AlertService';
+import AuthorService from '../../services/AuthorService';
+import BookService from '../../services/BookService';
+import ValidationService from '../../services/ValidationService';
+import Alert from '../Misc/Alert';
+import AuthorNavbar from '../Misc/AuthorNavbar';
+import "./SellBooks.css"
 export class SellBooks extends React.Component {
 
     constructor(props) {
@@ -9,63 +16,38 @@ export class SellBooks extends React.Component {
             isbn: "", 
             title: "",
             description: "",
-            genres: "",
-            languages: "",
+            genre: "",
+            language: "",
             author: "",
-            price: "",
+            price: 1,
             dateOfRelease: "",
-            books: "",
-            coverPage: ""
+            bookFile: "",
+            thumbnailFile: "",
+
+            genres: [],
+            languages: [],
+
+            alert: AlertService.getAlertInstance()
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.doSubmit = this.doSubmit.bind(this);
+        this.getAuthorName = this.getAuthorName.bind(this);
+        this.getGenres = this.getGenres.bind(this);
+        this.getLanguages = this.getLanguages.bind(this);
+        this.validateForm = this.validateForm.bind(this);
     }
-
-    handleChange(e) {
-        this.setState({[e.target.name]: e.target.value})
-    }
-
-    handleSubmit(e) {
-        console.log(this.state);
-    }
-    
+   
     render() {
         return (
             <div>
-                <nav className="navbar sticky-top navbar-dark bg-dark navbar-expand-lg">
-                    <div className="container-fluid">
-                        <span className="navbar-brand text-primary"> <b> Book Cart </b> </span>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li className="nav-item">
-                                    <a className="nav-link" aria-current="page" href="#"> Home </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#"> Cart </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link active" href="#"> My Orders </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#"> About Us </a>
-                                </li>
-
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#"> Contact Us </a>
-                                </li>
-                            </ul>
-                            <div className="d-flex">
-                                <button className="btn btn-danger form-control" type="submit"> Logout </button>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                <AuthorNavbar/>
+                {/* alert placeholder */}
+                {this.state.alert.show && 
+                    <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
+                }
+                
                 <div className='container' id='sellBooks'>
-                    <form>
                         <div className='row m-3'>
                             <div className='col-sm-1'/>
                             <div className='col-sm-3'>
@@ -115,11 +97,15 @@ export class SellBooks extends React.Component {
                                 <label htmlFor='genre'>Genre</label>
                             </div>
                             <div className='col-sm-7'>
-                                <select name='genre' className='form-select bg-warning' onChange={this.handleChange}>
-                                    <option>Select ...</option>
-                                    <option>Suspense</option>
-                                    <option>Pyshcological Thriller</option>
-                                </select>
+                                <select 
+                                    name='genre' 
+                                    value={this.state.genre}
+                                    className='form-select bg-warning' 
+                                    onChange={this.handleChange}> {
+                                        this.state.genres.map((genre) => (
+                                            <option key={genre} value={genre}> {genre} </option>
+                                        ))
+                                    } </select>
                             </div>
                             <div className='col-sm-1'/>
                         </div>
@@ -129,12 +115,15 @@ export class SellBooks extends React.Component {
                                 <label htmlFor='language'>Language</label>
                             </div>
                             <div className='col-sm-7'>
-                                <select name='language' className='form-select bg-warning' onChange={this.handleChange}>
-                                    <option>Select ...</option>
-                                    <option>Hindi</option>
-                                    <option>English</option>
-                                    
-                                </select>
+                            <select 
+                                    name="language" 
+                                    value={this.state.language}
+                                    className='form-select bg-warning' 
+                                    onChange={this.handleChange}> {
+                                        this.state.languages.map((language) => (
+                                            <option key={language} value={language}> {language} </option>
+                                        ))
+                                    } </select>
                             </div>
                             <div className='col-sm-1'/>
                         </div>
@@ -144,7 +133,11 @@ export class SellBooks extends React.Component {
                                 <label htmlFor='author'>Author</label>
                             </div>
                             <div className='col-sm-7'>
-                                <input type="text" className='form-control' name='author' value={this.state.author} onChange={this.handleChange}/>
+                                <input 
+                                    className='form-control' 
+                                    name="author"
+                                    value={this.state.author}
+                                    disabled/>
                             </div>
                             <div className='col-sm-1'/>
                         </div>
@@ -174,17 +167,23 @@ export class SellBooks extends React.Component {
                                 <label htmlFor='book'>Book (.epub)</label>
                             </div>
                             <div className='col-sm-7'>
-                                <input className='form-control' type="file" name='book' value={this.state.books} onChange={this.handleChange}/>
+                                <input className="form-control" 
+                                type="file" 
+                                name="bookFile" 
+                                onChange={this.handleChange}/>
                             </div>
                             <div className='col-sm-1'/>
                         </div>
                         <div className='row m-3'>
                             <div className='col-sm-1'/>
                             <div className='col-sm-3'>
-                                <label htmlFor='cover-page'>Cover Page (.png)</label>
+                                <label htmlFor='cover-page'>Cover Page (.jpg)</label>
                             </div>
                             <div className='col-sm-7'>
-                                <input className='form-control' type="file" name='cover-page' value={this.state.coverPage} onChange={this.handleChange}/>
+                                <input className='form-control' 
+                                type="file" 
+                                name="thumbnailFile"
+                                onChange={this.handleChange}/>
                             </div>
                             <div className='col-sm-1'/>
                         </div>
@@ -192,34 +191,123 @@ export class SellBooks extends React.Component {
                             <div className='col-sm-1'/>
                             <div className='col-sm-3'>
                                 <div className='d-grid'>
-                                    <button 
+                                    <Link 
                                         className="btn btn-secondary"
-                                        onClick={this.handleCancel}>Cancel</button>
+                                        to="/author/book">Cancel</Link>
                                 </div>
                             </div>
                             <div className='col-sm-7'>
                                 <div className='d-grid gap-2'>
                                     <button 
                                         className="btn btn-primary"
-                                        onClick={this.handleSubmit}>Submit For Review</button>
+                                        onClick={this.doSubmit}>Submit For Review</button>
                                 </div>
                             </div>
                             <div className='col-sm-1'/>
                         </div>
-                    </form>
+                    
                 </div>
             </div>
         );
     }
-}
 
-{/* {this.state.genres.map(genre => {
-                                        return (
-                                            <option>{genre}</option>
-                                        )
-                                    })} */}
-{/* {this.state.languages.map(lang => {
-                                        return (
-                                            <option>{lang}</option>
-                                        )
-                                    })} */}
+    componentDidMount() {
+        this.getAuthorName();
+        this.getLanguages();
+        this.getGenres();
+    }
+
+    handleChange(e) {
+        // special care for file input fields
+        if (e.target.type === "file") this.setState({[e.target.name]: e.target.files[0]});
+        else this.setState({[e.target.name]: e.target.value});
+    }
+
+    getLanguages() {
+        BookService.getAllLanguages()
+            .then((response) => {if (response.status === 200) return response.json()})
+            .then(data => this.setState({languages: data.languages}))
+            .catch(e => console.log(e));
+    }
+
+    getGenres() {
+        BookService.getAllGenres()
+        .then((response) => {if (response.status === 200) return response.json()})
+        .then(data => this.setState({genres: data.genres}))
+        .catch(e => console.log(e));
+    }
+
+    getAuthorName() {
+        // TODO: get author id from localStorage
+        AuthorService.getAuthorName(7)
+        .then((response) => {if (response.status === 200) return response.text()})
+        .then(data => this.setState({author: data}))
+        .catch(e => console.log(e));
+    }
+
+    doSubmit() {
+        this.setState({
+            username: this.state.isbn.trim(),
+            username: this.state.title.trim(),
+            username: this.state.description.trim()
+        }, () => {
+            if (this.validateForm()) {
+                AuthorService.submitBook(
+                    this.state.isbn,
+                    this.state.title,
+                    this.state.description,
+                    this.state.genre,
+                    this.state.language,
+                    this.state.price,
+                    this.state.dateOfRelease,
+                    this.state.bookFile,
+                    this.state.thumbnailFile
+                ).then((response) =>  {
+                    if (response.status === 200) {
+                        AlertService.showAlert(this, 1, "Book uploaded!");
+                    }
+                    else if (response.status === 500) {
+                        AlertService.showAlert(this, 4, "Internal server error x_x");
+                    }
+                    else if (response.status === 400) {
+                        let msg = response.text() + "";
+                        AlertService.showAlert(this, 4, "Duplicate book found with same ISBN");
+                    }
+                })
+                .catch(e => console.log(e));
+            }
+        });
+    }
+
+    validateForm() {
+        let valid = true;
+        // empty filed validation
+        if ((!this.state.isbn || this.state.isbn.length === 0) || 
+            (!this.state.title || this.state.title.length === 0) ||
+            (!this.state.description || this.state.description.length === 0)) {
+                
+            AlertService.showAlert(this, 3, "Enter all fields");
+            valid = false;
+        } 
+        else if (this.state.price < 1) {
+            AlertService.showAlert(this, 3, "Price cannot be less than Rs 1");
+            valid = false;
+        } 
+        else if (!ValidationService.dateIsValid(this.state.dateOfRelease)) { // date validation
+            AlertService.showAlert(this, 3, "Enter a valid date");
+            valid = false;
+        }
+        else if (!(this.state.thumbnailFile) || 
+            !(this.state.bookFile)) { // double checking password
+            AlertService.showAlert(this, 3, "Upload the required files");
+            valid = false;
+        }
+        else if (!(this.state.thumbnailFile.name.slice(-3) === "jpg") ||
+            !(this.state.bookFile.name.slice(-4) === "epub")) { // double checking password
+            AlertService.showAlert(this, 3, "Upload the required files in specified format");
+            console.log(this.state.bookFile.name.slice(-3),(this.state.thumbnailFile.name.slice(-2)));
+            valid = false;
+        }
+        return valid;
+    }
+}

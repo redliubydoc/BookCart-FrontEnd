@@ -1,5 +1,5 @@
-import  React,{
-   
+import {
+    React,
     Component
 } from 'react';
 
@@ -107,12 +107,27 @@ class LoginForm extends Component {
                     let accountType = parseInt(this.state.accountType);
 
                     // on login successful
-                    if (AuthService.login(username, password, accountType)) { 
-                        // redirect to shop page
-                        this.props.navigate("/shop");
+                    AuthService.login(username, password, accountType)
+                        .then((response) => {
+                            console.log(response.status);
+                            if (response.status === 200) {
+                                response.json().then(token => AuthService.storeAuthCookies(token));
+                                this.props.navigate("/shop");
+                            } 
+                            else if (response.status === 401) {
+                                AlertService.showAlert(this, 4, "Invalid credentials");
+                            }
+                        }).catch((e) => {
+                            AlertService.showAlert(this, 4, "Some error has occurred!");
+                            console.log(e);
+                        });
+
+                    // redirects
+                    if (accountType === 1) { // reader
+                        
                     }
-                    else {
-                        AlertService.showAlert(this, 4, "Invalid credentials");
+                    else if (accountType === 2) { // author
+                        this.props.navigate("/author/book");
                     }
                 }
             }
@@ -138,4 +153,3 @@ class LoginForm extends Component {
 }
 
 export default withNavigate(LoginForm);
-

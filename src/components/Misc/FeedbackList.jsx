@@ -3,6 +3,8 @@ import {
     Component
 } from "react";
 
+import moment from "moment";
+
 class FeedbackList extends Component {
     constructor(props) {
         super(props);
@@ -22,16 +24,16 @@ class FeedbackList extends Component {
                                     <span className="text-warning">{
                                         [...Array(5)].map((_, i) => {
                                             if ((i+1) <= feedback.rating) {
-                                                return <i className="bi bi-star-fill"></i>
+                                                return <i key={i} className="bi bi-star-fill"></i>
                                             }
                                             else {
-                                                return <i className="bi bi-star"></i>
+                                                return <i key={i} className="bi bi-star" ></i>
                                             }
                                         })
                                     }</span>
-                                     <small className="text-muted"> &nbsp;
-                                        <i> {feedback.date.toString()} </i> </small>
-
+                                    <small className="text-muted"> &nbsp;
+                                        <i> {moment(feedback.date).format('MMMM D, YYYY')} </i> 
+                                    </small>
                                     <p className="mb-0"> {feedback.comment} </p>
                                 </div>
                             </div>

@@ -12,6 +12,7 @@ import NavBarBeforeLogin from './Misc/NavBarBeforeLogin';
 import Alert from "./Misc/Alert";
 import AlertService from "../services/AlertService";
 import BookService from '../services/BookService';
+import ReaderNavbar from './Misc/ReaderNavbar';
 
 class Home extends Component {
     constructor(props) {
@@ -21,20 +22,29 @@ class Home extends Component {
             filterBar: false,
             alert: AlertService.getAlertInstance(),
             languages: [],
+            genres: [],
             books: [],
+            searchType: "",
+            sortType: "",
+            keyword: "",
             pages: 1,
+            recordsPerPage: 5,
             currentPage: 3
         }
 
         this.doAddToCart = this.doAddToCart.bind(this);
         this.toggleFilterBar = this.toggleFilterBar.bind(this);
         this.doPagination = this.doPagination.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.searchBook = this.searchBook.bind(this);
+        this.handleSort = this.handleSort.bind(this);
     }
   
     render() {
+        console.log(this.state)
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
+            <ReaderNavbar/>
 
             {/* alert placeholder */}
             {this.state.alert.show && 
@@ -56,19 +66,21 @@ class Home extends Component {
                     <div className="col p-0 pe-3">
                         <center>
                             <div className="input-group shadow p-3 mb-4 bg-white rounded">
-                                <select className="btn btn-primary">
+                                <select className="btn btn-primary" name='searchType' onChange={this.handleChange}>
+                                    <option selected disabled hidden>Select</option>
+                                    <option value="ALL"> ALL </option>
                                     <option value="ISBN"> ISBN </option>
                                     <option value="TITLE"> Title </option>
                                     <option value="AUTHOR"> Author </option>
-                                    <option value="SUBJECT"> Genre </option>
+                                    <option value="GENRE"> Genre </option>
                                 </select>
 
-                                <input type="text" 
+                                <input type="text" name='keyword' onChange={this.handleChange}
                                     className="form-control" 
                                     placeholder="ISBN / Title / Author / Genre"
                                     aria-label="Search"/>
 
-                                <button className="btn btn-primary">
+                                <button className="btn btn-primary" onClick={this.searchBook}>
                                     <i className="bi bi-search"></i>
                                 </button>
                             </div>
@@ -84,15 +96,15 @@ class Home extends Component {
                                     <center> <hr/> Sort by <hr/> </center>
                                 </div>
                                 <div className="my-2">
-                                    <input type="checkbox" style={{width: "20px",
+                                    <input type="radio" name="sortType" value="rating" onChange={() => {this.handleChange(); this.handleSort()}} style={{width: "20px",
                                     height: "20px"}}/> &nbsp; <b> Rating </b>
                                 </div>
                                 <div className="my-2">
-                                    <input type="checkbox" style={{width: "20px",
+                                    <input type="radio" name="sortType" value="date" onChange={() => {this.handleChange(); this.handleSort()}} style={{width: "20px",
                                     height: "20px"}}/> &nbsp; <b> Release date </b>
                                 </div>
                                 <div className="my-2">
-                                    <input type="checkbox" style={{width: "20px",
+                                    <input type="radio" name="sortType" value="price" onChange={() => {this.handleChange(); this.handleSort()}} style={{width: "20px",
                                     height: "20px"}}/> &nbsp; <b> Price </b>
                                 </div>
                                 <div className="my-2">
@@ -141,6 +153,7 @@ class Home extends Component {
                                         <div>
                                             <Link to={`/book/${book.isbn}`}>
                                                 <img className="book-thumbnail" 
+                                                    alt="thumbnail"
                                                     src={book.thumbnail}/> 
                                             </Link>
                                             <button className="btn btn-outline-success mt-3 form-control"
@@ -206,6 +219,33 @@ class Home extends Component {
             languages: languages,
             pages: 5
         });
+    }
+
+    handleChange(e) {
+        this.setState({
+            [e.target.name]:e.target.value,
+        });
+    };
+
+    //Search Method Logic
+    searchBook(currentPage) {
+        currentPage=currentPage-1;
+        console.log(this.state)
+        BookService.findByKeyword(this.state.keyword, this.state.searchType, currentPage, this.state.recordsPerPage)
+        .then(response => response.json())
+        .then((data) =>{
+             this.setState({
+                books: data.content,
+                totalPages: data.totalPages,
+                totalElements: data.totalElements,
+                currentPage: data.number+1
+            });
+        });
+        console.log(this.state)
+    };
+
+    handleSort() {
+        // TODO: ADD SORTING FEATURE
     }
 
     doAddToCart() {

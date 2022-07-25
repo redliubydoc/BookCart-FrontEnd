@@ -1,8 +1,9 @@
 import React from 'react';
 import NavBarBeforeLogin from './Misc/NavBarBeforeLogin';
+import ReaderNavbar from './Misc/ReaderNavbar';
 function AboutUs() {
     return (<>
-        <NavBarBeforeLogin/>
+        <ReaderNavbar/>
         <section className="bg-info bg-gradient">
             <div className="container py-5">
                 <h1 className="text-center"> <b> About Us </b> </h1>

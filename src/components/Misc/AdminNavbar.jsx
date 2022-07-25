@@ -9,6 +9,7 @@ import {
 
 import withLocation from "../../hocs/withLocation";
 import withNavigate from "../../hocs/withNavigate";
+import AlertService from "../../services/AlertService";
 
 class BookCartHeader extends Component {
     constructor(props) {
@@ -23,7 +24,15 @@ class BookCartHeader extends Component {
             <nav className="navbar sticky-top navbar-dark bg-dark">
                 <div className="container-fluid">
                     <span className="navbar-brand text-info" > <b> BookCart </b> </span>
-                    <Link className="btn btn-primary px-4" to="/"> Login </Link>
+                    <button className="btn btn-danger"
+                        onClick={() => {
+                            localStorage.clear(); 
+                            this.props.navigate("/", {
+                                state: {
+                                    alert: AlertService.getAlertInstance(true, 4, "You are logged our!", 10)
+                                }
+                            });
+                        }}> Logout </button>
                 </div>
             </nav>
         </>)

@@ -1,48 +1,53 @@
 import React from 'react';
+import ReaderNavbar from './Misc/ReaderNavbar';
 function ContactUs() {
-    return (
-        <div>
-            <section className="py-4 bg-info">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-4 my-auto">
-                            <h4> Contact Us</h4>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section className="section bg-light border-bottom">
-                <div className="container">
-                    <p>Have questions about e-book viewer,sbcriptions or any complain?
-                    </p>
-                    <p> Contact us on customer-service@bookcart.com</p>
-                </div>
-            </section>
-            <section className="section bg-c-light border-top">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 mb-4 text-center">
-                            <h3 className="main-heading">Our Office Locations</h3>
-                            <div className="col-md-12 mb-4 text-center">
-                                <h6>Banglore</h6>
-                                <p>2950 S.Delware Street,Suite 201 San Mateo CA 94403 Reception/General enquires:+91 6505130514 Availability:(Mon-Fri) 9AM to 5PM IST
-                                </p>
-                            </div>
-                            <div className="col-md-12 mb-4 text-center">
-                                <h6>Kolkata</h6>
-                                <p>2950 S.Delware Street,Suite 201 San Mateo CA 94403 Reception/General enquires:+91 6505130514 Availability:(Mon-Fri) 9AM to 5PM IST
-                                </p>
-                            </div>
-                            <div className="col-md-12 mb-4 text-center">
-                                <h6>Delhi</h6>
-                                <p>2950 S.Delware Street,Suite 201 San Mateo CA 94403 Reception/General enquires:+91 6505130514 Availability:(Mon-Fri) 9AM to 5PM IST
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    return (<>
+        <ReaderNavbar />
+        <div className="container text-center my-5" style={{ height: "150px" }}>
+            <h1 className="mt-3 mb-4 text-muted"> <b> Contact Us </b> </h1>
+            Have questions about e-book viewer, subscriptions or any complain ? <br />
+            Contact us on customer-service@bookcart.com
         </div>
-    );
+        <div style={{ backgroundColor: "white", padding: "20px", position: "absolute", bottom: "0", width: "100%" }} className="bg-dark text-light">
+            <div className="container text-center">
+                <h4 className="mb-3"> Our Office Locations </h4>
+                <div className="row row-auto">
+                    <div className="col mx-3">
+                        <div className="my-3">
+                            <img src="./logo-india.svg" alt="" />
+                        </div>
+                        <div>
+                            Bangalore <br />
+                            2950 S. Delaware Street, Suite 201 San Mateo CA 94403 <br />
+                            Reception/General enquiries: +91 650 513 0514
+                            Availability: (Mon-Fri) 9AM to 5PM IST
+                        </div>
+                    </div>
+                    <div className="col mx-3">
+                        <div className="my-3">
+                            <img src="./logo-india.svg" alt="" />
+                        </div>
+                        <div>
+                            Kolkata <br />
+                            2950 S. Delaware Street, Suite 201 San Mateo CA 94403 <br />
+                            Reception/General enquiries: +91 650 513 0514
+                            Availability: (Mon-Fri) 9AM to 5PM IST
+                        </div>
+                    </div>
+                    <div className="col mx-3">
+                        <div className="my-3">
+                            <img src="./logo-india.svg" alt="" />
+                        </div>
+                        <div>
+                            Delhi <br />
+                            2950 S. Delaware Street, Suite 201 San Mateo CA 94403 <br />
+                            Reception/General enquiries: +91 650 513 0514
+                            Availability: (Mon-Fri) 9AM to 5PM IST
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </>);
 }
 export default ContactUs;

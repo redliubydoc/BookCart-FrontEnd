@@ -19,41 +19,54 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import Cart from './components/Reader/Cart';
 import Settings from './components/Settings';
+import MyBooks from './components/Author/MyBooks';
+import Sales from './components/Admin/Sales';
+import AdminManagement from './components/Admin/AdminManagement';
+import MyBooksR from './components/Reader/MyBooksR';
+import EPubViewer from './components/BookViwer/EPubViewer';
+import ChangePassword from './components/Admin/ChangePassword';
 import { SellBooks } from './components/Author/SellBooks';
-import MyBooks from './components/Reader/MyBooks';
-import EpubViewer from './components/Reader/EpubViewer';
 
 function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      {/* normal users routes */}
-      <Route path="/" element={<Login/>}/>
-      <Route path="/reset-password" element={<ResetPassword/>}/>
-      <Route path="/shop" element={<Home/>}/>
-      <Route path="/about-us" element={<AboutUs/>}/>
-      <Route path="/contact-us" element={<ContactUs/>}/>
+      <Routes>
+        {/* normal users routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/shop" element={<Home />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        
 
-      {/* reader routes */}
-      <Route path="/feedback/add" element={<FeedbackFrom/>}/>
-      <Route path="/buy-subscription" element={<BuySubscription/>}/>
-      <Route path="/my-subscription" element={<MySubscription/>}/>
-      <Route path="/product-page" element={<ProductPage/>}/>
-      <Route path="/book-page" element={<BookPage/>}/>
-      <Route path="/cart" element={<Cart/>}/>
-      <Route path="/settings" element={<Settings/>}/>
-      <Route path="/mybooks" element={<MyBooks/>}/>
-      <Route path="/mybooks/viewer" element={<EpubViewer/>}/>
+        {/* reader specific routes */}
+        <Route path="/:uid/book/" element={<MyBooksR/>} />
+        <Route path="/:uid/subscription/active/" element={<MySubscription/>}/>
+        <Route path="/:uid/book/:id" element={<BookPage/>}/>
+        <Route path="/:uid/book/:id/feedback/" element={<FeedbackFrom/>}/>
+        <Route path="/:uid/book/:id/read/" element={<EPubViewer/>}/>
+        
+        <Route path="/buy-subscription/" element={<BuySubscription />} />
+        
 
+        <Route path="/book/:id" element={<ProductPage />} />
+        
+        <Route path="/reader/cart" element={<Cart />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/payment-page" element={<h1> Payment Page </h1>} />
+        
 
-      {/* admin routes */}
-      <Route path="/admin" element={<AdminLogin/>}/>
-      <Route path="/admin/dashboard" element={<h1> Admin Dashboard</h1>}/>
+        {/* author routes */}
+        <Route path="/author/book" element={<MyBooks />} />
+        <Route path="/author/sell-book" element={<SellBooks/>} />
 
-      {/* Author routes */}
-      <Route path="/sell" element={<SellBooks/>}/>
-    </Routes>
-  </BrowserRouter>
+        {/* admin routes */}
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard/sales" element={<Sales/>}/>
+        <Route path="/admin/dashboard/admin" element={<AdminManagement/>}/>
+        <Route path="/admin/dashboard/change-password" element={<ChangePassword/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -13,6 +13,7 @@ import BookService from "../services/BookService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
 import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
+import ReaderNavbar from "./Misc/ReaderNavbar";
 
 class ProductPage extends Component {
     constructor(props) {
@@ -46,7 +47,7 @@ class ProductPage extends Component {
     render() {
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
+            <ReaderNavbar/>
             
             {/* alert placeholder */}
             {this.state.alert.show && 
@@ -115,11 +116,13 @@ class ProductPage extends Component {
             </div>
 
             {/* feedbacks placeholder */}
-            <div className="container p-3">
-                <h4 className="mb-5 text-center text-warning"> Feedbacks </h4>
-                <FeedbackList feedbacks={this.state.feedbacks}/>
-            </div>
-            
+            {
+                !!this.state.feedbacks.length &&
+                <div className="container p-3">
+                    <h4 className="mb-5 text-center text-warning"> Feedbacks </h4>
+                    <FeedbackList feedbacks={this.state.feedbacks}/>
+                </div>
+            }
             {/* pagination placeholder */}
             <nav>
                 <ul className="pagination justify-content-center">
@@ -167,7 +170,7 @@ class ProductPage extends Component {
             .then(feedbacks => this.setState({feedbacks: feedbacks}))
             .catch(e => console.log(e));
 
-        let feedbacks = [
+      /*  let feedbacks = [
             {
                 id: "1",
                 readerName: "Maggie Marsh",
@@ -196,7 +199,7 @@ class ProductPage extends Component {
                 comment: "It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. ",
                 date: new Date()
             },
-        ]
+        ] */
 
         this.setState({
             pages: pages, 

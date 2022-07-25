@@ -1,3 +1,5 @@
+import { BACKEND_BASE_URL } from "../services/BookCart";
+
 import { 
     React,
     Component
@@ -6,13 +8,14 @@ import {
 import {
     Link
 } from 'react-router-dom';
+import withNavigate from "../hocs/withNavigate";
 import withParams from "../hocs/withParams";
 
 import AlertService from "../services/AlertService";
 import BookService from "../services/BookService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
-import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
+import ReaderNavbar from "./Misc/ReaderNavbar";
 
 class BookPage extends Component {
     constructor(props) {
@@ -35,36 +38,31 @@ class BookPage extends Component {
             feedbacks: [],
             currentPage: 0,
             pages: 5,
-            alert: AlertService.getAlertInstance()
         }
 
         this.loadFeedBacks = this.loadFeedBacks.bind(this);
         this.doPagination = this.doPagination.bind(this);
-        this.doAddToCart = this.doAddToCart.bind(this);
+        this.viewBook = this.viewBook.bind(this);
     }
 
     render() {
         return(<>
             {/* navbar placeholder */}
-            <NavBarBeforeLogin/>
-            
-            {/* alert placeholder */}
-            {this.state.alert.show && 
-                <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
-            }
+            <ReaderNavbar/>
             
             {/* product card placeholder */}
             <div className="container-fluid px-4">
                 <div className="row justify-content-center">
-                    <div class="text-start my-3 col-auto">
-                        <div class="container-fluid shadow-lg p-3 mb-5 bg-body rounded">
+                    <div className="text-start my-3 col-auto">
+                        <div className="container-fluid shadow-lg p-3 mb-5 bg-body rounded">
                             <table>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <div class="my-3 p-3 mb-0 pb-0 text">
+                                            <div className="my-3 px-5 py-3 mb-0 pb-0 text">
                                                 <div className="text-center">
                                                     <img className="shadow-sm p-3 mb-5 bg-light rounded"
+                                                        alt="thumbnail"
                                                         src={this.state.book.thumbnail} 
                                                         width="200" 
                                                         height="300"/>
@@ -100,20 +98,20 @@ class BookPage extends Component {
                                         </tr>
                                     <tr>
                                         <td>
-                                            <div class="text-center mx-3 mt-3">
-                                                <Link 
-                                                    class="btn btn-primary mt-1 form-control"
-                                                    to="/book-viewer"> <i class="bi bi-book me-2"></i> Read
-                                                </Link>
+                                            <div className="text-center mx-3 mt-3">
+                                                <button 
+                                                    className="btn btn-primary mt-1 form-control"
+                                                    onClick={this.viewBook}> <i className="bi bi-book me-2"></i> Read
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="text-center mx-3 mb-4">
+                                            <div className="text-center mx-3 mb-4">
                                                 <Link 
-                                                    class="btn btn-warning mt-1 form-control"
-                                                    to="/feedback/add"> <i class="bi bi-pencil-square me-2 "></i> 
+                                                    className="btn btn-warning mt-1 form-control"
+                                                    to={`/101/book/${this.props.params.id}/feedback`}> <i className="bi bi-pencil-square me-2 "></i> 
                                                     Write Feedback
                                                 </Link>
                                             </div>
@@ -123,14 +121,14 @@ class BookPage extends Component {
                             </table>
                         </div>
                     </div>
-                    <div class="col my-3">
-                        {/* feedbacks placeholder */}
-                        <FeedbackList feedbacks={this.state.feedbacks}/>
-                    </div>
+                    {/* feedbacks placeholder */}
+                    {!!this.state.feedbacks.length && 
+                        <div className="col my-3">
+                            <FeedbackList feedbacks={this.state.feedbacks}/>
+                        </div>
+                    }
                 </div>
-            </div>
-
-            
+            </div>    
             
             {/* pagination placeholder */}
             <nav>
@@ -205,9 +203,13 @@ class BookPage extends Component {
             },
         ]
 
+        BookService.getAllFeedbacks(this.props.params.id)
+            .then(response => response.json())
+            .then(feedbacks => this.setState({feedbacks: feedbacks}))
+            .catch(e => console.log(e));
+
         this.setState({
-            pages: pages, 
-            feedbacks: feedbacks
+            pages: pages
         });
     }
 
@@ -218,10 +220,18 @@ class BookPage extends Component {
         if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1}, () => {window.scrollTo({top: 0, behavior: 'smooth'})});
     }
 
-    doAddToCart() {
-        // TODO: backend communication
-        AlertService.showAlert(this, 1, "Book added to cart", 10);
+    viewBook() {
+        let url = `${BACKEND_BASE_URL}/epubs/book/${this.props.params.id}.epub`;
+        
+        this.props.navigate(`/101/book/${this.props.params.id}/read`, {
+            state: {
+                url: url
+            }
+        });
     }
 }
 
-export default withParams(BookPage);
+export default 
+    withNavigate(
+    withParams(
+        BookPage));
