@@ -19,6 +19,8 @@ class Cart extends Component {
         }
 
         this.loadCart = this.loadCart.bind(this);
+        this.deleteBookFromCart = this.deleteBookFromCart.bind(this);
+        this.loadPaymentGateway = this.loadPaymentGateway.bind(this);
     }
     render() {
         return (<>
@@ -78,7 +80,8 @@ class Cart extends Component {
                                 </td>
                                 <td>
                                     <div className="y-1">
-                                        <button className="btn btn-outline-danger p-1 px-2"> <i className="bi bi-trash3" style={{fontSize: "20px"}}></i> </button>
+                                        <button className="btn btn-outline-danger p-1 px-2"
+                                            onClick={() => this.deleteBookFromCart(book.isbn)}> <i className="bi bi-trash3" style={{fontSize: "20px"}}></i> </button>
                                     </div>
                                 </td>
                             </tr>
@@ -90,13 +93,16 @@ class Cart extends Component {
                     <tbody>
                         <tr className="table-success">
                             <td className="font-weight-bold" colSpan="3">Total Price</td>
-                            <td className="font-weight-bold" colSpan="2">₹ {this.state.price}</td>
+                            <td className="font-weight-bold" colSpan="2">₹ {this.state.totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div className="text-center p-5">
-                    <Link to="/payment-page" className="btn btn-outline-success">Review Order {"&"} checkout</Link><br /><br />
+                    <button 
+                        className="btn btn-outline-success"
+                        onClick={this.loadPaymentGateway}
+                        disabled={!this.state.cart.length}> Review Order {"&"} checkout </button><br/><br />
                     <Link to="/shop" className="btn btn-outline-danger btn-sm text-center">Continue Shopping</Link>
                 </div>
             </div>
@@ -107,38 +113,45 @@ class Cart extends Component {
         this.loadCart();
     }
 
+    loadPaymentGateway() {
+        this.props.navigate(`/${this.props.params.uid}/payment`, {
+            state : {
+                flag: 1,
+                price: this.state.totalPrice,
+                productDetails: `Books :: `
+            }
+        });
+    }
+
     loadCart() {
         ReaderService.loadCart(this.props.params.uid)
             .then((response) => {
                 if (response.status === 200) {
-                    response.json(data => this.setState({
+                    response.json().then(data => this.setState({
                         cart: data.cart, 
                         totalPrice: data.totalPrice
                     }));
                 }
                 else {
                     AlertService.showAlert(this, 4, "Could not load cart some error has occurred");
-
-                    // Dummy data
-                    let cart = [
-                        {
-                            "isbn": "9780316420013",
-                            "price": 500.0,
-                            "thumbnail": "http://localhost:8080/images/thumbnail/9780316420013.jpeg"
-                        },
-                        {
-                            "isbn": "9780316453691",
-                            "price": 100.0,
-                            "thumbnail": "http://localhost:8080/images/thumbnail/9780316453691.jpeg"
-                        }
-                    ];
-            
-                    this.setState({cart: cart, totalPrice: 0});
                 }
             }).catch((e) => {
                 console.log(e)
                 AlertService.showAlert(this, 4, "Could not load cart some error has occurred");
             });
+    }
+
+    deleteBookFromCart(isbn) {
+        ReaderService.deleteBookFromCart(this.props.params.uid, isbn)
+            .then ((response) => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 2, `Book ${isbn} deleted from cart`, 10);
+                    this.loadCart();
+                }
+                else {
+                    AlertService.showAlert(this, 2, `Some error has occurred`, 10);
+                }
+            }).catch(e => console.log(e));
     }
 }
 

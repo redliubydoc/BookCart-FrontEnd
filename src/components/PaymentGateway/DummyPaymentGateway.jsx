@@ -6,15 +6,20 @@ import {
 import withNavigate from "../../hocs/withNavigate";
 import withLocation from "../../hocs/withLocation";
 import AlertService from "../../services/AlertService";
+import ReaderService from '../../services/ReaderService';
+import withParams from '../../hocs/withParams';
 
 class DummyPaymentGateway extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            flag: 1,
             totalPrice: 0,
             productDetails: "",
-            alert: AlertService.getAlertInstance()
+            alert: AlertService.getAlertInstance(),
+            genre: "",
+            type: ""
         }
 
         this.doBuy = this.doBuy.bind(this);
@@ -232,22 +237,67 @@ class DummyPaymentGateway extends Component {
     }
 
     componentDidMount() {
-        if (!!this.props.location.state && !!this.props.location.state.price) { 
+        if (!!this.props.location.state && 
+                !!this.props.location.state.price &&
+                !!this.props.location.state.productDetails &&
+                !!this.props.location.state.flag) {
 
             this.setState({
+                flag: this.props.location.state.flag,
                 price: this.props.location.state.price,
                 productDetails: this.props.location.state.productDetails
+            }, () => {
+                if (this.state.flag === 2) {
+                    this.setState({
+                        genre: this.props.location.state.genre,
+                        type: this.props.location.state.type
+                    })
+                }
             });
         }
+        console.log(this.props.location.state);
     }
 
     doBuy() {
-        alert("Purchase Successful!");
-        this.props.navigate("/shop");
+        if (this.state.flag === 1) { // buy book
+            ReaderService.checkOutAndBuy(this.props.params.uid)
+                .then((response) => {
+                    if (response.status === 200) {
+                        window.alert("Payment Successful");
+                        this.props.navigate(`/${this.props.params.uid}/book`);
+                    }
+                    else {
+                        window.alert("Payment Unsuccessful");
+                        this.props.navigate(`/${this.props.params.uid}/book`);
+                    }
+                }).catch((e) => {
+                    console.log(e);
+                    window.alert("Payment Unsuccessful");
+                    this.props.navigate(`/${this.props.params.uid}/book`);
+                });
+        } 
+        else if (this.state.flag === 2){ // buy subscription
+            ReaderService.buySubscription(this.props.params.uid, this.state.type, this.state.genre)
+                .then((response) => {
+                    if (response.status === 200) {
+                        window.alert("Payment Successful");
+                        this.props.navigate(`/${this.props.params.uid}/subscription/active/`);
+                    }
+                    else {
+                        window.alert("Payment Unsuccessful");
+                        this.props.navigate(`/${this.props.params.uid}/subscription/active/`);
+                    }
+                }).catch((e) => {
+                    console.log(e);
+                    window.alert("Payment Unsuccessful");
+                    this.props.navigate(`/${this.props.params.uid}/subscription/active/`);
+                });
+        }
     }
 }
 
 export default 
     withNavigate(
     withLocation(
-        DummyPaymentGateway));
+        withParams(
+        DummyPaymentGateway)));

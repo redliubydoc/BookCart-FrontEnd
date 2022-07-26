@@ -23,7 +23,7 @@ class ReaderNavbar extends Component {
         return (<>
             <nav className="navbar sticky-top navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <span className="navbar-brand text-info" > <b> BookCart </b> </span>
+                    <Link className="navbar-brand text-info" to="/shop" > <b> BookCart </b> </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -39,10 +39,13 @@ class ReaderNavbar extends Component {
                                 <Link className="nav-link" to="/101/subscription/active/"> My Subscriptions </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/buy-subscription"> Subscribe </Link>
+                                <Link className="nav-link" to="/101/subscription/buy/"> Subscribe </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/101/cart"> Cart </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/101/order"> Orders </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/101/settings"> Settings </Link>

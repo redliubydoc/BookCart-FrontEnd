@@ -12,8 +12,10 @@ import Alert from "../Misc/Alert";
 import AlertService from "../../services/AlertService";
 import withNavigate from '../../hocs/withNavigate';
 import BookService from '../../services/BookService';
-import SubscriptionService from '../../services/SubscriptionService';
+import ReaderService from '../../services/ReaderService';
 import ReaderNavbar from '../Misc/ReaderNavbar';
+import withParams from '../../hocs/withParams';
+import { type } from '@testing-library/user-event/dist/type';
 
 class BuySubscription extends Component {
     constructor(props) {
@@ -21,11 +23,21 @@ class BuySubscription extends Component {
 
         this.state = {
             alert: AlertService.getAlertInstance(),
-            subsGenre: "",
-            subsType: 1,
-            subsPrice: -1000,
+
+            
+            type: 1,
+            genre: "",
+            price: 0,
+
             genres: [],
             books: [],
+
+            selectedSubscription: {
+                type: "monthly",
+                genre: "",
+                price: 0
+            },
+            
             pages: 5,
             currentPage: 3
         }
@@ -35,6 +47,8 @@ class BuySubscription extends Component {
         this.doAddToCart = this.doAddToCart.bind(this);
         this.doSubscribe = this.doSubscribe.bind(this);
         this.getBooks = this.getBooks.bind(this);
+        this.getSubscriptionPrice = this.getSubscriptionPrice.bind(this);
+        this.getAllGenres = this.getAllGenres.bind(this);
     }
   
     render() {
@@ -63,29 +77,31 @@ class BuySubscription extends Component {
                         <tbody>
                             <tr>
                                 <td>
-                                    <select name="subsType"
+                                    <select name="type"
                                         className="w-100 btn btn-primary py-2"
-                                        value={this.state.value}
+                                        value={this.state.type}
                                         onChange={this.handleOnChange}>
                                             <option value={1}> Monthly </option>
                                             <option value={2}> Yearly </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="subsGenre"
+                                    <select name="genre"
                                         className="w-100 btn btn-primary py-2"
-                                        value={this.state.value}
+                                        value={this.state.genre}
                                         onChange={this.handleOnChange}>{
                                             this.state.genres.map((genre) => (
-                                                <option key={genre} value={genre}>{genre}</option>
+                                                <option key={genre} value={genre}>
+                                                    {genre.charAt(0).toUpperCase() + genre.slice(1)}
+                                                </option>
                                             ))
                                         }
                                     </select>
                                 </td>
-                                <td> <div className="form-control"> {this.state.subsPrice <= 0 ? 0 : this.state.subsPrice} </div> </td>
+                                <td> <div className="form-control"> ₹ {this.state.price} </div> </td>
                                 <td>
                                     <button className="btn btn-success form-control"
-                                        onClick={this.doSubscribe} disabled={this.state.subsPrice <= 0}> Subscribe </button>
+                                        onClick={this.doSubscribe}> Subscribe </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -93,7 +109,7 @@ class BuySubscription extends Component {
                 </div>
 
                 <div className="container text-center">
-                    <hr/> <h5 className="text-muted"> Books : {this.state.subsGenre} </h5> <hr/>
+                    <hr/> <h5 className="text-muted"> Books : {this.state.genre} </h5> <hr/>
                 </div>
                 <div className="row row-cols-auto justify-content-center">
                     {this.state.books.map((book) => (
@@ -105,7 +121,7 @@ class BuySubscription extends Component {
                                             src={book.thumbnail}/> 
                                     </Link>
                                     <button className="btn btn-outline-success mt-3 form-control"
-                                            onClick={this.doAddToCart}> 
+                                            onClick={() => this.doAddToCart(book.isbn)}> 
                                         <i className="bi bi-cart2 me-2"></i> ₹{book.price} 
                                     </button>
                                 </div>
@@ -147,42 +163,44 @@ class BuySubscription extends Component {
     }
 
     componentDidMount() {
-        let genres = [
-            "Crime",
-            "Contemporary",
-            "Fantasy",
-            "Fiction",
-            "History",
-            "Suspense"
-        ];
+        this.getAllGenres();
+    }
 
-        this.setState({genres: genres, subsGenre: genres[0]}, () => {
-            SubscriptionService.getPrice(this.state.subsType, this.state.subsGenre.toLowerCase())
-                .then(response => response.json())
-                .then(data => this.setState({subsPrice: data}))
-                .catch(e => console.log(e))   
-            this.getBooks();
-        });
+    getAllGenres() {
+        BookService.getAllGenres().
+            then((response) => {
+                if (response.status === 200) {
+                    response.json().then((data) => {
+                        this.setState({genres: data.genres, genre: data.genres[0]}, () => { 
+                            this.getBooks(); 
+                            this.getSubscriptionPrice() 
+                        });
+                    });
+                }
+            }).catch(e => console.log(e));
+    }
+
+    getSubscriptionPrice() {
+        BookService.getSubscriptionPrice(this.state.type, this.state.genre.toLowerCase())
+            .then((response) => {
+                if (response.status === 200) {
+                    response.text().then(price => this.setState({price: price}));
+                }
+            }).catch(e => console.log(e));
     }
 
     getBooks() {
-        BookService.getAllBooksByGenre(this.state.subsGenre.toLowerCase())
+        BookService.getAllBooksByGenre(this.state.genre)
             .then(response => response.json())
             .then(data => this.setState({books: data}))
             .catch(e => console.log(e));
     }
 
     handleOnChange(e) {
-
-        this.setState(
-            {[e.target.name]: e.target.value}, 
-            () => { 
-                SubscriptionService.getPrice(this.state.subsType, this.state.subsGenre.toLowerCase())
-                    .then(response => response.json())
-                    .then(data => this.setState({subsPrice: data}))
-                    .catch(e => console.log(e));
-                
-                this.getBooks();
+        console.log(this.state.type, this.state.genre);
+        this.setState({[e.target.name]: e.target.value}, () => { 
+                this.getBooks(); 
+                this.getSubscriptionPrice()
             }
         );
     }
@@ -194,13 +212,47 @@ class BuySubscription extends Component {
         if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
     }
 
-    doAddToCart() {
-        AlertService.showAlert(this, 1, "Book added to cart", 10);
+    doAddToCart(isbn) {
+        //TODO: remove hardcoded user
+        ReaderService.addBookToCart(101, isbn)
+            .then((response => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 1, "Book added to cart", 10);
+                }
+                else {
+                    response.text().then(msg => AlertService.showAlert(this, 4, msg, 10));
+                }
+            }));  
     }
 
     doSubscribe() {
-        this.props.navigate("/payment-page")
+        ReaderService.isSubscriptionAlreadyTaken(101, this.state.type, this.state.genre.toLowerCase())
+            .then((response) => {
+                if (response.status === 200) {
+                    response.json().then((flag) => {
+                        if (!flag) {
+                            this.props.navigate(`/${this.props.params.uid}/payment`, {
+                                state : {
+                                    flag: 2,
+                                    price: this.state.price,
+                                    productDetails: `Subscription :: ${this.state.genre}`,
+                                    type: this.state.type,
+                                    genre: this.state.genre
+                                }
+                            });
+                        }
+                        else {
+                            AlertService.showAlert(this, 4, "You have already subscribed", 10);
+                        }
+                    });
+                }
+            }).catch(e => console.log(e));
+            
+        
     }
 }
 
-export default withNavigate(BuySubscription);
+export default 
+    withNavigate(
+    withParams(
+        BuySubscription));

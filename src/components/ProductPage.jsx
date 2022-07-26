@@ -10,9 +10,9 @@ import withParams from "../hocs/withParams";
 
 import AlertService from "../services/AlertService";
 import BookService from "../services/BookService";
+import ReaderService from "../services/ReaderService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
-import NavBarBeforeLogin from "./Misc/NavBarBeforeLogin";
 import ReaderNavbar from "./Misc/ReaderNavbar";
 
 class ProductPage extends Component {
@@ -33,6 +33,7 @@ class ProductPage extends Component {
                 noOfRatings: "",
                 thumbnail: ""
             },
+            
             feedbacks: [],
             currentPage: 0,
             pages: 5,
@@ -65,6 +66,7 @@ class ProductPage extends Component {
                                         src={this.state.book.thumbnail} 
                                         width="200" 
                                         height="300"
+                                        alt="book thumbnail"
                                     /> <br/>
                                     <div className="mt-4">
                                         <b>Title</b>: <i> {this.state.book.title} </i> <br/>
@@ -164,47 +166,10 @@ class ProductPage extends Component {
     }
 
     loadFeedBacks() {
-        let pages = 5;
         BookService.getAllFeedbacks(this.props.params.id)
             .then(response => response.json())
             .then(feedbacks => this.setState({feedbacks: feedbacks}))
             .catch(e => console.log(e));
-
-      /*  let feedbacks = [
-            {
-                id: "1",
-                readerName: "Maggie Marsh",
-                rating: 5,
-                comment: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it. ",
-                date: new Date()
-            },
-            {
-                id: "2",
-                readerName: "Lara Stewart",
-                rating: 3,
-                comment: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites.",
-                date: new Date()
-            },
-            {
-                id: "3",
-                readerName: "Alexa Bennett",
-                rating: 2,
-                comment: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure. ",
-                date: new Date()
-            },
-            {
-                id: "4",
-                readerName: "Betty Walker",
-                rating: 1,
-                comment: "It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. ",
-                date: new Date()
-            },
-        ] */
-
-        this.setState({
-            pages: pages, 
-            
-        });
     }
 
     doPagination(e) {
@@ -215,8 +180,16 @@ class ProductPage extends Component {
     }
 
     doAddToCart() {
-        // TODO: backend communication
-        AlertService.showAlert(this, 1, "Book added to cart", 10);
+        //TODO: remove hardcoded user
+        ReaderService.addBookToCart(101, this.props.params.id)
+            .then((response => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 1, "Book added to cart", 10);
+                }
+                else {
+                    response.text().then(msg => AlertService.showAlert(this, 4, msg, 10));
+                }
+            }));  
     }
 }
 

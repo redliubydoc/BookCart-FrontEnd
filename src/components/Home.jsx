@@ -12,6 +12,8 @@ import Alert from "./Misc/Alert";
 import AlertService from "../services/AlertService";
 import BookService from '../services/BookService';
 import ReaderNavbar from './Misc/ReaderNavbar';
+import ReaderService from '../services/ReaderService';
+import withParams from '../hocs/withParams';
 
 class Home extends Component {
     constructor(props) {
@@ -145,7 +147,7 @@ class Home extends Component {
                                                     src={book.thumbnail}/> 
                                             </Link>
                                             <button className="btn btn-outline-success mt-3 form-control"
-                                                    onClick={this.doAddToCart}> 
+                                                    onClick={() => this.doAddToCart(book.isbn)}> 
                                                 <i className="bi bi-cart2 me-2"></i> ₹{book.price} 
                                             </button>
                                         </div>
@@ -209,8 +211,18 @@ class Home extends Component {
         });
     }
 
-    doAddToCart() {
-        AlertService.showAlert(this, 1, "Book added to cart", 10);
+    doAddToCart(isbn) {
+        //TODO: remove hardcoded user
+        
+        ReaderService.addBookToCart(101, isbn)
+            .then((response => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 1, "Book added to cart", 10);
+                }
+                else {
+                    response.text().then(msg => AlertService.showAlert(this, 4, msg, 10));
+                }
+            }));  
     }
 
     toggleFilterBar() {
@@ -226,4 +238,6 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default 
+    withParams(
+        Home);

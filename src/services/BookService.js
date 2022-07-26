@@ -49,6 +49,23 @@ class BookService {
         return fetch(url, {method: "GET"});
     }
 
+    static getSubscriptionPrice(type, genre) {
+        let url = `${BACKEND_BASE_URL}/subscription/price?type=${type}&genre=${genre}`;
+        console.log(url);
+
+        return fetch(url, {
+            method: "GET"
+        });
+    }
+
+    static getSubscriptionCatalogs() {
+        let url = `${BACKEND_BASE_URL}/subscription`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
     // static deleteTodo(username, id) {
     //     return fetch(`http://localhost:8080/users/${username}/todos/${id}`, {
     //         method: "DELETE"

@@ -81,6 +81,55 @@ class ReaderService {
         return fetch(url, {method: "GET"});
     }
 
+    static addBookToCart(id, isbn) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/book/${isbn}/cart`;
+
+        console.log(url);
+
+        return fetch(url, {method: "POST"});
+    }
+
+    static deleteBookFromCart(id, isbn) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/book/${isbn}/cart`;
+
+        console.log(url);
+
+        return fetch(url, {method: "DELETE"});
+    }
+
+    static checkOutAndBuy(id) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/buy`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
+    static isSubscriptionAlreadyTaken(id, type, genre) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/buy/subscription/check?type=${type}&genre=${genre}`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
+    static buySubscription(id, type, genre) {
+        let url = `${BACKEND_BASE_URL}/reader/${id}/buy/subscription?type=${type}&genre=${genre}`;
+
+        console.log(url);
+
+        return fetch(url, {method: "GET"});
+    }
+
+    static getOrderHistories(readerId) {
+        let url = `${BACKEND_BASE_URL}/reader/${readerId}/order`;
+        
+        console.log(url);
+
+        return fetch(url, {
+            method: "GET"
+        });
+    }
     // static getAuthorName(id) {
     //     let url = `${BACKEND_BASE_URL}/author/${id}/name`;
 

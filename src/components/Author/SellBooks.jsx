@@ -247,9 +247,9 @@ class SellBooks extends React.Component {
 
     doSubmit() {
         this.setState({
-            username: this.state.isbn.trim(),
-            username: this.state.title.trim(),
-            username: this.state.description.trim()
+            isbn: this.state.isbn.trim(),
+            title: this.state.title.trim(),
+            description: this.state.description.trim()
         }, () => {
             if (this.validateForm()) {
                 AuthorService.submitBook(
@@ -270,7 +270,6 @@ class SellBooks extends React.Component {
                         AlertService.showAlert(this, 4, "Internal server error x_x");
                     }
                     else if (response.status === 400) {
-                        let msg = response.text() + "";
                         AlertService.showAlert(this, 4, "Duplicate book found with same ISBN");
                     }
                 })
