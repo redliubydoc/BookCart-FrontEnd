@@ -6,6 +6,7 @@ import {
 import {
     Link 
 } from 'react-router-dom';
+import withAuthFilter from '../../hocs/withAuthFilter';
 import withParams from '../../hocs/withParams';
 import BookService from '../../services/BookService';
 import ReaderService from '../../services/ReaderService';
@@ -185,5 +186,6 @@ class MySubscription extends Component {
 }
 
 export default 
+    withAuthFilter(
     withParams(
-        MySubscription);
+        MySubscription));

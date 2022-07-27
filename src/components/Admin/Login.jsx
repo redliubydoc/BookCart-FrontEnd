@@ -88,13 +88,26 @@ class AdminLogin extends Component {
                 username: this.state.username.trim()
             }, () => {
                 if (this.validateForm()) {
-                    // on successful login
-                    if (AuthService.login(this.state.username, this.state.password, 3)) {
-                        this.props.navigate("/admin/dashboard/sales");
-                    }
-                    else {
-                        AlertService.showAlert(this, 4, "Invalid credentials");
-                    }
+
+                    AuthService.login(this.state.username, this.state.password, 3)
+                        .then((response) => {
+                            if (response.status === 200) {
+                                response.json().then((token) => AuthService.storeAuthCookies(
+                                    token.type,
+                                    token.jwt,
+                                    token.uid,
+                                    token.username
+                                )); 
+ 
+                                this.props.navigate("/admin/dashboard/sales");
+                            } 
+                            else if (response.status === 401) {
+                                AlertService.showAlert(this, 4, "Invalid credentials");
+                            }
+                        }).catch((e) => {
+                            AlertService.showAlert(this, 4, "Some error has occurred!");
+                            console.log(e);
+                        });
                 }
             }
         );

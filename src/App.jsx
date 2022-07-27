@@ -34,7 +34,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* normal users routes */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login/>} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/shop" element={<Home />} />
         <Route path="/about-us" element={<AboutUs />} />
@@ -53,12 +53,9 @@ function App() {
         <Route path="/:uid/subscription/buy/" element={<BuySubscription/>}/>
         <Route path="/:uid/payment" element={<DummyPaymentGateway/>}/>   
 
+
         <Route path="/book/:id" element={<ProductPage />} />
-        
-        
-        
-        <Route path="/payment-page" element={<h1> Payment Page </h1>} />
-        
+              
 
         {/* author routes */}
         <Route path="/author/book" element={<MyBooks />} />

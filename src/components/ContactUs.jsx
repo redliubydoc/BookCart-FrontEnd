@@ -6,9 +6,10 @@ function ContactUs() {
         <div className="container text-center my-5" style={{ height: "150px" }}>
             <h1 className="mt-3 mb-4 text-muted"> <b> Contact Us </b> </h1>
             Have questions about e-book viewer, subscriptions or any complain ? <br />
-            Contact us on customer-service@bookcart.com
+            Contact us on customer-service@bookcart.com <br />
         </div>
-        <div style={{ backgroundColor: "white", padding: "20px", position: "absolute", bottom: "0", width: "100%" }} className="bg-dark text-light">
+        <br/>
+        <div style={{ backgroundColor: "white", padding: "20px"}} className="bg-dark text-light pt-5">
             <div className="container text-center">
                 <h4 className="mb-3"> Our Office Locations </h4>
                 <div className="row row-auto">

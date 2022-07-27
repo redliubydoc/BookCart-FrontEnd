@@ -1,10 +1,6 @@
 import moment from "moment";
 
-import { BACKEND_BASE_URL } from "./BookCart";
-
-const READER_BASE_URL = `${BACKEND_BASE_URL}/reader`;
-const AUTHOR_BASE_URL = `${BACKEND_BASE_URL}/author`;
-const ADMIN_BASE_URL = `${BACKEND_BASE_URL}/admin`;
+import { BACKEND_BASE_URL } from "./BookCart"
 
 class AuthService {
     static register(accountType, firstName, lastName, emailId, phoneNo, password, dateOfBirth, sq1, sq2, sq3) {
@@ -22,7 +18,7 @@ class AuthService {
         }
         
         if (accountType === 1) {
-            let url = `${READER_BASE_URL}/register`;
+            let url = `${BACKEND_BASE_URL}/reader/register`;
             return fetch(url, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
@@ -39,31 +35,17 @@ class AuthService {
     }
 
     static login(username, password, accountType) { 
-        if (accountType === 1) {
-            let url = `${READER_BASE_URL}/login`;
-            return fetch(url, {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username: username, password: password})
-            });
-        }
-        
-        else if (accountType === 2) {
-            if (username === "author@gmail.com" && password === "author") {
-                localStorage.setItem("login", true);
-                localStorage.setItem("user-type", 2);
-                return true;
-            }
-        }
+        let url = "";
+        if (accountType === 1) url = `${BACKEND_BASE_URL}/reader/login`;
+        if (accountType === 2) url = `${BACKEND_BASE_URL}/author/login`;
+        if (accountType === 3) url = `${BACKEND_BASE_URL}/admin/login`;
+            
 
-        else if (accountType === 3) {
-            if (username === "admin" && password === "admin") {
-                localStorage.setItem("login", true);
-                localStorage.setItem("user-type", 3);
-                return true;
-            }
-        }
-        return false;
+        return fetch(url, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: username, password: password})
+        });
     }
 
     static findAccount(email, accountType) { // dummy find account
@@ -98,14 +80,29 @@ class AuthService {
     }
 
     // to store authentication token and basic user related in local storage
-    static storeAuthCookies(authCookie) {
-        console.log(authCookie);
-        localStorage.setItem("auth", authCookie);
+    static storeAuthCookies(type, jwt, uid, username) {
+        localStorage.setItem("type", type);
+        localStorage.setItem("jwt", jwt);
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("username", username);
     }
 
     // to check authentication token present in local storage
-    static ifLoggedIn() { 
-        return;
+    static isLoggedIn() { 
+        if (localStorage.getItem("jwt")) return true;
+        else return false;
+    }
+
+    static loggedInAs() {
+        return localStorage.getItem("type");
+    }
+
+    static getAuthToke() {
+        return "Bearer " + localStorage.getItem("jwt");
+    }
+
+    static getLoggedInUser() {
+        return localStorage.getItem("uid");
     }
 }
 

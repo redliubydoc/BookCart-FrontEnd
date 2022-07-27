@@ -3,6 +3,7 @@ import React from 'react';
 import ReaderService from '../../services/ReaderService';
 import withParams from '../../hocs/withParams';
 import ReaderNavbar from '../Misc/ReaderNavbar';
+import withAuthFilter from '../../hocs/withAuthFilter';
 
 class MyOrders extends React.Component {
     constructor(props) {
@@ -89,4 +90,7 @@ class MyOrders extends React.Component {
     }
 }
 
-export default withParams(MyOrders);
+export default 
+    withAuthFilter(
+    withParams(
+        MyOrders));

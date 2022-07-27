@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import withAuthFilter from '../../hocs/withAuthFilter';
 import withParams from '../../hocs/withParams';
 import ReaderService from '../../services/ReaderService';
 import ReaderNavbar from '../Misc/ReaderNavbar';
@@ -120,5 +121,6 @@ class MyBooksR extends React.Component {
 }
 
 export default 
+    withAuthFilter(
     withParams(
-        MyBooksR);
+        MyBooksR));

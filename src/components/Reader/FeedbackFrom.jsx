@@ -9,6 +9,7 @@ import AlertService from '../../services/AlertService';
 import ReaderNavbar from '../Misc/ReaderNavbar';
 import ReaderService from '../../services/ReaderService';
 import withParams from '../../hocs/withParams';
+import withAuthFilter from '../../hocs/withAuthFilter';
 
 class FeedbackFrom extends Component {
     constructor(props) {
@@ -103,7 +104,6 @@ class FeedbackFrom extends Component {
     }
 
     doSubmit() {
-        let _component = this;
         this.setState({
             comment: this.state.comment.trim()
         }, () => {
@@ -116,8 +116,7 @@ class FeedbackFrom extends Component {
                         this.getFeedback(true);
                     }
                     else {
-                        response.text()
-                            .then(msg => AlertService.showAlert(this, 4, msg));
+                        response.text().then(msg => AlertService.showAlert(this, 4, msg));
                     }
                 }).catch(e => console.log(e));
             }
@@ -154,6 +153,7 @@ class FeedbackFrom extends Component {
 }
 
 export default 
+    withAuthFilter(
     withNavigate(
     withParams(
-        FeedbackFrom));
+        FeedbackFrom)));

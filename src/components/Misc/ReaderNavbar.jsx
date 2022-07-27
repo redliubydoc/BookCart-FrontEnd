@@ -10,6 +10,7 @@ import {
 import withLocation from "../../hocs/withLocation";
 import withNavigate from "../../hocs/withNavigate";
 import AlertService from "../../services/AlertService";
+import AuthService from "../../services/AuthService";
 
 class ReaderNavbar extends Component {
     constructor(props) {
@@ -19,7 +20,10 @@ class ReaderNavbar extends Component {
     }
 
     render() {
-
+        console.log(localStorage.getItem("type"));
+        console.log(localStorage.getItem("jwt"));
+        console.log(localStorage.getItem("uid"));
+        console.log(localStorage.getItem("username"));
         return (<>
             <nav className="navbar sticky-top navbar-dark bg-dark">
                 <div className="container-fluid">
@@ -33,22 +37,22 @@ class ReaderNavbar extends Component {
                                 <Link className="nav-link" to="/shop"> Home </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/101/book/"> My Books </Link>
+                                <Link className="nav-link" to={"/" + AuthService.getLoggedInUser() + "/book/"}> My Books </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/101/subscription/active/"> My Subscriptions </Link>
+                                <Link className="nav-link" to={"/" + AuthService.getLoggedInUser() + "/subscription/active/"}> My Subscriptions </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/101/subscription/buy/"> Subscribe </Link>
+                                <Link className="nav-link" to={"/" + AuthService.getLoggedInUser() + "/subscription/buy/"}> Subscribe </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/101/cart"> Cart </Link>
+                                <Link className="nav-link" to={"/" + AuthService.getLoggedInUser() + "/cart/"}> Cart </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/101/order"> Orders </Link>
+                                <Link className="nav-link" to={"/" + AuthService.getLoggedInUser() + "/order/"}> Orders </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/101/settings"> Settings </Link>
+                                <Link className="nav-link" to={"/" + AuthService.getLoggedInUser() + "/settings/"}> Settings </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/about-us"> About Us </Link>

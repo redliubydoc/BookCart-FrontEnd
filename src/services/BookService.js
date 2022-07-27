@@ -34,7 +34,7 @@ class BookService {
     }
 
     static getAllGenres() {
-        let url = `${BACKEND_BASE_URL}/genre`;
+        let url = `${BACKEND_BASE_URL}/book/genre`;
 
         console.log(url);
 
@@ -42,7 +42,7 @@ class BookService {
     }
 
     static getAllLanguages() {
-        let url = `${BACKEND_BASE_URL}/language`;
+        let url = `${BACKEND_BASE_URL}/book/language`;
 
         console.log(url);
 
@@ -50,7 +50,7 @@ class BookService {
     }
 
     static getSubscriptionPrice(type, genre) {
-        let url = `${BACKEND_BASE_URL}/subscription/price?type=${type}&genre=${genre}`;
+        let url = `${BACKEND_BASE_URL}/book/subscription/price?type=${type}&genre=${genre}`;
         console.log(url);
 
         return fetch(url, {

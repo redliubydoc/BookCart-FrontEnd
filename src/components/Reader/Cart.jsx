@@ -6,6 +6,7 @@ import AlertService from "../../services/AlertService";
 import ReaderNavbar from "../Misc/ReaderNavbar";
 import Alert from "../Misc/Alert";
 import ReaderService from "../../services/ReaderService";
+import withAuthFilter from "../../hocs/withAuthFilter";
 
 class Cart extends Component {
     constructor(props) {
@@ -156,5 +157,6 @@ class Cart extends Component {
 }
 
 export default 
+    withAuthFilter(
     withParams(
-    withNavigate(Cart));
+    withNavigate(Cart)));

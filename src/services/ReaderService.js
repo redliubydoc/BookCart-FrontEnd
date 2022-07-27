@@ -1,4 +1,5 @@
-import { BACKEND_BASE_URL } from "./BookCart";
+import AuthService from "./AuthService";
+import {BACKEND_BASE_URL} from "./BookCart";
 
 class ReaderService {
     static getSubscriptions(id) {
@@ -6,15 +7,27 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static getBooks(id) {
         let url = `${BACKEND_BASE_URL}/reader/${id}/book`;
 
-        console.log(url);
+        console.log(url, AuthService.getAuthToke());
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static getFeedback(id, isbn) {
@@ -22,7 +35,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static submitFeedback(id, isbn, feedback) {
@@ -30,8 +49,10 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "POST",
+        return fetch(url, {
+            method: "POST",
             headers: {
+                'Authorization': AuthService.getAuthToke(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(feedback)
@@ -49,8 +70,10 @@ class ReaderService {
             password: password
         }
 
-        return fetch(url, {method: "PUT",
+        return fetch(url, {
+            method: "PUT",
             headers: {
+                'Authorization': AuthService.getAuthToke(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
@@ -62,7 +85,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static deleteAccount(id) {
@@ -70,7 +99,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "DELETE"});
+        return fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static loadCart(id) {
@@ -78,7 +113,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static addBookToCart(id, isbn) {
@@ -86,7 +127,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "POST"});
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static deleteBookFromCart(id, isbn) {
@@ -94,7 +141,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "DELETE"});
+        return fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static checkOutAndBuy(id) {
@@ -102,7 +155,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static isSubscriptionAlreadyTaken(id, type, genre) {
@@ -110,7 +169,13 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static buySubscription(id, type, genre) {
@@ -118,16 +183,26 @@ class ReaderService {
 
         console.log(url);
 
-        return fetch(url, {method: "GET"});
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
+        });
     }
 
     static getOrderHistories(readerId) {
         let url = `${BACKEND_BASE_URL}/reader/${readerId}/order`;
-        
+
         console.log(url);
 
         return fetch(url, {
-            method: "GET"
+            method: "GET",
+            headers: {
+                'Authorization': AuthService.getAuthToke(),
+                'Content-Type': 'application/json'
+            }
         });
     }
     // static getAuthorName(id) {
@@ -139,7 +214,7 @@ class ReaderService {
     // }
 
     // static submitBook(
-    //     isbn, 
+    //     isbn,
     //     title,
     //     description,
     //     genre,
@@ -161,7 +236,7 @@ class ReaderService {
     //     formData.append("dateOfRelease", dateOfRelease);
     //     formData.append("book", book);
     //     formData.append("thumbnail", thumbnail);
-        
+
     //     return fetch(url, {method: "POST", body: formData});
     // }
 }

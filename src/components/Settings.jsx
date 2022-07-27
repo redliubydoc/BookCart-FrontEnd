@@ -10,6 +10,7 @@ import Alert from "./Misc/Alert";
 import ReaderNavbar from "./Misc/ReaderNavbar";
 import ValidationService from "../services/ValidationService";
 import ReaderService from "../services/ReaderService";
+import withAuthFilter from "../hocs/withAuthFilter";
 
 class AccountSettings extends Component {
 
@@ -243,6 +244,7 @@ class AccountSettings extends Component {
 }
 
 export default 
+    withAuthFilter(
     withNavigate(
     withParams(
-        AccountSettings));
+        AccountSettings)));

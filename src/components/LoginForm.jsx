@@ -109,10 +109,16 @@ class LoginForm extends Component {
                     // on login successful
                     AuthService.login(username, password, accountType)
                         .then((response) => {
-                            console.log(response.status);
                             if (response.status === 200) {
-                                response.json().then(token => AuthService.storeAuthCookies(token));
-                                this.props.navigate("/shop");
+                                response.json().then((token) => AuthService.storeAuthCookies(
+                                    token.type,
+                                    token.jwt,
+                                    token.uid,
+                                    token.username
+                                )); 
+
+                                if (accountType === 1) this.props.navigate("/shop");      
+                                if (accountType === 2) this.props.navigate("/author/book");
                             } 
                             else if (response.status === 401) {
                                 AlertService.showAlert(this, 4, "Invalid credentials");
@@ -121,14 +127,6 @@ class LoginForm extends Component {
                             AlertService.showAlert(this, 4, "Some error has occurred!");
                             console.log(e);
                         });
-
-                    // redirects
-                    if (accountType === 1) { // reader
-                        
-                    }
-                    else if (accountType === 2) { // author
-                        this.props.navigate("/author/book");
-                    }
                 }
             }
         );

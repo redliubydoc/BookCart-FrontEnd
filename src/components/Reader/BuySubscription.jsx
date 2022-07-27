@@ -16,6 +16,7 @@ import ReaderService from '../../services/ReaderService';
 import ReaderNavbar from '../Misc/ReaderNavbar';
 import withParams from '../../hocs/withParams';
 import { type } from '@testing-library/user-event/dist/type';
+import withAuthFilter from '../../hocs/withAuthFilter';
 
 class BuySubscription extends Component {
     constructor(props) {
@@ -247,12 +248,11 @@ class BuySubscription extends Component {
                     });
                 }
             }).catch(e => console.log(e));
-            
-        
     }
 }
 
 export default 
+    withAuthFilter(
     withNavigate(
     withParams(
-        BuySubscription));
+        BuySubscription)));
