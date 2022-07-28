@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import AuthorNavbar from "../Misc/AuthorNavbar";
+import AuthorNavbar from "../Author/AuthorNavbar";
 import "./SideBarCompStyle.css"
 
 class Sales extends Component {

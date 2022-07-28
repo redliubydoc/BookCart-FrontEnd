@@ -6,12 +6,13 @@ class ReaderService {
         let url = `${BACKEND_BASE_URL}/reader/${id}/subscription`;
 
         console.log(url);
+        
 
         return fetch(url, {
             method: "GET",
             headers: {
                 'Authorization': AuthService.getAuthToke(),
-                'Content-Type': 'application/json'
+                'Content-Type': 'text/plain',
             }
         });
     }
@@ -205,40 +206,6 @@ class ReaderService {
             }
         });
     }
-    // static getAuthorName(id) {
-    //     let url = `${BACKEND_BASE_URL}/author/${id}/name`;
-
-    //     console.log(url);
-
-    //     return fetch(url, {method: "GET"});
-    // }
-
-    // static submitBook(
-    //     isbn,
-    //     title,
-    //     description,
-    //     genre,
-    //     language,
-    //     price,
-    //     dateOfRelease,
-    //     book,
-    //     thumbnail
-    // ) {
-    //     let url = `${BACKEND_BASE_URL}/author/7/book/-100`;
-
-    //     const formData = new FormData();
-    //     formData.append("isbn", isbn);
-    //     formData.append("title", title);
-    //     formData.append("description", description);
-    //     formData.append("genre", genre);
-    //     formData.append("language", language);
-    //     formData.append("price", price);
-    //     formData.append("dateOfRelease", dateOfRelease);
-    //     formData.append("book", book);
-    //     formData.append("thumbnail", thumbnail);
-
-    //     return fetch(url, {method: "POST", body: formData});
-    // }
 }
 
 export default ReaderService;

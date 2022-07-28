@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import withAuthFilter from '../../hocs/withAuthFilter';
 import AlertService from '../../services/AlertService';
 import AuthorService from '../../services/AuthorService';
 import BookService from '../../services/BookService';
 import ValidationService from '../../services/ValidationService';
 import Alert from '../Misc/Alert';
-import AuthorNavbar from '../Misc/AuthorNavbar';
+import AuthorNavbar from './AuthorNavbar';
 import "./SellBooks.css"
 class SellBooks extends React.Component {
 
@@ -47,7 +48,7 @@ class SellBooks extends React.Component {
                     <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
                 }
                 
-                <div className='container' id='sellBooks'>
+                <div className='container'>
                         <div className='row m-3'>
                             <div className='col-sm-1'/>
                             <div className='col-sm-3'>
@@ -311,4 +312,6 @@ class SellBooks extends React.Component {
     }
 }
 
-export default SellBooks;
+export default 
+    withAuthFilter(
+        SellBooks);

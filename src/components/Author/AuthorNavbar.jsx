@@ -10,6 +10,7 @@ import {
 import withLocation from "../../hocs/withLocation";
 import withNavigate from "../../hocs/withNavigate";
 import AlertService from "../../services/AlertService";
+import AuthService from "../../services/AuthService";
 
 class AuthorNavbar extends Component {
     constructor(props) {
@@ -30,10 +31,13 @@ class AuthorNavbar extends Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/author/book"> MyBooks </Link>
+                                <Link className="nav-link" to={`/author/${AuthService.getLoggedInUser()}/book/`}> My Books </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/author/sell-book"> SellBooks </Link>
+                                <Link className="nav-link" to={`/author/${AuthService.getLoggedInUser()}/sell/`}> Sell Books </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to={`/author/${AuthService.getLoggedInUser()}/settings/`}> Settings</Link>
                             </li>
                         </ul>
                         <button className="btn btn-danger form-control"

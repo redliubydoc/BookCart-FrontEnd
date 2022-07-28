@@ -118,7 +118,7 @@ class LoginForm extends Component {
                                 )); 
 
                                 if (accountType === 1) this.props.navigate("/shop");      
-                                if (accountType === 2) this.props.navigate("/author/book");
+                                else if (accountType === 2) this.props.navigate(`/author/${AuthService.getLoggedInUser()}/book/`);
                             } 
                             else if (response.status === 401) {
                                 AlertService.showAlert(this, 4, "Invalid credentials");

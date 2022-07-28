@@ -89,11 +89,13 @@ class AuthService {
 
     // to check authentication token present in local storage
     static isLoggedIn() { 
+        console.log(localStorage.getItem("jwt"));
         if (localStorage.getItem("jwt")) return true;
         else return false;
     }
 
     static loggedInAs() {
+        console.log(localStorage.getItem("type"));
         return localStorage.getItem("type");
     }
 
