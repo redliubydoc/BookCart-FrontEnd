@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { BACKEND_BASE_URL } from "./BookCart"
+import { BACKEND_ADMIN_SERVER_BASE_URL, BACKEND_BASE_URL } from "./BookCart"
 
 class AuthService {
     static register(accountType, firstName, lastName, emailId, phoneNo, password, dateOfBirth, sq1, sq2, sq3) {
@@ -38,7 +38,7 @@ class AuthService {
         let url = "";
         if (accountType === 1) url = `${BACKEND_BASE_URL}/reader/login`;
         if (accountType === 2) url = `${BACKEND_BASE_URL}/author/login`;
-        if (accountType === 3) url = `${BACKEND_BASE_URL}/admin/login`;
+        if (accountType === 3) url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/login`;
             
 
         return fetch(url, {

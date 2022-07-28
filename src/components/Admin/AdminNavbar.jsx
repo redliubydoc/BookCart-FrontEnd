@@ -3,10 +3,6 @@ import {
     Component
 } from "react";
 
-import {
-    Link
-} from "react-router-dom";
-
 import withLocation from "../../hocs/withLocation";
 import withNavigate from "../../hocs/withNavigate";
 import AlertService from "../../services/AlertService";
@@ -27,7 +23,7 @@ class BookCartHeader extends Component {
                     <button className="btn btn-danger"
                         onClick={() => {
                             localStorage.clear(); 
-                            this.props.navigate("/", {
+                            this.props.navigate("/admin", {
                                 state: {
                                     alert: AlertService.getAlertInstance(true, 4, "You are logged our!", 10)
                                 }

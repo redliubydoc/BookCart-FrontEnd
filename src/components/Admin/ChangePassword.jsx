@@ -1,122 +1,103 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import AdminNavbar from '../Misc/AdminNavbar';
+import Alert from "../../components/Misc/Alert";
+import AlertService from '../../services/AlertService';
+import AdminService from '../../services/AdminService';
 
 class ChangePassword extends Component {
 
     constructor(props) {
-        super(props)
+
+        super(props);
         this.state = {
-            password: {
-                old: null,
-                new: null,
-                confirmed: null,
-            },
-        }
-        this._handleOldPassword = this._handleOldPassword.bind(this)
-        this._handleNewPassword = this._handleNewPassword.bind(this)
-        this._handleFormSubmission = this._handleFormSubmission.bind(this)
-        this._handleConfirmedPassword = this._handleConfirmedPassword.bind(this)
-    }
+            id: "",
+            username: "",
+            password: "",
 
+            alert: AlertService.getAlertInstance()
+        };
 
-    _handleFormSubmission({ currentTarget }) {
-        // Check the password 
-        // match on form submission
-        this._checkPasswordForMatch().then(
-            ({ success }) => {
-                if (success) {
-                    // post data to API
-                }
-            }
-        )
-    }
-
-    // handle storing the
-    // new password in state
-    _handleOldPassword(value) {
-        let state = Object.assign({}, this.state)
-        state.password.old = value
-        this.setState(state)
-    }
-
-    // handle storing the
-    // confirmed password in state   
-    _handleNewPassword(value) {
-        if (value === this.state.password.new) {
-            let state = Object.assign({}, this.state)
-            state.password.confirmed = value;
-            this.setState(state);
-        }
-    }
-
-    // handle storing the
-    // confirmed password in state  
-    async _handleConfirmedPassword() {
-        let { password } = this.state;
-        let state = Object.assign({}, this.state);
-        if (password.new === password.confirmed) {
-            state.password.match = true
-        } else {
-            state.password.match = false
-        }
-        await this.setState(state)
-        return {
-            success: state.password.match
-        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     render() {
         return (
             <>
-            <AdminNavbar/>
-                <div className="container-fluid">
-                    
+                {this.state.alert.show &&
+                    <Alert level={this.state.alert.level} msg={this.state.alert.msg} />
+                }
+                <div className="container p-5">
 
-                    {/* Side Bar */}
-                    <div className="sidenav">
-                        <h2>....</h2>
-                        <Link to="/admin/dashboard/sales">Sales</Link>
-                        <Link to="/admin/dashboard/admin"> Admin Management </Link>
-                        <Link to="/admin/dashboard/change-password"> Change Password </Link>
-                        <Link to="">Users</Link>
-                        <Link to="">Review books</Link>
-                        <Link to="">Subscription Management</Link>
-                        <Link to="">Update book price</Link>
-                    </div>
-                    <div className="container-fluid main">
-                        <form onSubmit={this.handleSubmit}>
-                            <section className="py-4">
-                                <div className="container">
-                                    <div className="row">
-                                        <div className="col-md-4 my-auto"></div>
-                                        <h2>Change Password</h2>
-                                        <br></br>
-                                    </div>
-                                </div>
-                            </section>
-                            <div className="form-group">
-                                <label>Old Password</label>
-                                <input type="password" className="form-control" placeholder="Password"
-                                    onChange={e => this.password = e.target.value} />
-                                <br></br>
-                            </div>
-                            <div className="form-group">
-                                <label>New Password</label>
-                                <input type="password" className="form-control" placeholder="Password"
-                                    onChange={e => this.password_confirm = e.target.value} />
-                                <br></br>
-                            </div>
-                            <button className="btn btn-primary btn-block">Cancel</button>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <button className="btn btn-primary btn-block">Submit</button>
-                        </form>
-                    </div>
+                    <table className="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className="py-3"> Username </div>
+                                    <input name="username"
+                                        type="text"
+                                        className="form-control"
+                                        value={this.state.username}
+                                        disabled/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div className="py-3"> Password </div>
+                                    <input name="password"
+                                        type="password"
+                                        className="form-control"
+                                        value={this.state.password}
+                                        onChange={this.handleChange} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button className="btn btn-primary my-3 form-control"
+                                        onClick={this.handleSubmit}> Change </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </>
         );
+    }
+
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    componentDidMount() {
+        AdminService.getAdmin()
+            .then((response) => {
+                if (response.status === 200) {
+                    response.json().then(
+                        (data) => {
+                            this.setState({
+                                id: data.adminId,
+                                username: data.username
+                            })
+                        }
+                    );
+                }
+            }).catch(e => console.log(e));
+    }
+
+    handleSubmit() {
+        let id = this.state.id;
+        let username = this.state.username
+        let password = this.state.password
+        AdminService.changePassword(id, username, password)
+            .then((response) => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 1, "Password updated!", 5);
+                }
+                else {
+                    response.text((msg) => AlertService.showAlert(this, 4, msg));
+                }
+            }).catch(e => console.log(e));
     }
 }
 

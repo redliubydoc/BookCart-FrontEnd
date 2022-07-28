@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import { BACKEND_BASE_URL } from "../../services/BookCart";
 import AuthorService from "../../services/AuthorService";
-import AuthorNavbar from "../Author/AuthorNavbar";
 import withParams from "../../hocs/withParams";
 import AlertService from "../../services/AlertService";
-import withAuthFilter from "../../hocs/withAuthFilter";
 import Alert from "../Misc/Alert";
 import withNavigate from "../../hocs/withNavigate";
 import AdminService from "../../services/AdminService";
-import AdminNavbar from "../Misc/AdminNavbar";
 
 class ReviewBooks extends Component {
 
@@ -31,8 +27,6 @@ class ReviewBooks extends Component {
     render() {
         return (
             <>
-                <AdminNavbar/>
-
                 {/* alert placeholder */}
                 {this.state.alert.show && 
                     <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>

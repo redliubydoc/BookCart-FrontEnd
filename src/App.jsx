@@ -31,6 +31,7 @@ import MyOrders from './components/Reader/MyOrders ';
 import AuthorSettings from './components/Author/AuthorSettings';
 import ReviewBooks from './components/Admin/ReviewBooks';
 import ReviewPage from './components/Admin/ReviewPage';
+import Dashboard from './components/Admin/Dashboard';
 
 function App() {
   return (
@@ -63,12 +64,15 @@ function App() {
         <Route path="/author/:uid/settings/" element={<AuthorSettings/>} />
 
         {/* admin specific routes */}
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard/sales" element={<Sales/>}/>
-        <Route path="/admin/dashboard/admin" element={<AdminManagement/>}/>
-        <Route path="/admin/dashboard/change-password" element={<ChangePassword/>}/>
-        <Route path="/admin/dashboard/review" element={<ReviewBooks/>}/>
-        <Route path="/admin/dashboard/review/book/:id" element={<ReviewPage/>}/>
+        <Route path="/admin" element={<AdminLogin/>} />
+        <Route path="/admin/dashboard/" element={<Dashboard/>}>
+          <Route path="sales" element={<Sales/>}/>
+          <Route path="admin" element={<AdminManagement/>}/>
+          <Route path="settings" element={<ChangePassword/>}/>
+          <Route path="review" element={<ReviewBooks/>}/>
+          <Route path="review/book/:id" element={<ReviewPage/>}/>
+        </Route>
+        
       </Routes>
     </BrowserRouter>
   );

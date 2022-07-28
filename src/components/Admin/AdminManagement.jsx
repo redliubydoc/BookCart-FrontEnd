@@ -1,91 +1,140 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import AdminNavbar from "../Misc/AdminNavbar";
-import "./SideBarCompStyle.css"
+import AdminService from "../../services/AdminService";
+import AlertService from "../../services/AlertService";
+import Alert from "../Misc/Alert";
+import AuthService from "../../services/AuthService";
+
 
 class AdminManagement extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            admins: [],
+
+            newAdminUserName : "",
+            newAdminPassword : "",
+
+            alert: AlertService.getAlertInstance()
+        }
+
+        this.doAddAdmin = this.doAddAdmin.bind(this);
+        this.getAdmins = this.getAdmins.bind(this);
+        this.handleOnChange = this.handleOnChange.bind(this);
+        this.doDelete = this.doDelete.bind(this);
+    }
     render() {
         return (
             <>
-                <AdminNavbar/>
-                <div className="container-fluid">
-                    {/* Side Bar */}
-                    <div className="sidenav">
-                        <h2>....</h2>
-                        <Link to="/admin/dashboard/sales">Sales</Link>
-                        <Link to="/admin/dashboard/admin"> Admin Management </Link>
-                        <Link to="/admin/dashboard/change-password"> Change Password </Link>
-                        <Link to="">Users</Link>
-                        <Link to="">Review books</Link>
-                        <Link to="">Subscription Management</Link>
-                        <Link to="">Update book price</Link>
-                    </div>
+                {/* alert placeholder */}
+                {this.state.alert.show &&
+                    <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
+                }
 
-
-                    {/* Page Content */}
-
-                    <div className="main">
+                <div className="container">
+                    <div className="container-fluid">
                         <h4 className="text-center my-5"> Admins </h4> 
                          <table className="table table-borderless px-5">
                             <tbody>
                                 <tr>
-                                    <td><input className="form-control" placeholder="Username"/></td>
-                                    <td><input className="form-control" placeholder="Username"/></td>
-                                    <td><button className="btn btn-success form-control ">Add Admin</button></td>
+                                    <td>
+                                        <input name="newAdminUserName"
+                                            value={this.newAdminUserName}
+                                            className="form-control" 
+                                            placeholder="Username"
+                                            onChange={this.handleOnChange}/>
+                                    </td>
+                                    <td>
+                                        <input name="newAdminPassword"
+                                            value={this.newAdminPassword}
+                                            type="password" 
+                                            className="form-control" placeholder="Password"
+                                            onChange={this.handleOnChange}/>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-success form-control"
+                                            onClick={this.doAddAdmin}> Add </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <form className="form-inline">
-                            <div className="form-group mb-2">
-                                
-                            </div>
-                            <div className="form-group mb-2">
-                                
-                            </div>
-                            
-                        </form>
+                        
                         <br/>
 
-                        <table className="table table-striped text-center">
+                        <table className="table table-striped table-danger text-center">
                             <thead>
                                 <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col"> Id </th>
+                                    <th scope="col"> Username </th>
+                                    <th scope="col"> Action </th>
 
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td><button type="button" className="btn btn-danger"><i className="bi bi-trash3"></i></button></td>
-
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td><button type="button" className="btn btn-danger"><i className="bi bi-trash3"></i></button></td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Larry</td>
-                                    <td><button type="button" className="btn btn-danger"><i className="bi bi-trash3"></i></button></td>
-
-
-                                </tr>
+                            <tbody>{
+                                this.state.admins.map((admin) => (
+                                    <tr key={admin.adminId}>
+                                        <td> {admin.adminId} </td>
+                                        <td> {admin.username} </td>
+                                        <td>
+                                            <button type="button" 
+                                                className="btn btn-danger"
+                                                onClick={() => this.doDelete(admin.adminId)}
+                                                disabled = {(AuthService.getLoggedInUser() == admin.adminId)}>
+                                                    <i className="bi bi-trash3"></i>
+                                        </button></td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
-
                     </div>
-
-
                 </div>
-
             </>
         );
+    }
+
+    componentDidMount() {
+        this.getAdmins();
+    }
+
+    handleOnChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        }, () =>  console.log(this.state));
+    }
+
+    doAddAdmin() {
+        AdminService.addAdmin(this.state.newAdminUserName, this.state.newAdminPassword)
+            .then((response) => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 1, "Admin added", 5);
+                    this.getAdmins();
+                }
+                else {
+                    response.text().then(msg => AlertService.showAlert(this, 4, msg, 5));
+                }
+            }).catch(e => console.log(e));
+    }
+
+    getAdmins() {
+        AdminService.getAdmins()
+            .then((response) => {
+                if (response.status === 200) {
+                    response.json().then(data => this.setState({admins: data}));
+                }
+            }).catch(e => console.log(e));
+    }
+
+    doDelete(adminId) {
+        AdminService.deleteAdmin(adminId)
+            .then((response) => {
+                if (response.status === 200) {
+                    AlertService.showAlert(this, 1, "Admin Deleted", 5);
+                    this.getAdmins();
+                }
+                else {
+                    response.text().then(msg => AlertService.showAlert(this, 4, msg, 5));
+                }
+            }).catch(e => console.log(e));
     }
 }
 

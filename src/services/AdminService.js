@@ -30,102 +30,89 @@ class AdminService {
         });
     }
 
-    // static submitBook(isbn, title, description, genre, language, price, dateOfRelease, book, thumbnail) {
-    //     let url = `${BACKEND_BASE_URL}/author/${AuthService.getLoggedInUser()}/book/-100`;
+    static changePassword(id, username, password) {
+        let url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/admin`;
 
-    //     const formData = new FormData();
-    //     formData.append("isbn", isbn);
-    //     formData.append("title", title);
-    //     formData.append("description", description);
-    //     formData.append("genre", genre);
-    //     formData.append("language", language);
-    //     formData.append("price", price);
-    //     formData.append("dateOfRelease", dateOfRelease);
-    //     formData.append("book", book);
-    //     formData.append("thumbnail", thumbnail);
+        console.log(url);
 
-    //     return fetch(url, {
-    //         method: "POST",
-    //         headers: {
-    //             "Authorization": AuthService.getAuthToke(),
-    //         },
-    //         body: formData
-    //     });
-    // }
+        return fetch(url, {
+            method: "PUT",
+            headers: { 
+                'Authorization': AuthService.getAuthToke(),
+                'Content-type': "application/json"
+            },
+        
+            body: JSON.stringify({
+                adminId: id,
+                username: username,
+                password: password
+            })
+        });
+    }
 
-    // static getBooks(id) {
-    //     let url = `${BACKEND_BASE_URL}/author/${id}/book`;
+    static getAdmin() {
+        let url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/admin`;
 
-    //     console.log(AuthService.getAuthToke());
-    //     console.log(url);
+        console.log(url);
 
-    //     return fetch(url, {
-    //         method: "GET",
-    //         headers: {
-    //             'Authorization': AuthService.getAuthToke()
-    //         }
-    //     });
-    // }
+        return fetch(url, {
+            method: "GET",
+            headers: { 'Authorization': AuthService.getAuthToke() }
+        });
+    }
 
-    // static deleteBook(id, isbn) {
-    //     let url = `${BACKEND_BASE_URL}/author/${id}/book/${isbn}`;
+    static deleteAdmin(id) {
+        let url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/admin/${id}`;
 
-    //     console.log(AuthService.getAuthToke());
-    //     console.log(url);
+        console.log(url, id);
 
-    //     return fetch(url, {
-    //         method: "DELETE",
-    //         headers: {
-    //             'Authorization': AuthService.getAuthToke()
-    //         }
-    //     });
-    // }
+        return fetch(url, {
+            method: "DELETE",
+            headers: { 'Authorization': AuthService.getAuthToke() }
+        });
+    }
 
-    // static updateAccountDetails(id, phoneNumber, password) {
-    //     let url = `${BACKEND_BASE_URL}/author/${id}/account`;
+    static getAdmins() {
+        let url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/admin/all`;
 
-    //     console.log(url);
+        console.log(url);
 
-    //     let payload = {
-    //         phoneNumber: phoneNumber,
-    //         password: password
-    //     }
+        return fetch(url, {
+            method: "GET",
+            headers: { 'Authorization': AuthService.getAuthToke() }
+        });
+    }
 
-    //     return fetch(url, {
-    //         method: "PUT",
-    //         headers: {
-    //             'Authorization': AuthService.getAuthToke(),
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(payload)
-    //     });
-    // }
+    static addAdmin(username, password) {
+        let url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/admin`;
 
-    // static getAccountDetails(id) {
-    //     let url = `${BACKEND_BASE_URL}/author/${id}/account`;
+        console.log(url);
 
-    //     console.log(url);
+        let payload = {
+            username: username,
+            password: password
+        };
 
-    //     return fetch(url, {
-    //         method: "GET",
-    //         headers: {
-    //             'Authorization': AuthService.getAuthToke(),
-    //         }
-    //     });
-    // }
+        return fetch(url, {
+            method: "POST",
+            headers: { 
+                'Authorization': AuthService.getAuthToke(),
+                'Content-type': "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+    }
 
-    // static deleteAccount(id) {
-    //     let url = `${BACKEND_BASE_URL}/author/${id}/account`;
+    static getSalesDetails() {
+        let url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/sales`;
 
-    //     console.log(url);
+        console.log(url);
 
-    //     return fetch(url, {
-    //         method: "DELETE",
-    //         headers: {
-    //             'Authorization': AuthService.getAuthToke(),
-    //         }
-    //     });
-    // }
+        return fetch(url, {
+            method: "GET",
+            headers: { 'Authorization': AuthService.getAuthToke() },
+        });
+    }
 }
 
 export default AdminService;

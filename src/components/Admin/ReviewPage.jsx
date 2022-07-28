@@ -12,9 +12,6 @@ import withNavigate from "../../hocs/withNavigate";
 import withParams from "../../hocs/withParams";
 
 import BookService from "../../services/BookService";
-import ReaderNavbar from "../Misc/ReaderNavbar";
-import AdminNavbar from "../Misc/AdminNavbar";
-import AuthService from "../../services/AuthService";
 import AdminService from "../../services/AdminService";
 import AlertService from "../../services/AlertService";
 import Alert from "../Misc/Alert";
@@ -47,9 +44,6 @@ class ReviewPage extends Component {
 
     render() {
         return(<>
-            {/* navbar placeholder */}
-            <AdminNavbar/>
-            
             {/* alert placeholder */}
             {this.state.alert.show && 
                 <Alert level={this.state.alert.level} msg={this.state.alert.msg}/>
@@ -88,12 +82,12 @@ class ReviewPage extends Component {
                                                     <span className="text-start ms-2 text-warning">
                                                         {[...Array(5)].map((_, i) => {
                                                             if ((i+1) <= Math.floor(this.state.book.averageRating))
-                                                                return <i className="bi bi-star-fill"></i>;
+                                                                return <i key={i} className="bi bi-star-fill"></i>;
 
                                                             if ((i+1) <= Math.ceil(this.state.book.averageRating)) 
-                                                                return <i className="bi bi-star-half"></i>;
+                                                                return <i key={i} className="bi bi-star-half"></i>;
                                                             else 
-                                                                return <i className="bi bi-star"></i>;
+                                                                return <i key={i} className="bi bi-star"></i>;
                                                                 
                                                         })}
                                                     </span>
