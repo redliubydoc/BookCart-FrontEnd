@@ -1,10 +1,14 @@
 import moment from "moment";
 
-import { BACKEND_ADMIN_SERVER_BASE_URL, BACKEND_BASE_URL } from "./BookCart"
+import { BACKEND_ADMIN_SERVER_BASE_URL, BACKEND_BASE_URL, BACKEND_LOGIN_SERVER_BASE_URL } from "./BookCart"
 
 class AuthService {
     static register(accountType, firstName, lastName, emailId, phoneNo, password, dateOfBirth, sq1, sq2, sq3) {
-        
+        let url = "";
+
+        if (accountType === 1) url = `${BACKEND_BASE_URL}/reader/register`;
+        else if (accountType === 2) url = `${BACKEND_BASE_URL}/author/register`;
+
         let data = {
             firstName: firstName,
             lastName: lastName,
@@ -17,28 +21,18 @@ class AuthService {
             sq3: sq3
         }
         
-        if (accountType === 1) {
-            let url = `${BACKEND_BASE_URL}/reader/register`;
-            return fetch(url, {
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-        }
-        else if (accountType === 2) {
-
-        }
-        // console.log("AuthService.register()");
-        // console.log(
-        //     accountType, firstName, lastName, email, phoneNo, password, dob, securityQuestion1, securityQuestion2, securityQuestion3  
-        // );        
+        return fetch(url, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
     }
 
     static login(username, password, accountType) { 
         let url = "";
-        if (accountType === 1) url = `${BACKEND_BASE_URL}/reader/login`;
-        if (accountType === 2) url = `${BACKEND_BASE_URL}/author/login`;
-        if (accountType === 3) url = `${BACKEND_ADMIN_SERVER_BASE_URL}/admin/login`;
+        if (accountType === 1) url = `${BACKEND_LOGIN_SERVER_BASE_URL}/reader/login`;
+        if (accountType === 2) url = `${BACKEND_LOGIN_SERVER_BASE_URL}/author/login`;
+        if (accountType === 3) url = `${BACKEND_LOGIN_SERVER_BASE_URL}/admin/login`;
             
 
         return fetch(url, {

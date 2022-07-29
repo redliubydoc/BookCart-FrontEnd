@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import withNavigate from "../../hocs/withNavigate";
 import withParams from "../../hocs/withParams";
 import AlertService from "../../services/AlertService";
-import ReaderNavbar from "../Misc/ReaderNavbar";
+import ReaderNavbar from "./ReaderNavbar";
 import Alert from "../Misc/Alert";
 import ReaderService from "../../services/ReaderService";
 import withAuthFilter from "../../hocs/withAuthFilter";

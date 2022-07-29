@@ -13,10 +13,10 @@ import AlertService from "../../services/AlertService";
 import withNavigate from '../../hocs/withNavigate';
 import BookService from '../../services/BookService';
 import ReaderService from '../../services/ReaderService';
-import ReaderNavbar from '../Misc/ReaderNavbar';
+import ReaderNavbar from './ReaderNavbar';
 import withParams from '../../hocs/withParams';
-import { type } from '@testing-library/user-event/dist/type';
 import withAuthFilter from '../../hocs/withAuthFilter';
+import AuthService from '../../services/AuthService';
 
 class BuySubscription extends Component {
     constructor(props) {
@@ -44,7 +44,6 @@ class BuySubscription extends Component {
         }
 
         this.handleOnChange = this.handleOnChange.bind(this);
-        this.doPagination = this.doPagination.bind(this);
         this.doAddToCart = this.doAddToCart.bind(this);
         this.doSubscribe = this.doSubscribe.bind(this);
         this.getBooks = this.getBooks.bind(this);
@@ -79,7 +78,7 @@ class BuySubscription extends Component {
                             <tr>
                                 <td>
                                     <select name="type"
-                                        className="w-100 btn btn-primary py-2"
+                                        className="form-select bg-info btn text-dark py-2"
                                         value={this.state.type}
                                         onChange={this.handleOnChange}>
                                             <option value={1}> Monthly </option>
@@ -88,7 +87,7 @@ class BuySubscription extends Component {
                                 </td>
                                 <td>
                                     <select name="genre"
-                                        className="w-100 btn btn-primary py-2"
+                                        className="form-select bg-info btn py-2"
                                         value={this.state.genre}
                                         onChange={this.handleOnChange}>{
                                             this.state.genres.map((genre) => (
@@ -131,35 +130,6 @@ class BuySubscription extends Component {
                     ))}
                 </div>
             </div>
-
-            {/* -- pagination control placeholder */}
-            <nav>
-                <ul className="pagination justify-content-center">
-                    <li className={`page-item ${(this.state.currentPage === 1) ? "disabled" : ""}`}>
-                        <i className="page-link bi-chevron-bar-left"
-                            name="moveFirst"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === 1) ? "disabled" : ""}`}>
-                        <i className="page-link bi bi-caret-left-fill"
-                            name="movePrev"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className="page-item active">
-                        <span className="page-link"> {this.state.currentPage} </span>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === this.state.pages) ? "disabled" : ""} p-0`}>
-                        <i className="page-link bi bi-caret-right-fill"
-                            name="moveNext"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === this.state.pages) ? "disabled" : ""}`}>
-                        <i className="page-link bi-chevron-bar-right"
-                            name="moveLast"
-                            onClick={this.doPagination}></i>
-                    </li>
-                </ul>
-            </nav>
         </>);
     }
 
@@ -206,16 +176,8 @@ class BuySubscription extends Component {
         );
     }
 
-    doPagination(e) {
-        if (e.target.getAttribute("name") === "moveFirst") this.setState({currentPage: 1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
-        if (e.target.getAttribute("name") === "moveLast") this.setState({currentPage: this.state.pages}, () => window.scrollTo({top: 0, behavior: 'smooth'})); 
-        if (e.target.getAttribute("name") === "movePrev") this.setState({currentPage: this.state.currentPage-1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
-        if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1}, () => window.scrollTo({top: 0, behavior: 'smooth'}));
-    }
-
     doAddToCart(isbn) {
-        //TODO: remove hardcoded user
-        ReaderService.addBookToCart(101, isbn)
+        ReaderService.addBookToCart(AuthService.getLoggedInUser(), isbn)
             .then((response => {
                 if (response.status === 200) {
                     AlertService.showAlert(this, 1, "Book added to cart", 10);
@@ -227,7 +189,7 @@ class BuySubscription extends Component {
     }
 
     doSubscribe() {
-        ReaderService.isSubscriptionAlreadyTaken(101, this.state.type, this.state.genre.toLowerCase())
+        ReaderService.isSubscriptionAlreadyTaken(AuthService.getLoggedInUser(), this.state.type, this.state.genre.toLowerCase())
             .then((response) => {
                 if (response.status === 200) {
                     response.json().then((flag) => {

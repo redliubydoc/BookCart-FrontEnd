@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBarBeforeLogin from './Misc/NavBarBeforeLogin';
-import ReaderNavbar from './Misc/ReaderNavbar';
+import ReaderNavbar from './Reader/ReaderNavbar';
 function AboutUs() {
     return (<>
         <ReaderNavbar/>

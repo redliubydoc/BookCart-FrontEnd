@@ -16,7 +16,7 @@ class ReaderNavbar extends Component {
     constructor(props) {
         super(props);
 
-        this.showLogin = this.showLogin.bind(this);
+        this.toggleLoginLoutButton = this.toggleLoginLoutButton.bind(this);
     }
 
     render() {
@@ -61,7 +61,17 @@ class ReaderNavbar extends Component {
                                 <Link className="nav-link" to="/contact-us"> Contact Us </Link>
                             </li>
                         </ul>
-                        <button className="btn btn-danger form-control"
+                        {this.toggleLoginLoutButton()}
+                    </div>
+                </div>
+            </nav>
+        </>)
+    }
+
+    toggleLoginLoutButton() {
+        if (AuthService.isLoggedIn()) {
+            return(
+                <button className="btn btn-danger form-control"
                             onClick={() => {
                                 localStorage.clear(); 
                                 this.props.navigate("/", {
@@ -70,16 +80,17 @@ class ReaderNavbar extends Component {
                                     }
                                 });
                             }}> Logout </button>
-                    </div>
-                </div>
-            </nav>
-        </>)
-    }
-
-    showLogin(path = this.props.location.pathname) {
-        if (path === "/") return false;
-        if (path === "/admin") return false;
-        return true;
+            );
+        }
+        else {
+            return (
+                <button className="btn btn-primary form-control"
+                            onClick={() => {
+                                localStorage.clear(); 
+                                this.props.navigate("/");
+                            }}> Login </button>
+            );
+        }
     }
 }
 

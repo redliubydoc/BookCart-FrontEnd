@@ -7,10 +7,11 @@ import withNavigate from "../hocs/withNavigate";
 import withParams from "../hocs/withParams";
 import AlertService from "../services/AlertService"
 import Alert from "./Misc/Alert";
-import ReaderNavbar from "./Misc/ReaderNavbar";
+import ReaderNavbar from "./Reader/ReaderNavbar";
 import ValidationService from "../services/ValidationService";
 import ReaderService from "../services/ReaderService";
 import withAuthFilter from "../hocs/withAuthFilter";
+import AuthService from "../services/AuthService";
 
 class AccountSettings extends Component {
 
@@ -19,7 +20,7 @@ class AccountSettings extends Component {
         console.log(this.state);
 
         this.state = {
-            id: 101,
+            id: AuthService.getLoggedInUser(),
             firstName: "",
             lastName: "",
             emailId: "",
@@ -67,10 +68,7 @@ class AccountSettings extends Component {
                                     <tr>
                                         <td> <div className="my-2"> Email </div> </td>
                                         <td colSpan="2">
-                                            <input className="form-control" 
-                                                name="emailId"
-                                                value={this.state.emailId}
-                                                onChange={this.handleOnChange}/>
+                                            <input className="form-control" value={this.state.emailId} disabled/>
                                         </td>
                                     </tr>
                                     <tr>

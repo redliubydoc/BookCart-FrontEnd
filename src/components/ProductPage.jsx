@@ -6,14 +6,17 @@ import {
 import {
     Link
 } from 'react-router-dom';
+import withNavigate from "../hocs/withNavigate";
 import withParams from "../hocs/withParams";
 
 import AlertService from "../services/AlertService";
+import AuthService from "../services/AuthService";
+import { LOGIN_PAGE_URL } from "../services/BookCart";
 import BookService from "../services/BookService";
 import ReaderService from "../services/ReaderService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
-import ReaderNavbar from "./Misc/ReaderNavbar";
+import ReaderNavbar from "./Reader/ReaderNavbar";
 
 class ProductPage extends Component {
     constructor(props) {
@@ -41,7 +44,6 @@ class ProductPage extends Component {
         }
 
         this.loadFeedBacks = this.loadFeedBacks.bind(this);
-        this.doPagination = this.doPagination.bind(this);
         this.doAddToCart = this.doAddToCart.bind(this);
     }
 
@@ -87,12 +89,12 @@ class ProductPage extends Component {
                                     {this.state.book.noOfRatings} ratings |
                                     {[...Array(5)].map((_, i) => {
                                         if ((i+1) <= Math.floor(this.state.book.averageRating))
-                                            return <i className="bi bi-star-fill"></i>;
+                                            return <i key={i} className="bi bi-star-fill"></i>;
 
                                         if ((i+1) <= Math.ceil(this.state.book.averageRating)) 
-                                            return <i className="bi bi-star-half"></i>;
+                                            return <i key={i} className="bi bi-star-half"></i>;
                                         else 
-                                            return <i className="bi bi-star"></i>;
+                                            return <i key={i} className="bi bi-star"></i>;
                                             
                                     })}
                                 </div>
@@ -125,34 +127,6 @@ class ProductPage extends Component {
                     <FeedbackList feedbacks={this.state.feedbacks}/>
                 </div>
             }
-            {/* pagination placeholder */}
-            <nav>
-                <ul className="pagination justify-content-center">
-                    <li className={`page-item ${(this.state.currentPage === 1) ? "disabled" : ""}`}>
-                        <i className="page-link bi-chevron-bar-left"
-                            name="moveFirst"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === 1) ? "disabled" : ""}`}>
-                        <i className="page-link bi bi-caret-left-fill"
-                            name="movePrev"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className="page-item active">
-                        <span className="page-link"> {this.state.currentPage} </span>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === this.state.pages) ? "disabled" : ""} p-0`}>
-                        <i className="page-link bi bi-caret-right-fill"
-                            name="moveNext"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === this.state.pages) ? "disabled" : ""}`}>
-                        <i className="page-link bi-chevron-bar-right"
-                            name="moveLast"
-                            onClick={this.doPagination}></i>
-                    </li>
-                </ul>
-            </nav>
         </>);
     }
 
@@ -172,16 +146,12 @@ class ProductPage extends Component {
             .catch(e => console.log(e));
     }
 
-    doPagination(e) {
-        if (e.target.getAttribute("name") === "moveFirst") this.setState({currentPage: 1}, () => {window.scrollTo({top: 800, behavior: 'smooth'})});
-        if (e.target.getAttribute("name") === "moveLast") this.setState({currentPage: this.state.pages}, () => {window.scrollTo({top: 800, behavior: 'smooth'})}); 
-        if (e.target.getAttribute("name") === "movePrev") this.setState({currentPage: this.state.currentPage-1}, () => {window.scrollTo({top: 800, behavior: 'smooth'})});
-        if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1}, () => {window.scrollTo({top: 800, behavior: 'smooth'})});
-    }
-
     doAddToCart() {
-        //TODO: remove hardcoded user
-        ReaderService.addBookToCart(101, this.props.params.id)
+        if (!AuthService.isLoggedIn()) {
+            this.props.navigate(LOGIN_PAGE_URL);
+        }
+        else {
+            ReaderService.addBookToCart(AuthService.getLoggedInUser(), this.props.params.id)
             .then((response => {
                 if (response.status === 200) {
                     AlertService.showAlert(this, 1, "Book added to cart", 10);
@@ -190,7 +160,11 @@ class ProductPage extends Component {
                     response.text().then(msg => AlertService.showAlert(this, 4, msg, 10));
                 }
             }));  
+        }
     }
 }
 
-export default withParams(ProductPage);
+export default 
+    withNavigate(
+    withParams(
+        ProductPage)) ;

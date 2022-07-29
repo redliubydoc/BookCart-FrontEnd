@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AdminService from "../../services/AdminService";
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 class Sales extends Component {
     constructor(props) {
@@ -9,7 +10,13 @@ class Sales extends Component {
             booksSold: 0,
             totalRevenue: 0,
             totalReaders: 0,
-            totalAuthors: 0
+            totalAuthors: 0,
+            sales: [
+                { name: 'Books Sold', details: 0 },
+                { name: 'Revenue', details: 0 },
+                { name: 'Readers', details: 0 },
+                { name: 'Authors', details: 0 }
+            ],
         }
     }
 
@@ -59,7 +66,18 @@ class Sales extends Component {
 
                     {/* graph placeholder */}
                     <div className="container-fluid py-5"> 
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto officiis magnam autem molestiae, omnis deserunt cupiditate doloribus quo amet necessitatibus beatae earum cum ut fugiat, nesciunt dolor quis dolore rerum.</p>
+                        <div className="row">
+                            <div className="col">
+                                <div className="d-flex justify-content-center">
+                                    <BarChart width={800} height={300} data={this.state.sales}>
+                                        <Bar dataKey="details" fill="green" />
+                                        <CartesianGrid stroke="#ccc" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                    </BarChart>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </>
@@ -74,7 +92,14 @@ class Sales extends Component {
                         booksSold: data.booksSold,
                         totalRevenue: data.totalRevenue,
                         totalReaders: data.totalReaders,
-                        totalAuthors: data.totalAuthors
+                        totalAuthors: data.totalAuthors,
+                        sales: [
+                            { name: 'Books Sold', details: data.booksSold },
+                            { name: 'Revenue', details: data.totalRevenue },
+                            { name: 'Readers', details: data.totalReaders },
+                            { name: 'Authors', details: data.totalAuthors }
+                        ]
+                        
                     }))
                 }
             })

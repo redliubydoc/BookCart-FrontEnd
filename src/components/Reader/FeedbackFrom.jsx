@@ -6,7 +6,7 @@ import {
 import withNavigate from '../../hocs/withNavigate';
 import Alert from '../Misc/Alert';
 import AlertService from '../../services/AlertService';
-import ReaderNavbar from '../Misc/ReaderNavbar';
+import ReaderNavbar from './ReaderNavbar';
 import ReaderService from '../../services/ReaderService';
 import withParams from '../../hocs/withParams';
 import withAuthFilter from '../../hocs/withAuthFilter';

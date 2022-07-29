@@ -192,15 +192,14 @@ class RegisterForm extends Component {
                         this.state.securityQuestion1,
                         this.state.securityQuestion2,
                         this.state.securityQuestion3
-                    ).then(response => {
+                    ).then((response) => {
                         if(response.status === 200) {
-                            this.props.navigate("/shop");
+                            AlertService.showAlert(this, 1, "Registration successful! Login to continue")
                         }
                         else {
-                            AlertService.showAlert(4, "Unable to register!");
+                            response.text().then(msg => AlertService.showAlert(this, 4, msg));
                         }
-                    }).catch(e => AlertService.showAlert(4, "Unable to register!, " + e));
-                    this.props.navigate("/");
+                    }).catch(e => console.log(e));
                 }
             }
         );

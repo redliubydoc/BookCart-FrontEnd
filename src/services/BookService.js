@@ -65,5 +65,44 @@ class BookService {
 
         return fetch(url, {method: "GET"});
     }
+
+    static getBookCatalogs(currentPage, recordsPerPage) {
+        let url = `${BACKEND_BASE_URL}/book?page=${currentPage}&size=${recordsPerPage}`;
+        return fetch(url, {method: "GET"})
+    }
+
+    static getBookCatalogsOnSearch(keyword, searchType, currentPage, recordsPerPage) {
+        let url = `${BACKEND_BASE_URL}/book/search/${keyword}?searchType=${searchType}&page=${currentPage}&size=${recordsPerPage}`;
+        return fetch(url, {method: "GET"})
+    }
+    
+    static getBookCatalogsOnFilter(genresC, languagesC, pricesarr, currentPage, recordsPerPage) {
+        let url = `${BACKEND_BASE_URL}/book/search?page=${currentPage}&size=${recordsPerPage}`;
+        console.log(url);
+        const data = {
+            genres: genresC,
+            languages: languagesC,
+            prices: pricesarr,
+            sortByPrice: false
+        }
+        console.log("Stringyfy"+ JSON.stringify(data))
+        return fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+        });
+        
+    }
+
+    static getBookCatalogsOnSort(sortType, currentPage, recordsPerPage) {
+        let url = `${BACKEND_BASE_URL}/book/sort?sortType=${sortType}&page=${currentPage}&size=${recordsPerPage}`;
+        console.log(url)
+        return fetch(url, {method: "GET"})
+    }
+
+
 }
 export default BookService;

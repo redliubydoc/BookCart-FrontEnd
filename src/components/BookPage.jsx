@@ -15,7 +15,8 @@ import AlertService from "../services/AlertService";
 import BookService from "../services/BookService";
 import Alert from "./Misc/Alert";
 import FeedbackList from "./Misc/FeedbackList";
-import ReaderNavbar from "./Misc/ReaderNavbar";
+import ReaderNavbar from "./Reader/ReaderNavbar";
+import AuthService from "../services/AuthService";
 
 class BookPage extends Component {
     constructor(props) {
@@ -36,12 +37,9 @@ class BookPage extends Component {
                 thumbnail: ""
             },
             feedbacks: [],
-            currentPage: 0,
-            pages: 5,
         }
 
         this.loadFeedBacks = this.loadFeedBacks.bind(this);
-        this.doPagination = this.doPagination.bind(this);
         this.viewBook = this.viewBook.bind(this);
     }
 
@@ -111,7 +109,7 @@ class BookPage extends Component {
                                             <div className="text-center mx-3 mb-4">
                                                 <Link 
                                                     className="btn btn-warning mt-1 form-control"
-                                                    to={`/101/book/${this.props.params.id}/feedback`}> <i className="bi bi-pencil-square me-2 "></i> 
+                                                    to={`/${AuthService.getLoggedInUser()}/book/${this.props.params.id}/feedback`}> <i className="bi bi-pencil-square me-2 "></i> 
                                                     Write Feedback
                                                 </Link>
                                             </div>
@@ -129,35 +127,6 @@ class BookPage extends Component {
                     }
                 </div>
             </div>    
-            
-            {/* pagination placeholder */}
-            <nav>
-                <ul className="pagination justify-content-center">
-                    <li className={`page-item ${(this.state.currentPage === 1) ? "disabled" : ""}`}>
-                        <i className="page-link bi-chevron-bar-left"
-                            name="moveFirst"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === 1) ? "disabled" : ""}`}>
-                        <i className="page-link bi bi-caret-left-fill"
-                            name="movePrev"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className="page-item active">
-                        <span className="page-link"> {this.state.currentPage} </span>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === this.state.pages) ? "disabled" : ""} p-0`}>
-                        <i className="page-link bi bi-caret-right-fill"
-                            name="moveNext"
-                            onClick={this.doPagination}></i>
-                    </li>
-                    <li className={`page-item ${(this.state.currentPage === this.state.pages) ? "disabled" : ""}`}>
-                        <i className="page-link bi-chevron-bar-right"
-                            name="moveLast"
-                            onClick={this.doPagination}></i>
-                    </li>
-                </ul>
-            </nav>
         </>);
     }
 
@@ -171,59 +140,17 @@ class BookPage extends Component {
     }
 
     loadFeedBacks() {
-        let pages = 5;
-        let feedbacks = [
-            {
-                id: "1",
-                readerName: "Maggie Marsh",
-                rating: 5,
-                comment: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it. ",
-                date: new Date()
-            },
-            {
-                id: "2",
-                readerName: "Lara Stewart",
-                rating: 3,
-                comment: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites.",
-                date: new Date()
-            },
-            {
-                id: "3",
-                readerName: "Alexa Bennett",
-                rating: 2,
-                comment: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure. ",
-                date: new Date()
-            },
-            {
-                id: "4",
-                readerName: "Betty Walker",
-                rating: 1,
-                comment: "It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. ",
-                date: new Date()
-            },
-        ]
-
         BookService.getAllFeedbacks(this.props.params.id)
             .then(response => response.json())
             .then(feedbacks => this.setState({feedbacks: feedbacks}))
             .catch(e => console.log(e));
 
-        this.setState({
-            pages: pages
-        });
-    }
-
-    doPagination(e) {
-        if (e.target.getAttribute("name") === "moveFirst") this.setState({currentPage: 1}, () => {window.scrollTo({top: 0, behavior: 'smooth'})});
-        if (e.target.getAttribute("name") === "moveLast") this.setState({currentPage: this.state.pages}, () => {window.scrollTo({top: 0, behavior: 'smooth'})}); 
-        if (e.target.getAttribute("name") === "movePrev") this.setState({currentPage: this.state.currentPage-1}, () => {window.scrollTo({top: 0, behavior: 'smooth'})});
-        if (e.target.getAttribute("name") === "moveNext") this.setState({currentPage: this.state.currentPage+1}, () => {window.scrollTo({top: 0, behavior: 'smooth'})});
     }
 
     viewBook() {
         let url = `${BACKEND_BASE_URL}/epubs/book/${this.props.params.id}.epub`;
         
-        this.props.navigate(`/101/book/${this.props.params.id}/read`, {
+        this.props.navigate(`/${AuthService.getLoggedInUser()}/book/${this.props.params.id}/read`, {
             state: {
                 url: url
             }

@@ -81,11 +81,11 @@ class LoginForm extends Component {
                                     onClick={this.doLogin}> Login </button> <br/>
                             </td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                             <td className="text-center">
                                 <Link to="/reset-password"> Forget password ? </Link>
                             </td>
-                        </tr>
+                        </tr> */}
                     </tbody>             
                 </table>
             </div>

@@ -2,8 +2,9 @@ import React from 'react';
 
 import ReaderService from '../../services/ReaderService';
 import withParams from '../../hocs/withParams';
-import ReaderNavbar from '../Misc/ReaderNavbar';
+import ReaderNavbar from './ReaderNavbar';
 import withAuthFilter from '../../hocs/withAuthFilter';
+import { Link } from 'react-router-dom';
 
 class MyOrders extends React.Component {
     constructor(props) {
@@ -50,9 +51,9 @@ class MyOrders extends React.Component {
                                                                 console.log(bookCatalog)
                                                                 return (
                                                                     <div className={`carousel-item ${index === 0? 'active': ''}`} style={{border:'2px gray solid', borderRadius:'2px', width:'86px', height:'130px'}}>
-                                                                        <a href="#">
+                                                                        <Link to={`/book/${bookCatalog.isbn}`}>
                                                                             <img src={bookCatalog.thumbnail} alt={bookCatalog.isbn} style={{width: '82px', height: '126px'}}/>
-                                                                        </a>
+                                                                        </Link>
                                                                     </div>
                                                                 )
                                                             })

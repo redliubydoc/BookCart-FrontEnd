@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import withAuthFilter from '../../hocs/withAuthFilter';
 import AlertService from '../../services/AlertService';
 import AuthorService from '../../services/AuthorService';
+import AuthService from '../../services/AuthService';
 import BookService from '../../services/BookService';
 import ValidationService from '../../services/ValidationService';
 import Alert from '../Misc/Alert';
@@ -194,7 +195,7 @@ class SellBooks extends React.Component {
                                 <div className='d-grid'>
                                     <Link 
                                         className="btn btn-secondary"
-                                        to="/author/book">Cancel</Link>
+                                        to={`/author/${AuthService.getLoggedInUser()}/book/`}>Back</Link>
                                 </div>
                             </div>
                             <div className='col-sm-7'>
